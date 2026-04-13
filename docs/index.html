@@ -189,6 +189,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
 
 <style>
 /* ─── RESET & VARIABLES ─── */
@@ -518,7 +519,7 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:0}
 <!-- ─── INSTALL PROMPT ─── -->
 <div id="install-prompt">
   <span style="font-size:1.4rem">📲</span>
-  <div class="install-text"><strong>Install MakeMeTop</strong>Add to home screen for the best experience</div>
+  <div class="install-text"><strong>Install MBP App</strong><span id="install-prompt-sub">Add to home screen – free &amp; works offline</span></div>
   <button class="btn btn-accent btn-sm" style="width:auto" id="install-btn">Install</button>
   <button id="install-dismiss" style="background:none;border:none;color:rgba(255,255,255,.6);font-size:1.2rem;cursor:pointer;padding:4px">✕</button>
 </div>
@@ -939,8 +940,8 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:0}
   <div class="scroll-body"><div class="section">
     <div style="text-align:center;padding:8px 0 20px"><div style="font-size:2.5rem;margin-bottom:8px">🔥</div><h1 style="font-family:var(--font-display);font-size:1.4rem;font-weight:800;margin-bottom:6px">MBP Premium</h1><p class="text-muted text-sm">Rank your MakeMeTop Business Profile at the top<br/>across Srinagar &amp; J&amp;K</p></div>
     <div class="price-card"><h3>MBP Free</h3><div class="price">₹0 <span>/ forever</span></div><ul><li>Create your MBP on MakeMeTop</li><li>Business profile with photos &amp; gallery</li><li>Customer reviews &amp; ratings</li><li>Call, WhatsApp &amp; Website buttons</li><li>Google-indexed MBP with schema</li><li>QR code for easy sharing</li></ul><button class="btn btn-ghost" disabled>Current Plan</button></div>
-    <div class="price-card featured" style="margin-top:20px"><div class="popular-tag">🔥 Most Popular</div><h3>MBP Premium</h3><div class="price">₹499 <span>/ month</span></div><ul><li>Priority MBP – appear first on Google</li><li>Featured in "Top MBPs in Srinagar"</li><li>Premium badge on your MBP</li><li>10x more visibility &amp; leads</li><li>Analytics dashboard for your MBP</li><li>Priority approval within 2 hours</li></ul><button class="btn" style="background:#fff;color:var(--primary)" onclick="showToast('💳 MBP Premium coming soon!')">Get MBP Premium</button></div>
-    <div class="price-card" style="margin-top:14px"><h3>🎯 MBP Boost Ad</h3><div class="price">₹199 <span>/ week</span></div><ul><li>Homepage banner for your MBP</li><li>Top of search results in J&amp;K</li><li>5x more MBP profile views</li><li>Targeted local audience in Kashmir</li></ul><button class="btn btn-accent" onclick="showToast('📢 MBP Boost coming soon!')">Boost My MBP</button></div>
+    <div class="price-card featured" style="margin-top:20px"><div class="popular-tag">🔥 Most Popular</div><h3>MBP Premium</h3><div class="price">₹499 <span>/ month</span></div><ul><li>Priority MBP – appear first on Google</li><li>Featured in "Top MBPs in Srinagar"</li><li>🏆 Premium badge on your MBP</li><li>10x more visibility &amp; leads</li><li>Analytics dashboard for your MBP</li><li>Priority approval within 2 hours</li></ul><button class="btn" style="background:#fff;color:var(--primary)" onclick="startPayment('premium_monthly',499,'MBP Premium – 1 Month')">🔥 Get MBP Premium – ₹499</button></div>
+    <div class="price-card" style="margin-top:14px"><h3>🎯 MBP Boost Ad</h3><div class="price">₹199 <span>/ week</span></div><ul><li>Homepage banner for your MBP</li><li>Top of search results in J&amp;K</li><li>5x more MBP profile views</li><li>Targeted local audience in Kashmir</li></ul><button class="btn btn-accent" onclick="startPayment('boost_weekly',199,'MBP Boost Ad – 1 Week')">🚀 Boost My MBP – ₹199</button></div>
   </div></div>
 </div>
 
@@ -1285,8 +1286,10 @@ const firebaseConfig = {
 };
 
 const DRIVE_UPLOAD_URL = "https://script.google.com/macros/s/AKfycbyCBWUAO0RTEH_EbJ1xw319jN4M1RQD8Ib9Fr5nWJQOisST0cGI829dkg8wNBAV2-pC/exec";
-// ⬇ Deploy Code.gs from script.google.com and paste YOUR NEW URL here:
+// ⬇ After deploying Code.gs, paste YOUR Apps Script URL here:
 const EMAIL_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyCBWUAO0RTEH_EbJ1xw319jN4M1RQD8Ib9Fr5nWJQOisST0cGI829dkg8wNBAV2-pC/exec";
+// ⬇ Your Razorpay KEY ID (starts with rzp_live_ or rzp_test_):
+const RAZORPAY_KEY_ID  = "rzp_live_RfCKqIEK99AyBA";
 const ADMIN_EMAILS = ["abrarrtallks@gmail.com","contact.abrarrtallks@gmail.com"];
 
 const app = initializeApp(firebaseConfig);
@@ -1303,6 +1306,7 @@ window._authFns = { createUserWithEmailAndPassword, signInWithEmailAndPassword, 
 window.ADMIN_EMAILS = ADMIN_EMAILS;
 window.DRIVE_UPLOAD_URL = DRIVE_UPLOAD_URL;
 window.EMAIL_SCRIPT_URL = EMAIL_SCRIPT_URL;
+window.RAZORPAY_KEY_ID  = RAZORPAY_KEY_ID;
 
 onAuthStateChanged(auth, async user => {
   window._currentUser = user;
@@ -1315,6 +1319,7 @@ onAuthStateChanged(auth, async user => {
     if (window.updateSettingsUI) window.updateSettingsUI(user);
     if (window.loadDashboard) window.loadDashboard();
     if (window.checkAdminAccess) window.checkAdminAccess(user);
+    if (window.checkPremiumStatus) window.checkPremiumStatus(user);
     await handleFirstLogin(user);
   }
 });
@@ -2213,27 +2218,27 @@ function friendlyError(code) {
 // ══════════════════════════════════════
 //  PWA
 // ══════════════════════════════════════
-// ══════════════════════════════════════
-//  PWA INSTALL
+//  PWA INSTALL — Android, iOS, Desktop
 // ══════════════════════════════════════
 function updateInstallButtonVisibility() {
   const btn = document.getElementById('install-settings-btn');
   const sub = document.getElementById('install-btn-sub');
   if (!btn) return;
   const isInstalled = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
   if (isInstalled) {
-    if (sub) sub.textContent = '✅ App already installed on this device';
+    if (sub) sub.textContent = '✅ App already installed';
     btn.style.opacity = '0.6';
     btn.onclick = () => showToast('✅ MBP app is already installed!');
   } else if (deferredInstallPrompt) {
     if (sub) sub.textContent = 'Tap to install – works offline too';
-    btn.style.opacity = '1';
-    btn.onclick = triggerInstall;
+    btn.style.opacity = '1'; btn.onclick = triggerInstall;
+  } else if (isIOS) {
+    if (sub) sub.textContent = 'Tap Share ↑ → "Add to Home Screen"';
+    btn.style.opacity = '1'; btn.onclick = showInstallInstructions;
   } else {
-    // No prompt yet (iOS Safari or already installed) — show instructions
-    if (sub) sub.textContent = 'Tap Share → "Add to Home Screen"';
-    btn.style.opacity = '1';
-    btn.onclick = showInstallInstructions;
+    if (sub) sub.textContent = 'Open in Chrome → ⋮ → Install app';
+    btn.style.opacity = '1'; btn.onclick = showInstallInstructions;
   }
 }
 
@@ -2241,32 +2246,33 @@ async function triggerInstall() {
   if (!deferredInstallPrompt) { showInstallInstructions(); return; }
   deferredInstallPrompt.prompt();
   const r = await deferredInstallPrompt.userChoice;
-  if (r.outcome === 'accepted') {
-    showToast('🎉 MBP app installed!');
-    updateInstallButtonVisibility();
-  }
+  if (r.outcome === 'accepted') { showToast('🎉 MBP app installed!'); updateInstallButtonVisibility(); }
   document.getElementById('install-prompt').classList.remove('show');
   deferredInstallPrompt = null;
 }
 
 function showInstallInstructions() {
   const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  if (isIOS) {
-    showToast('📲 Tap Share ↑ then "Add to Home Screen"');
-  } else {
-    showToast('📲 Tap ⋮ menu → "Install app" or "Add to Home Screen"');
-  }
+  if (isIOS) showToast('📲 Tap the Share button ↑ then "Add to Home Screen"');
+  else showToast('📲 Tap ⋮ in Chrome → "Install app" or "Add to Home Screen"');
 }
 
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   deferredInstallPrompt = e;
-  document.getElementById('install-prompt').classList.add('show');
+  const dismissed = localStorage.getItem('mbp_install_dismissed');
+  const recentlyDismissed = dismissed && Date.now() - parseInt(dismissed) < 3 * 24 * 60 * 60 * 1000;
+  if (!recentlyDismissed) {
+    setTimeout(() => document.getElementById('install-prompt').classList.add('show'), 4000);
+  }
   updateInstallButtonVisibility();
 });
 
 document.getElementById('install-btn').onclick = () => triggerInstall();
-document.getElementById('install-dismiss').onclick = () => document.getElementById('install-prompt').classList.remove('show');
+document.getElementById('install-dismiss').onclick = () => {
+  document.getElementById('install-prompt').classList.remove('show');
+  localStorage.setItem('mbp_install_dismissed', Date.now());
+};
 
 window.addEventListener('appinstalled', () => {
   document.getElementById('install-prompt').classList.remove('show');
@@ -2274,12 +2280,118 @@ window.addEventListener('appinstalled', () => {
   updateInstallButtonVisibility();
   showToast('✅ MBP app installed successfully!');
 });
-
 window.addEventListener('online',  () => document.getElementById('offline-banner').style.display = 'none');
 window.addEventListener('offline', () => document.getElementById('offline-banner').style.display = 'block');
 
-// Run once on load to set correct state
-window.addEventListener('load', updateInstallButtonVisibility);
+// Show iOS banner after 3s if not installed and not dismissed
+window.addEventListener('load', () => {
+  updateInstallButtonVisibility();
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const isInstalled = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  const dismissed = localStorage.getItem('mbp_install_dismissed');
+  if (isIOS && !isInstalled && !dismissed) {
+    setTimeout(() => {
+      const p = document.getElementById('install-prompt');
+      const sub = document.getElementById('install-prompt-sub');
+      const btn = document.getElementById('install-btn');
+      if (p && sub && btn) {
+        sub.textContent = 'Tap Share ↑ → "Add to Home Screen"';
+        btn.textContent = 'How?'; btn.onclick = showInstallInstructions;
+        p.classList.add('show');
+      }
+    }, 3000);
+  }
+});
+
+// ══════════════════════════════════════
+//  RAZORPAY PAYMENT + PREMIUM ACTIVATION
+// ══════════════════════════════════════
+async function startPayment(planId, amountInr, planName) {
+  if (!window._currentUser) { showAuth('login'); return; }
+  if (!window.Razorpay) { showToast('❌ Payment loading failed. Please refresh.'); return; }
+  const key = window.RAZORPAY_KEY_ID;
+  if (!key || key.includes('PASTE')) { showToast('⚠️ Razorpay key not configured yet'); return; }
+  const user = window._currentUser;
+  const options = {
+    key,
+    amount:      amountInr * 100,
+    currency:    'INR',
+    name:        'MBP – MakeMeTop Business Profile',
+    description: planName,
+    image:       './icon-192.png',
+    prefill: { name: user.displayName || '', email: user.email || '' },
+    notes: { user_id: user.uid, user_email: user.email, plan_id: planId, platform: 'MBP' },
+    theme: { color: '#1F1F1F' },
+    handler: async (response) => {
+      showToast('✅ Payment done! Activating...');
+      await activatePremium(user, planId, amountInr, planName, response.razorpay_payment_id);
+    },
+    modal: { ondismiss: () => showToast('ℹ️ Payment cancelled') }
+  };
+  const rzp = new window.Razorpay(options);
+  rzp.on('payment.failed', e => showToast('❌ Payment failed: ' + (e.error?.description || 'Try again')));
+  rzp.open();
+}
+
+async function activatePremium(user, planId, amount, planName, paymentId) {
+  const { doc, setDoc, updateDoc, serverTimestamp, collection, addDoc } = window._collections;
+  const isWeekly = planId.includes('boost');
+  const expiry = new Date(Date.now() + (isWeekly ? 7 : 30) * 24 * 60 * 60 * 1000);
+  try {
+    // Save payment record
+    await addDoc(collection(window._db, 'payments'), {
+      user_id: user.uid, user_email: user.email, plan_id: planId,
+      plan_name: planName, amount_inr: amount, payment_id: paymentId,
+      status: 'paid', paid_at: serverTimestamp(), expires_at: expiry.toISOString()
+    });
+    // Update user document
+    const userRef = doc(window._db, 'users', user.uid);
+    await setDoc(userRef, {
+      uid: user.uid, email: user.email, is_premium: true,
+      premium_plan: planId, premium_expiry: expiry.toISOString(),
+      last_payment_id: paymentId
+    }, { merge: true });
+    window._isPremium = true;
+    showPremiumBadge();
+    // Send confirmation email
+    sendPaymentConfirmEmail(user.email, user.displayName || user.email?.split('@')[0], planName, amount, paymentId, expiry);
+    showToast('🔥 MBP Premium activated! Enjoy your benefits.');
+    navTo('home');
+  } catch(e) {
+    console.error('Premium activation error:', e);
+    showToast('⚠️ Payment done but activation failed. Contact support: ' + paymentId);
+  }
+}
+
+function showPremiumBadge() {
+  const avatar = document.getElementById('settings-avatar');
+  if (avatar) { avatar.style.background = 'linear-gradient(135deg,#F5A623,#e09410)'; avatar.title = '🔥 MBP Premium'; }
+}
+
+async function sendPaymentConfirmEmail(email, name, planName, amount, paymentId, expiry) {
+  if (!email || !window.EMAIL_SCRIPT_URL || window.EMAIL_SCRIPT_URL.includes('PASTE')) return;
+  try {
+    await fetch(window.EMAIL_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'sendPaymentConfirm', to: email, name, planName, amount, paymentId, expiry: expiry.toLocaleDateString('en-IN') }),
+      headers: { 'Content-Type': 'text/plain' }
+    });
+  } catch(e) {}
+}
+
+async function checkPremiumStatus(user) {
+  if (!user) return;
+  const { doc, getDoc } = window._collections;
+  try {
+    const snap = await getDoc(doc(window._db, 'users', user.uid));
+    if (snap.exists()) {
+      const d = snap.data();
+      if (d.is_premium && d.premium_expiry && new Date(d.premium_expiry) > new Date()) {
+        window._isPremium = true; showPremiumBadge();
+      }
+    }
+  } catch(e) {}
+}
 
 // ══════════════════════════════════════
 //  DEEP LINK
@@ -2312,7 +2424,7 @@ if ('serviceWorker' in navigator) {
 // ══════════════════════════════════════
 //  EXPOSE GLOBALS
 // ══════════════════════════════════════
-Object.assign(window,{navTo,navBack,tryAddBusiness,loadHomeBiz,loadDashboard,filterCat,openBizDetail,callBusiness,whatsappBusiness,openWebsite,shareBusiness,openReviewModal,editReview,deleteReview,selectStar,submitReview,previewImg,previewGal,toggleService,saveDraft,autosaveDraft,submitBusiness,openEditBizModal,saveEditBusiness,deleteMyBusiness,openBizDetailAndEdit,toggleFaq,sendContactMsg,sendVerification,openModal,closeModal,openLightbox,logout,changePassword,sendPasswordReset,showToast,loadAdmin,loadAdminTab,adminAction,adminDelete,sendChatMsg,sendAdminReply,openAdminChatThread,showWelcomeModal,triggerInstall,updateInstallButtonVisibility,showInstallInstructions,showMainApp,showAuth,updateSettingsUI,checkAdminAccess,showVerifyBanner,loadDashboard,loadHomeBiz});
+Object.assign(window,{navTo,navBack,tryAddBusiness,loadHomeBiz,loadDashboard,filterCat,openBizDetail,callBusiness,whatsappBusiness,openWebsite,shareBusiness,openReviewModal,editReview,deleteReview,selectStar,submitReview,previewImg,previewGal,toggleService,saveDraft,autosaveDraft,submitBusiness,openEditBizModal,saveEditBusiness,deleteMyBusiness,openBizDetailAndEdit,toggleFaq,sendContactMsg,sendVerification,openModal,closeModal,openLightbox,logout,changePassword,sendPasswordReset,showToast,loadAdmin,loadAdminTab,adminAction,adminDelete,sendChatMsg,sendAdminReply,openAdminChatThread,showWelcomeModal,triggerInstall,updateInstallButtonVisibility,showInstallInstructions,showMainApp,showAuth,updateSettingsUI,checkAdminAccess,showVerifyBanner,loadDashboard,loadHomeBiz,startPayment,activatePremium,checkPremiumStatus,showPremiumBadge});
 
 // ── Safety net: if Firebase auth resolved before this script ran ──
 if (window._currentUser !== undefined) {
