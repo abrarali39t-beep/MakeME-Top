@@ -9,7 +9,7 @@
 <title>MBP – MakeMeTop Business Profile | #1 Local Business Directory Srinagar, Kashmir J&K</title>
 <meta name="description" content="MBP – MakeMeTop Business Profile (MMT) is Srinagar's #1 local business listing platform. Create your MBP free. Find top restaurants, shops, doctors, services in Kashmir J&K. Get discovered on Google today!"/>
 <meta name="keywords" content="MBP, MakeMeTop Business Profile, MMT, MMTBP, MakeMeTop, makemetop.in, create MBP, MBP Srinagar, MBP Kashmir, MBP J&K, local business Srinagar, Kashmir business directory, business listing Srinagar, best businesses Srinagar, local services Kashmir, restaurant Srinagar, shops Kashmir, find business near me Srinagar, business directory J&K, Jammu Kashmir business, free business listing, top businesses Kashmir, MBP profile Kashmir, MakeMeTop Business Profile J&K, MBP directory"/>
-<meta name="author" content="MakeMeTop – Powered by Abrar"/>
+<meta name="author" content="MakeMeTop – MBP"/>
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
 <link rel="canonical" href="https://makemetop.in/"/>
 <meta name="language" content="English"/>
@@ -1078,7 +1078,7 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:0}
     </ul>
     <br/>
     <p><strong>Domain:</strong> <a href="https://makemetop.in" style="color:var(--accent2)">makemetop.in</a></p>
-    <br/><p style="color:var(--gray500);font-size:.8rem">Powered by Abrar • v3.0.0 • Srinagar, J&amp;K</p>
+    <br/><p style="color:var(--gray500);font-size:.8rem">MBP v4.0.0 · Srinagar, J&amp;K</p>
   </div></div>
 </div>
 
@@ -1275,7 +1275,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendEmailVerification, sendPasswordResetEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, orderBy, serverTimestamp, getDoc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// ── FIREBASE CONFIG ── replace with yours from console.firebase.google.com
+// ── FIREBASE CONFIG — get from console.firebase.google.com ──
 const firebaseConfig = {
   apiKey: "AIzaSyDwx-GoLV3-T5_zEURlqUb1LXa48gbqhM8",
   authDomain: "live-voting-b236f.firebaseapp.com",
@@ -1285,12 +1285,13 @@ const firebaseConfig = {
   appId: "1:591198383755:web:6dc9fefcc6dd495048ae8e"
 };
 
-const DRIVE_UPLOAD_URL = "https://script.google.com/macros/s/AKfycbyCBWUAO0RTEH_EbJ1xw319jN4M1RQD8Ib9Fr5nWJQOisST0cGI829dkg8wNBAV2-pC/exec";
-// ⬇ After deploying Code.gs, paste YOUR Apps Script URL here:
-const EMAIL_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyCBWUAO0RTEH_EbJ1xw319jN4M1RQD8Ib9Fr5nWJQOisST0cGI829dkg8wNBAV2-pC/exec";
+const DRIVE_UPLOAD_URL = "https://script.google.com/macros/s/AKfycbycICnJVrzE-0Sj2_FajqWU9qy7ggm_UTNLxxHfvvApnePatDFTjdrthrz66vs3Eqp7/exec";
+// ⬇ Deploy Code.gs → paste your Apps Script URL:
+const EMAIL_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbycICnJVrzE-0Sj2_FajqWU9qy7ggm_UTNLxxHfvvApnePatDFTjdrthrz66vs3Eqp7/exec";
 // ⬇ Your Razorpay KEY ID (starts with rzp_live_ or rzp_test_):
 const RAZORPAY_KEY_ID  = "rzp_live_RfCKqIEK99AyBA";
-const ADMIN_EMAILS = ["abrarrtallks@gmail.com","contact.abrarrtallks@gmail.com"];
+// ⬇ Your admin email(s) — who can access the admin panel:
+const ADMIN_EMAILS = ["mbp.makemetop@gmail.com"];
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -1534,8 +1535,24 @@ async function uploadImageToDrive(file, folder) {
     const reader = new FileReader();
     reader.onload = async e => {
       const base64 = e.target.result.split(',')[1];
-      try { const resp = await fetch(window.DRIVE_UPLOAD_URL, { method:'POST', body:JSON.stringify({file:base64, name:file.name, folder}), headers:{'Content-Type':'text/plain'} }); const data = await resp.json(); resolve(data.url); }
-      catch(err) { resolve(e.target.result); }
+      try {
+        const resp = await fetch(window.DRIVE_UPLOAD_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            file:       base64,
+            name:       'mbp_' + folder + '_' + Date.now() + '.webp',
+            folder:     'MBP_Uploads/' + (folder || 'general'), // always inside MBP_Uploads
+            mimeType:   'image/webp'
+          }),
+          headers: { 'Content-Type': 'text/plain' }
+        });
+        const data = await resp.json();
+        if (data.url) resolve(data.url);
+        else resolve(e.target.result); // fallback to base64
+      } catch(err) {
+        console.warn('Drive upload failed, using base64 fallback:', err);
+        resolve(e.target.result);
+      }
     };
     reader.onerror = () => reject(new Error('File read failed'));
     reader.readAsDataURL(compressed);
