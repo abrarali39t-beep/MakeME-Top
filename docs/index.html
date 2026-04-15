@@ -1324,21 +1324,21 @@ import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, q
 
 // ── FIREBASE CONFIG — get from console.firebase.google.com ──
 const firebaseConfig = {
-  apiKey: "AIzaSyDwx-GoLV3-T5_zEURlqUb1LXa48gbqhM8",
-  authDomain: "live-voting-b236f.firebaseapp.com",
-  projectId: "live-voting-b236f",
-  storageBucket: "live-voting-b236f.firebasestorage.app",
-  messagingSenderId: "591198383755",
-  appId: "1:591198383755:web:6dc9fefcc6dd495048ae8e"
+  apiKey:            "PASTE_YOUR_FIREBASE_API_KEY",
+  authDomain:        "PASTE_YOUR_PROJECT.firebaseapp.com",
+  projectId:         "PASTE_YOUR_PROJECT_ID",
+  storageBucket:     "PASTE_YOUR_PROJECT.firebasestorage.app",
+  messagingSenderId: "PASTE_YOUR_SENDER_ID",
+  appId:             "PASTE_YOUR_APP_ID"
 };
 
-const DRIVE_UPLOAD_URL = "https://script.google.com/macros/s/AKfycbycICnJVrzE-0Sj2_FajqWU9qy7ggm_UTNLxxHfvvApnePatDFTjdrthrz66vs3Eqp7/exec";
+const DRIVE_UPLOAD_URL = "PASTE_YOUR_DRIVE_SCRIPT_URL_HERE";
 // ⬇ Deploy Code.gs → paste your Apps Script URL:
-const EMAIL_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbycICnJVrzE-0Sj2_FajqWU9qy7ggm_UTNLxxHfvvApnePatDFTjdrthrz66vs3Eqp7/exec";
+const EMAIL_SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
 // ⬇ Your Razorpay KEY ID (starts with rzp_live_ or rzp_test_):
-const RAZORPAY_KEY_ID  = "rzp_live_RfCKqIEK99AyBA";
+const RAZORPAY_KEY_ID  = "PASTE_YOUR_RAZORPAY_KEY_ID_HERE";
 // ⬇ Your admin email(s) — who can access the admin panel:
-const ADMIN_EMAILS = ["abrarrtallks@gmail.com"];
+const ADMIN_EMAILS = ["YOUR_ADMIN_EMAIL@gmail.com"];
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
