@@ -1322,23 +1322,24 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendEmailVerification, sendPasswordResetEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, orderBy, serverTimestamp, getDoc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// ── FIREBASE CONFIG — get from console.firebase.google.com ──
+gmai// ── FIREBASE CONFIG — get from console.firebase.google.com ──
 const firebaseConfig = {
-  apiKey:            "PASTE_YOUR_FIREBASE_API_KEY",
-  authDomain:        "PASTE_YOUR_PROJECT.firebaseapp.com",
-  projectId:         "PASTE_YOUR_PROJECT_ID",
-  storageBucket:     "PASTE_YOUR_PROJECT.firebasestorage.app",
-  messagingSenderId: "PASTE_YOUR_SENDER_ID",
-  appId:             "PASTE_YOUR_APP_ID"
+  apiKey: "AIzaSyDwx-GoLV3-T5_zEURlqUb1LXa48gbqhM8",
+  authDomain: "live-voting-b236f.firebaseapp.com",
+  projectId: "live-voting-b236f",
+  storageBucket: "live-voting-b236f.firebasestorage.app",
+  messagingSenderId: "591198383755",
+  appId: "1:591198383755:web:6dc9fefcc6dd495048ae8e"
 };
 
-const DRIVE_UPLOAD_URL = "PASTE_YOUR_DRIVE_SCRIPT_URL_HERE";
+const DRIVE_UPLOAD_URL = "https://script.google.com/macros/s/AKfycbycICnJVrzE-0Sj2_FajqWU9qy7ggm_UTNLxxHfvvApnePatDFTjdrthrz66vs3Eqp7/exec";
 // ⬇ Deploy Code.gs → paste your Apps Script URL:
-const EMAIL_SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
+const EMAIL_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbycICnJVrzE-0Sj2_FajqWU9qy7ggm_UTNLxxHfvvApnePatDFTjdrthrz66vs3Eqp7/exec";
 // ⬇ Your Razorpay KEY ID (starts with rzp_live_ or rzp_test_):
-const RAZORPAY_KEY_ID  = "PASTE_YOUR_RAZORPAY_KEY_ID_HERE";
+const RAZORPAY_KEY_ID  = "rzp_live_RfCKqIEK99AyBA";
 // ⬇ Your admin email(s) — who can access the admin panel:
-const ADMIN_EMAILS = ["YOUR_ADMIN_EMAIL@gmail.com"];
+const ADMIN_EMAILS = ["abrarrtallks@gmail.com"];
+
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
