@@ -1,21 +1,36 @@
-# MakeMeTop – robots.txt
+# MBP – MakeMeTop Business Profile
 # https://makemetop.in
+# robots.txt — updated 2026-04-27
 
 User-agent: *
-Allow: /
-Allow: /?biz=
-Allow: /?category=
-Allow: /?action=search
 
-# Disallow admin and auth paths
+# Allow the homepage and static pages
+Allow: /$
+Allow: /about.html
+Allow: /privacy-policy.html
+Allow: /terms.html
+Allow: /refund.html
+Allow: /icon-192.png
+Allow: /icon-512.png
+Allow: /manifest.json
+Allow: /sw.js
+
+# Disallow ALL SPA query params — these are JS-rendered views
+# that Google cannot index (causes "Discovered – not indexed" errors)
+Disallow: /?action=
+Disallow: /?category=
+Disallow: /?biz=
+
+# Disallow admin and auth
 Disallow: /?action=admin
 Disallow: /admin
 Disallow: /__/auth/
+Disallow: /__/
 
-# Sitemap location
+# Sitemap
 Sitemap: https://makemetop.in/sitemap.xml
 
-# Crawl-delay for well-behaved bots
+# Crawl settings
 User-agent: Googlebot
 Crawl-delay: 0
 
