@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#1F1F1F"/>
+<!-- Dynamic meta — filled by JS below, shown to users -->
+<title>MBP – MakeMeTop Business Profile | Srinagar J&K</title>
+<meta name="description" content="Find this business on MBP – MakeMeTop Business Profile, Srinagar's #1 local business directory for Jammu & Kashmir."/>
+<meta name="robots" content="index, follow, max-image-preview:large"/>
+<meta name="geo.region" content="IN-JK"/>
+<meta name="geo.placename" content="Srinagar, Jammu and Kashmir, India"/>
+<meta name="geo.position" content="34.0837;74.7973"/>
+<meta name="ICBM" content="34.0837, 74.7973"/>
+<link rel="canonical" id="canonical-url" href="https://makemetop.in/"/>
+<meta property="og:type" content="business.business"/>
+<meta property="og:site_name" content="MBP – MakeMeTop Business Profile"/>
+<meta property="og:image" id="og-image" content="https://makemetop.in/icon-512.png"/>
+<meta property="og:title" id="og-title" content="MBP – MakeMeTop Business Profile"/>
+<meta property="og:description" id="og-desc" content="Find local businesses in Srinagar, J&K on MBP – MakeMeTop Business Profile"/>
+<meta property="og:url" id="og-url" content="https://makemetop.in/"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" id="tw-title" content="MBP – MakeMeTop"/>
+<meta name="twitter:description" id="tw-desc" content="Local business directory for Srinagar, J&K"/>
+<meta name="twitter:image" id="tw-image" content="https://makemetop.in/icon-512.png"/>
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png"/>
+<link rel="shortcut icon" href="./icon-192.png"/>
+<link rel="manifest" href="./manifest.json"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     FIREBASE CONFIG — replace with your values
+═══════════════════════════════════════════════════════════════ -->
+<script>
+const FIREBASE_PROJECT_ID = "PASTE_YOUR_PROJECT_ID";
+const FIREBASE_API_KEY    = "PASTE_YOUR_FIREBASE_API_KEY";
+const SITE_URL            = "https://makemetop.in";
+</script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#1F1F1F;--accent:#F5A623;--green:#16A34A;--gray50:#F9FAFB;--gray100:#F3F4F6;--gray200:#E5E7EB;--gray400:#9CA3AF;--gray500:#6B7280;--gray700:#374151;--radius:14px}
+body{font-family:'DM Sans',Arial,sans-serif;background:#fff;color:var(--primary);min-height:100vh}
+
+/* HEADER */
+.header{background:var(--primary);padding:14px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
+.back{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.12);text-decoration:none;color:#fff;font-size:1.1rem;flex-shrink:0}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.15rem;color:#fff;text-decoration:none}
+.logo span{color:var(--accent)}
+
+/* LOADER */
+#loader{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;text-align:center}
+.spinner{width:40px;height:40px;border:3px solid var(--gray200);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* BUSINESS PROFILE */
+#biz-content{display:none}
+.cover{width:100%;height:220px;object-fit:cover;background:linear-gradient(135deg,var(--gray100),var(--gray200));display:block}
+.profile-header{padding:0 16px;margin-top:-40px;margin-bottom:0}
+.logo-img{width:80px;height:80px;border-radius:14px;border:3px solid #fff;box-shadow:0 4px 16px rgba(0,0,0,.12);object-fit:cover;background:var(--gray200);display:block}
+.biz-name{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;margin:12px 0 4px;line-height:1.2}
+.biz-type-pill{display:inline-block;background:var(--primary);color:#fff;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:12px;letter-spacing:.3px}
+.stars{display:flex;gap:2px;align-items:center}
+.star{font-size:1rem;color:var(--gray200)}
+.star.filled{color:#FBBF24}
+.rating-row{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.rating-count{font-size:.82rem;color:var(--gray500)}
+.section{padding:16px 16px 0}
+.section-title{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:10px;color:var(--primary)}
+.info-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
+.info-icon{font-size:1rem;flex-shrink:0;margin-top:2px}
+.info-text{font-size:.88rem;color:var(--gray700);line-height:1.5}
+.info-text a{color:var(--primary);text-decoration:none;font-weight:600}
+.desc{font-size:.88rem;color:var(--gray700);line-height:1.75;padding:0 16px 16px}
+.action-row{display:flex;gap:8px;padding:0 16px 16px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;flex:1;min-width:90px;padding:12px 10px;border-radius:10px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.82rem;border:none;cursor:pointer;text-decoration:none;transition:.15s}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-outline{background:#fff;color:var(--primary);border:1.5px solid var(--gray200)}
+.btn-green{background:#22C55E;color:#fff}
+.services{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 16px}
+.service-tag{background:var(--gray50);border:1px solid var(--gray200);border-radius:20px;padding:5px 12px;font-size:.78rem;font-weight:600;color:var(--gray700)}
+.divider{height:1px;background:var(--gray100);margin:4px 0}
+.reviews-section{padding:16px}
+.review-card{border:1px solid var(--gray100);border-radius:12px;padding:14px;margin-bottom:10px;background:var(--gray50)}
+.review-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.review-avatar{width:36px;height:36px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;flex-shrink:0}
+.review-name{font-weight:600;font-size:.85rem}
+.review-text{font-size:.82rem;color:var(--gray700);line-height:1.5;margin-top:4px}
+.mbp-badge{margin:16px;padding:12px 14px;background:var(--gray50);border-radius:12px;border:1px solid var(--gray100);display:flex;align-items:center;gap:10px}
+.open-app-btn{display:block;margin:16px;padding:14px;background:var(--primary);color:#fff;border-radius:12px;text-align:center;font-weight:700;font-size:.9rem;text-decoration:none;font-family:'DM Sans',sans-serif}
+.open-app-btn:hover{background:#333}
+.error-state{padding:60px 20px;text-align:center;color:var(--gray500)}
+.error-state h2{font-family:'Syne',sans-serif;font-size:1.1rem;margin-bottom:8px;color:var(--primary)}
+.footer{padding:20px;text-align:center;font-size:.72rem;color:var(--gray400);border-top:1px solid var(--gray100);margin-top:16px}
+.footer a{color:var(--accent);text-decoration:none}
+</style>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     NOSCRIPT — shown to Google crawler, very SEO-rich
+═══════════════════════════════════════════════════════════════ -->
+<noscript>
+<style>.ns{font-family:Arial,sans-serif;max-width:680px;margin:0 auto;padding:28px 20px;line-height:1.7}.ns h1{font-size:1.4rem;margin-bottom:8px}.ns p{color:#374151;font-size:.9rem;margin-bottom:10px}.ns a{color:#F5A623}</style>
+<div class="ns">
+  <h1>MBP – MakeMeTop Business Profile | Srinagar, Jammu &amp; Kashmir</h1>
+  <p>This is a business profile on <strong>MBP – MakeMeTop Business Profile</strong>, Srinagar's #1 local business directory for Jammu &amp; Kashmir. Enable JavaScript to view the full business profile including contact details, photos, services, and customer reviews.</p>
+  <p><a href="https://makemetop.in">← Back to MBP Home</a> | <a href="https://makemetop.in/about.html">About MBP</a></p>
+</div>
+</noscript>
+</head>
+<body>
+
+<header class="header">
+  <a href="./" class="back" aria-label="Back to MBP home">←</a>
+  <a href="./" class="logo">Make<span>Me</span>Top</a>
+</header>
+
+<div id="loader">
+  <div class="spinner"></div>
+  <p style="color:var(--gray500);font-size:.88rem">Loading business profile…</p>
+</div>
+
+<div id="biz-content"></div>
+
+<div id="error-state" style="display:none" class="error-state">
+  <div style="font-size:2.5rem;margin-bottom:12px">😕</div>
+  <h2>Business Not Found</h2>
+  <p>This MBP listing may have been removed or the link is incorrect.</p>
+  <a href="./" style="display:inline-block;margin-top:16px;background:var(--primary);color:#fff;padding:12px 28px;border-radius:10px;text-decoration:none;font-weight:700">Browse All MBPs</a>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  FETCH BUSINESS FROM FIRESTORE REST API (no Firebase SDK needed)
+//  Google can crawl this page — data loads via fetch()
+// ═══════════════════════════════════════════════════════════════
+
+const bizId = new URLSearchParams(location.search).get('id');
+
+if (!bizId) {
+  showError();
+} else {
+  fetchBusiness(bizId);
+}
+
+async function fetchBusiness(id) {
+  const url = `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents/businesses/${id}?key=${FIREBASE_API_KEY}`;
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) { showError(); return; }
+    const doc  = await resp.json();
+    if (!doc.fields) { showError(); return; }
+    const b = parseFirestoreDoc(doc);
+    if (b.status !== 'approved') { showError(); return; }
+    renderBusiness(b);
+    // Also fetch reviews
+    fetchReviews(id, b);
+  } catch(e) {
+    console.error(e);
+    showError();
+  }
+}
+
+async function fetchReviews(bizId, b) {
+  const url = `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents:runQuery?key=${FIREBASE_API_KEY}`;
+  try {
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        structuredQuery: {
+          from: [{ collectionId: 'reviews' }],
+          where: {
+            fieldFilter: {
+              field: { fieldPath: 'business_id' },
+              op: 'EQUAL',
+              value: { stringValue: bizId }
+            }
+          },
+          orderBy: [{ field: { fieldPath: 'created_at' }, direction: 'DESCENDING' }],
+          limit: 10
+        }
+      })
+    });
+    const rows = await resp.json();
+    const reviews = (rows || [])
+      .filter(r => r.document?.fields)
+      .map(r => parseFirestoreDoc(r.document));
+    renderReviews(reviews);
+  } catch(e) { /* silent */ }
+}
+
+// Convert Firestore REST format → plain object
+function parseFirestoreDoc(doc) {
+  const obj = {};
+  const f = doc.fields || {};
+  for (const key of Object.keys(f)) {
+    const val = f[key];
+    if (val.stringValue  !== undefined) obj[key] = val.stringValue;
+    else if (val.integerValue !== undefined) obj[key] = parseInt(val.integerValue);
+    else if (val.doubleValue  !== undefined) obj[key] = parseFloat(val.doubleValue);
+    else if (val.booleanValue !== undefined) obj[key] = val.booleanValue;
+    else if (val.arrayValue   !== undefined) {
+      obj[key] = (val.arrayValue.values || []).map(v =>
+        v.stringValue || v.integerValue || v.doubleValue || ''
+      );
+    }
+    else if (val.timestampValue !== undefined) obj[key] = val.timestampValue;
+  }
+  // Add doc ID from name field
+  if (doc.name) obj.id = doc.name.split('/').pop();
+  return obj;
+}
+
+function renderBusiness(b) {
+  const profileUrl = `${SITE_URL}/biz.html?id=${b.id}`;
+  const appUrl     = `${SITE_URL}/?biz=${b.id}`;
+  const stars      = [1,2,3,4,5].map(i =>
+    `<span class="star ${i<=Math.round(b.rating||0)?'filled':''}">★</span>`
+  ).join('');
+  const ratingText = b.review_count > 0
+    ? `${(b.rating||0).toFixed(1)} · ${b.review_count} review${b.review_count!==1?'s':''}`
+    : 'No reviews yet';
+
+  // ── Update <head> meta tags for SEO ──
+  const desc = b.description
+    ? b.description.slice(0, 160) + (b.description.length > 160 ? '…' : '')
+    : `${b.name} – ${b.type||'local business'} in Srinagar, Jammu & Kashmir. View on MBP – MakeMeTop Business Profile.`;
+
+  document.title = `${b.name} – ${b.type||'Business'} in Srinagar J&K | MBP MakeMeTop`;
+  setMeta('description', desc);
+  setEl('canonical-url',  'href', profileUrl);
+  setEl('og-title',       'content', `${b.name} – MBP | ${b.type||'Business'} in Srinagar`);
+  setEl('og-desc',        'content', desc);
+  setEl('og-image',       'content', b.cover_url || b.logo_url || `${SITE_URL}/icon-512.png`);
+  setEl('og-url',         'content', profileUrl);
+  setEl('tw-title',       'content', `${b.name} – MBP Srinagar J&K`);
+  setEl('tw-desc',        'content', desc);
+  setEl('tw-image',       'content', b.cover_url || b.logo_url || `${SITE_URL}/icon-512.png`);
+
+  // ── Inject LocalBusiness Schema ──
+  injectSchema(b, profileUrl);
+
+  // ── Render HTML ──
+  const services = (b.services||[]);
+  document.getElementById('biz-content').innerHTML = `
+    <img class="cover" src="${esc(b.cover_url||b.logo_url||'')}" alt="${esc(b.name)} cover photo" onerror="this.style.background='var(--gray200)';this.removeAttribute('src')"/>
+
+    <div class="profile-header">
+      <img class="logo-img" src="${esc(b.logo_url||'')}" alt="${esc(b.name)} logo" onerror="this.style.background='var(--gray200)';this.removeAttribute('src')"/>
+    </div>
+
+    <div style="padding:12px 16px 4px">
+      <h1 class="biz-name">${esc(b.name)}</h1>
+      <span class="biz-type-pill">${esc(b.type||'Business')}</span>
+      <div class="rating-row">
+        <div class="stars">${stars}</div>
+        <span class="rating-count">${ratingText}</span>
+      </div>
+    </div>
+
+    <div class="action-row">
+      ${b.phone ? `<a class="btn btn-primary" href="tel:${esc(b.phone)}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Call</a>` : ''}
+      ${b.whatsapp ? `<a class="btn btn-green" href="https://wa.me/${b.whatsapp.replace(/\D/g,'')}" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WhatsApp</a>` : ''}
+      ${b.website ? `<a class="btn btn-outline" href="${esc(b.website)}" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Website</a>` : ''}
+    </div>
+
+    <div class="divider"></div>
+
+    ${b.description ? `
+    <div class="section">
+      <div class="section-title">About</div>
+    </div>
+    <p class="desc">${esc(b.description)}</p>
+    <div class="divider"></div>` : ''}
+
+    <div class="section">
+      <div class="section-title">Contact &amp; Location</div>
+      ${b.address ? `<div class="info-row"><span class="info-icon">📍</span><span class="info-text">${esc(b.address)}, Srinagar, Jammu &amp; Kashmir</span></div>` : ''}
+      ${b.phone   ? `<div class="info-row"><span class="info-icon">📞</span><span class="info-text"><a href="tel:${esc(b.phone)}">${esc(b.phone)}</a></span></div>` : ''}
+      ${b.whatsapp? `<div class="info-row"><span class="info-icon">💬</span><span class="info-text"><a href="https://wa.me/${b.whatsapp.replace(/\D/g,'')}" target="_blank" rel="noopener">${esc(b.whatsapp)}</a></span></div>` : ''}
+      ${b.email   ? `<div class="info-row"><span class="info-icon">✉️</span><span class="info-text"><a href="mailto:${esc(b.email)}">${esc(b.email)}</a></span></div>` : ''}
+      ${b.website ? `<div class="info-row"><span class="info-icon">🌐</span><span class="info-text"><a href="${esc(b.website)}" target="_blank" rel="noopener">${esc(b.website)}</a></span></div>` : ''}
+    </div>
+
+    ${services.length ? `
+    <div class="divider"></div>
+    <div class="section"><div class="section-title">Services</div></div>
+    <div class="services">${services.map(s=>`<span class="service-tag">${esc(s)}</span>`).join('')}</div>
+    ` : ''}
+
+    <div class="divider"></div>
+    <div id="reviews-placeholder" class="reviews-section">
+      <div class="section-title">Customer Reviews</div>
+      <p style="font-size:.82rem;color:var(--gray400);margin-top:6px">Loading reviews…</p>
+    </div>
+
+    <div class="mbp-badge">
+      <span style="font-size:1.2rem">🔥</span>
+      <div>
+        <div style="font-weight:700;font-size:.8rem">Verified MBP</div>
+        <div style="font-size:.72rem;color:var(--gray400)">MakeMeTop Business Profile · Srinagar J&amp;K · <a href="${SITE_URL}" style="color:var(--accent);font-weight:600">makemetop.in</a></div>
+      </div>
+    </div>
+
+    <a class="open-app-btn" href="${appUrl}">
+      🔥 Open in MBP App — Write a Review
+    </a>
+
+    <div class="footer">
+      © 2025 MBP – MakeMeTop Business Profile · Srinagar, J&amp;K<br/>
+      <a href="./">Home</a> · <a href="./about.html">About</a> · <a href="./privacy-policy.html">Privacy</a> · <a href="./terms.html">Terms</a>
+    </div>
+  `;
+
+  document.getElementById('loader').style.display    = 'none';
+  document.getElementById('biz-content').style.display = 'block';
+}
+
+function renderReviews(reviews) {
+  const container = document.getElementById('reviews-placeholder');
+  if (!container) return;
+  if (!reviews.length) {
+    container.innerHTML = `<div class="section-title">Customer Reviews</div><p style="font-size:.82rem;color:var(--gray400);margin-top:8px">No reviews yet — be the first to rate this business on MBP!</p>`;
+    return;
+  }
+  const stars = n => [1,2,3,4,5].map(i=>`<span class="star ${i<=n?'filled':''}">★</span>`).join('');
+  container.innerHTML = `
+    <div class="section-title" style="margin-bottom:12px">Customer Reviews (${reviews.length})</div>
+    ${reviews.map(r => `
+    <div class="review-card" itemscope itemtype="https://schema.org/Review">
+      <div class="review-top">
+        <div class="review-avatar">${(r.user_name||'U').charAt(0).toUpperCase()}</div>
+        <div>
+          <div class="review-name" itemprop="author">${esc(r.user_name||'Anonymous')}</div>
+          <div class="stars" itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+            ${stars(r.rating||5)}
+            <meta itemprop="ratingValue" content="${r.rating||5}"/>
+            <meta itemprop="bestRating" content="5"/>
+          </div>
+        </div>
+      </div>
+      ${r.comment ? `<p class="review-text" itemprop="reviewBody">${esc(r.comment)}</p>` : ''}
+    </div>`).join('')}
+  `;
+}
+
+function injectSchema(b, profileUrl) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": b.name,
+    "alternateName": [`${b.name} Srinagar`, `${b.name} Kashmir`, `${b.name} J&K`, `${b.name} MBP`],
+    "description": b.description || `${b.name} – ${b.type||'local business'} in Srinagar, Jammu & Kashmir. Verified MBP on MakeMeTop – J&K's #1 business directory.`,
+    "image": b.cover_url || b.logo_url || `${SITE_URL}/icon-512.png`,
+    "logo": { "@type": "ImageObject", "url": b.logo_url || `${SITE_URL}/icon-512.png` },
+    "telephone": b.phone || undefined,
+    "email": b.email || undefined,
+    "url": profileUrl,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": b.address || '',
+      "addressLocality": "Srinagar",
+      "addressRegion": "Jammu & Kashmir",
+      "postalCode": "190001",
+      "addressCountry": "IN"
+    },
+    "geo": { "@type": "GeoCoordinates", "latitude": 34.0837, "longitude": 74.7973 },
+    "areaServed": { "@type": "AdministrativeArea", "name": "Jammu and Kashmir", "alternateName": ["J&K","Kashmir","Srinagar"] },
+    "hasMap": `https://maps.google.com/?q=${encodeURIComponent((b.address||b.name)+', Srinagar, J&K')}`,
+    "openingHours": "Mo-Su 00:00-23:59",
+    "priceRange": "₹",
+    "currenciesAccepted": "INR",
+    "paymentAccepted": "Cash, UPI, Card",
+    "inLanguage": "en-IN",
+    "sameAs": [`${SITE_URL}/?biz=${b.id}`, profileUrl, ...(b.website ? [b.website] : [])],
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "MBP – MakeMeTop Business Profile",
+      "alternateName": ["MBP","MakeMeTop","MMT","MMTBP"],
+      "url": SITE_URL
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "MBP – MakeMeTop Business Profile",
+      "url": SITE_URL,
+      "logo": { "@type": "ImageObject", "url": `${SITE_URL}/icon-512.png`, "width": 512, "height": 512 }
+    }
+  };
+
+  if (b.review_count > 0) {
+    schema.aggregateRating = {
+      "@type": "AggregateRating",
+      "ratingValue": b.rating,
+      "reviewCount": b.review_count,
+      "bestRating": 5, "worstRating": 1
+    };
+  }
+  if (b.services?.length) {
+    schema.hasOfferCatalog = {
+      "@type": "OfferCatalog",
+      "name": b.name + " Services",
+      "itemListElement": b.services.map(s => ({
+        "@type": "Offer",
+        "itemOffered": { "@type": "Service", "name": s }
+      }))
+    };
+  }
+
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "MBP – MakeMeTop Business Profile", "item": SITE_URL },
+      { "@type": "ListItem", "position": 2, "name": b.type || "Business", "item": `${SITE_URL}/?category=${encodeURIComponent(b.type||'')}` },
+      { "@type": "ListItem", "position": 3, "name": b.name + " – MBP", "item": profileUrl }
+    ]
+  };
+
+  const s = document.createElement('script');
+  s.type = 'application/ld+json'; s.id = 'biz-schema';
+  s.textContent = JSON.stringify(schema);
+  document.head.appendChild(s);
+
+  const bs = document.createElement('script');
+  bs.type = 'application/ld+json'; bs.id = 'biz-breadcrumb';
+  bs.textContent = JSON.stringify(breadcrumb);
+  document.head.appendChild(bs);
+}
+
+// Helpers
+function setMeta(name, content) {
+  let el = document.querySelector(`meta[name="${name}"]`);
+  if (!el) { el = document.createElement('meta'); el.name = name; document.head.appendChild(el); }
+  el.content = content;
+}
+function setEl(id, attr, val) {
+  const el = document.getElementById(id); if (el) el[attr] = val;
+}
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function showError() {
+  document.getElementById('loader').style.display      = 'none';
+  document.getElementById('error-state').style.display = 'block';
+}
+</script>
+</body>
+</html>
