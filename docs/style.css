@@ -75,36 +75,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--primary);min-
 .chip-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
 .chip{padding:6px 12px;border-radius:20px;border:1.5px solid var(--gray200);font-size:.8rem;font-weight:500;cursor:pointer;transition:var(--transition);background:var(--bg);color:var(--gray700)}
 .chip.active{border-color:var(--primary);background:var(--primary);color:#fff}
-.select-wrapper {
-  position: relative;
-  width: 100%;
-}
 
-.select-wrapper i {
-  position: absolute;
-  top: 50%;
-  left: 12px;
-  transform: translateY(-50%);
-  color: #888;
-  font-size: 14px;
-  pointer-events: none;
-}
-
-.form-select {
-  width: 100%;
-  padding: 10px 12px 10px 35px; /* left space for icon */
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 14px;
-  appearance: none;
-  background: #fff;
-  cursor: pointer;
-}
-
-.form-select:focus {
-  border-color: #0A2540;
-  outline: none;
-}
 /* ─── DIVIDER ─── */
 .divider{display:flex;align-items:center;gap:12px;margin:16px 0}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--gray200)}

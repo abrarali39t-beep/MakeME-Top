@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="robots" content="noindex, nofollow"/>
+<title>MBP Admin Panel – MakeMe Top Business Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#1F1F1F;--bg:#F9FAFB;--white:#FFFFFF;--accent:#F5A623;
+  --green:#16A34A;--red:#DC2626;--blue:#2563EB;--purple:#7C3AED;
+  --gray100:#F3F4F6;--gray200:#E5E7EB;--gray400:#9CA3AF;--gray500:#6B7280;--gray700:#374151;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.05);
+  --shadow-md:0 4px 16px rgba(0,0,0,.1);
+  --radius:12px;--radius-sm:8px;
+  --font-display:'Syne',sans-serif;--font-body:'DM Sans',sans-serif;
+  --sidebar-w:240px;
+}
+html,body{height:100%;font-family:var(--font-body);background:var(--bg);color:var(--primary);font-size:14px}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--font-body);cursor:pointer}
+
+/* ─── LAYOUT ─── */
+#admin-app{display:flex;height:100vh;overflow:hidden}
+#sidebar{width:var(--sidebar-w);background:var(--primary);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+#topbar{height:56px;background:var(--white);border-bottom:1px solid var(--gray200);display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0;box-shadow:var(--shadow)}
+#content{flex:1;overflow-y:auto;padding:24px}
+
+/* ─── SIDEBAR ─── */
+.sidebar-logo{padding:20px 18px 12px;font-family:var(--font-display);font-size:1.15rem;font-weight:800;color:#fff;letter-spacing:-.3px;border-bottom:1px solid rgba(255,255,255,.1)}
+.sidebar-logo span{color:var(--accent)}
+.sidebar-logo .admin-badge{display:block;font-size:.65rem;font-weight:600;color:rgba(255,255,255,.45);letter-spacing:.06em;margin-top:2px;font-family:var(--font-body)}
+.nav-section{padding:14px 10px 4px;font-size:.65rem;font-weight:700;color:rgba(255,255,255,.3);letter-spacing:.1em;text-transform:uppercase}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:var(--radius-sm);margin:1px 8px;cursor:pointer;transition:background .15s;color:rgba(255,255,255,.7);font-weight:500;font-size:.85rem;border:none;background:transparent;width:calc(100% - 16px);text-align:left}
+.nav-item:hover{background:rgba(255,255,255,.08);color:#fff}
+.nav-item.active{background:rgba(255,255,255,.14);color:#fff;font-weight:700}
+.nav-item .ni-icon{width:18px;height:18px;opacity:.8;flex-shrink:0}
+.nav-item.active .ni-icon{opacity:1}
+.nav-badge{margin-left:auto;background:var(--red);color:#fff;border-radius:10px;padding:1px 7px;font-size:.65rem;font-weight:700}
+.sidebar-footer{margin-top:auto;padding:14px 12px;border-top:1px solid rgba(255,255,255,.08)}
+
+/* ─── TOPBAR ─── */
+.topbar-title{font-family:var(--font-display);font-weight:700;font-size:1rem;flex:1}
+.topbar-admin{font-size:.8rem;color:var(--gray500)}
+.topbar-admin strong{color:var(--primary)}
+.refresh-btn{background:var(--gray100);border:1px solid var(--gray200);border-radius:var(--radius-sm);padding:7px 14px;font-size:.8rem;font-weight:600;display:flex;align-items:center;gap:6px;transition:.15s}
+.refresh-btn:hover{background:var(--gray200)}
+
+/* ─── STATS ROW ─── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:24px}
+.stat-card{background:var(--white);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);border:1px solid var(--gray200)}
+.stat-card .sc-label{font-size:.72rem;font-weight:600;color:var(--gray500);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.stat-card .sc-val{font-family:var(--font-display);font-size:1.8rem;font-weight:800;line-height:1}
+.stat-card .sc-sub{font-size:.72rem;color:var(--gray400);margin-top:4px}
+.stat-card.green .sc-val{color:var(--green)}
+.stat-card.amber .sc-val{color:#D97706}
+.stat-card.red   .sc-val{color:var(--red)}
+.stat-card.blue  .sc-val{color:var(--blue)}
+.stat-card.purple .sc-val{color:var(--purple)}
+
+/* ─── SECTION HEADER ─── */
+.section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.section-hdr h2{font-family:var(--font-display);font-size:.95rem;font-weight:700}
+.section-hdr .count{font-size:.75rem;color:var(--gray400)}
+
+/* ─── TABLE / CARDS ─── */
+.panel{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--gray200);overflow:hidden;margin-bottom:24px}
+.panel-header{padding:14px 18px;border-bottom:1px solid var(--gray100);display:flex;align-items:center;gap:10px}
+.panel-header h3{font-family:var(--font-display);font-weight:700;font-size:.9rem;flex:1}
+.panel-header .ph-count{font-size:.75rem;color:var(--gray400)}
+
+table{width:100%;border-collapse:collapse}
+th{padding:10px 16px;text-align:left;font-size:.7rem;font-weight:700;color:var(--gray500);text-transform:uppercase;letter-spacing:.05em;background:var(--gray100);border-bottom:1px solid var(--gray200)}
+td{padding:12px 16px;border-bottom:1px solid var(--gray100);vertical-align:middle;font-size:.83rem}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg)}
+.biz-thumb{width:38px;height:38px;border-radius:6px;object-fit:cover;background:var(--gray200);flex-shrink:0}
+.biz-name-cell{display:flex;align-items:center;gap:10px}
+.biz-name-cell .nm{font-weight:600;font-size:.85rem}
+.biz-name-cell .tp{font-size:.72rem;color:var(--gray500)}
+
+/* ─── BADGES ─── */
+.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:.7rem;font-weight:700}
+.badge-pending{background:#FEF3C7;color:#92400E}
+.badge-pending_payment{background:#FEF3C7;color:#92400E}
+.badge-approved{background:#D1FAE5;color:#065F46}
+.badge-rejected{background:#FEE2E2;color:#991B1B}
+.badge-pending_pay{background:#EDE9FE;color:#5B21B6}
+.badge-verified{background:#D1FAE5;color:#065F46}
+
+/* ─── BUTTONS ─── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--radius-sm);font-size:.78rem;font-weight:600;border:none;cursor:pointer;transition:.15s;white-space:nowrap}
+.btn-sm{padding:5px 10px;font-size:.72rem}
+.btn-primary{background:var(--primary);color:#fff}.btn-primary:hover{background:#333}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{background:#15803D}
+.btn-red{background:var(--red);color:#fff}.btn-red:hover{background:#B91C1C}
+.btn-ghost{background:var(--gray100);color:var(--primary);border:1px solid var(--gray200)}.btn-ghost:hover{background:var(--gray200)}
+.btn-blue{background:var(--blue);color:#fff}.btn-blue:hover{background:#1D4ED8}
+.btn-amber{background:#D97706;color:#fff}.btn-amber:hover{background:#B45309}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.action-btns{display:flex;gap:6px;flex-wrap:wrap}
+
+/* ─── PAYMENT ROW ─── */
+.pay-ss{width:52px;height:52px;border-radius:6px;object-fit:cover;background:var(--gray200);cursor:pointer;border:1.5px solid var(--gray200);flex-shrink:0;transition:.15s}
+.pay-ss:hover{transform:scale(1.05);border-color:var(--primary)}
+
+/* ─── MODAL ─── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-bg.open{display:flex}
+.modal{background:#fff;border-radius:16px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal-head{padding:18px 20px 14px;border-bottom:1px solid var(--gray200);display:flex;align-items:center;justify-content:space-between}
+.modal-head h3{font-family:var(--font-display);font-weight:700;font-size:1rem}
+.modal-close{background:var(--gray100);border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center}
+.modal-body{padding:18px 20px 24px}
+.modal-body img{width:100%;border-radius:10px;margin-bottom:14px}
+.modal-body .meta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.modal-body .meta-item{background:var(--gray100);border-radius:6px;padding:6px 10px;font-size:.78rem}
+.modal-body .meta-item strong{display:block;font-size:.65rem;color:var(--gray500);text-transform:uppercase;letter-spacing:.04em;margin-bottom:1px}
+
+/* ─── FORM ─── */
+.form-group{margin-bottom:14px}
+.form-label{font-size:.75rem;font-weight:600;color:var(--gray700);display:block;margin-bottom:5px}
+.form-input,.form-select,.form-textarea{width:100%;padding:9px 12px;border:1.5px solid var(--gray200);border-radius:var(--radius-sm);font-family:var(--font-body);font-size:.85rem;outline:none;transition:border .15s}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--primary)}
+.form-textarea{resize:vertical;min-height:80px}
+
+/* ─── TOAST ─── */
+#toast{position:fixed;bottom:24px;right:24px;background:var(--primary);color:#fff;padding:10px 18px;border-radius:10px;font-size:.83rem;font-weight:600;z-index:9999;opacity:0;transform:translateY(10px);transition:.3s;pointer-events:none}
+#toast.show{opacity:1;transform:none}
+
+/* ─── ADMIN LOGIN ─── */
+#admin-login-screen{position:fixed;inset:0;z-index:9999;background:var(--primary);display:flex;align-items:center;justify-content:center;padding:20px}
+.login-box{background:#fff;border-radius:20px;padding:36px 32px;width:100%;max-width:400px;box-shadow:0 24px 80px rgba(0,0,0,.4)}
+.login-logo{font-family:var(--font-display);font-size:1.6rem;font-weight:800;text-align:center;margin-bottom:4px}
+.login-logo span{color:var(--accent)}
+.login-sub{font-size:.78rem;color:var(--gray500);text-align:center;margin-bottom:24px}
+.login-box h2{font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:16px;text-align:center}
+.login-err{background:#FEE2E2;color:#991B1B;border-radius:8px;padding:9px 12px;font-size:.78rem;font-weight:600;margin-bottom:12px;display:none}
+.login-err.show{display:block}
+.btn-google-lg{width:100%;padding:12px;background:#fff;border:1.5px solid var(--gray200);border-radius:10px;font-family:var(--font-body);font-size:.88rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:.15s;margin-bottom:10px}
+.btn-google-lg:hover{background:var(--gray100)}
+.login-divider{display:flex;align-items:center;gap:10px;margin:12px 0}
+.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:var(--gray200)}
+.login-divider span{font-size:.72rem;color:var(--gray400)}
+.empty{padding:40px 20px;text-align:center;color:var(--gray400)}
+.empty .ei{font-size:2.5rem;margin-bottom:8px}
+.empty p{font-size:.83rem}
+.spinner{width:18px;height:18px;border:2.5px solid rgba(31,31,31,.15);border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-row{padding:24px;text-align:center;color:var(--gray400)}
+.text-muted{color:var(--gray500)}
+.text-sm{font-size:.78rem}
+.flex{display:flex}.items-center{align-items:center}.gap-2{gap:8px}.gap-1{gap:4px}
+hr.sep{border:none;border-top:1px solid var(--gray100);margin:14px 0}
+.update-form-img{width:100%;max-height:160px;object-fit:cover;border-radius:8px;border:1px solid var(--gray200)}
+.chip{display:inline-block;padding:3px 9px;border-radius:20px;font-size:.7rem;background:var(--gray100);color:var(--gray700);border:1px solid var(--gray200);margin:2px}
+
+@media(max-width:768px){
+  #sidebar{display:none}
+  #content{padding:14px}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  table{display:block;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ ADMIN LOGIN SCREEN ══ -->
+<div id="admin-login-screen" style="display:none">
+  <div class="login-box">
+    <div class="login-logo">MakeMe<span>Top</span></div>
+    <div class="login-sub">MBP · Admin Panel</div>
+    <h2>🔐 Admin Sign In</h2>
+    <div class="login-err" id="login-err"></div>
+    <button class="btn-google-lg" id="admin-google-btn">
+      <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMTcuNiA5LjJsLS4xLTEuOEg5djMuNGg0LjhDMTMuNiAxMiAxMyAxMyAxMiAxMy42djIuMmgzYTguOCA4LjggMCAwIDAgMi42LTYuNnoiIGZpbGw9IiM0Mjg1RjQiIGZpbGwtcnVsZT0ibm9uemVybyIvPjxwYXRoIGQ9Ik05IDE4YzIuNCAwIDQuNS0uOCA2LTIuMmwtMy0yLjJhNS40IDUuNCAwIDAgMS04LTIuOUgxVjEzYTkgOSAwIDAgMCA4IDV6IiBmaWxsPSIjMzRBODUzIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNNCAxMC43YTUuNCA1LjQgMCAwIDEgMC0zLjRWNUgxYTkgOSAwIDAgMCAwIDhsMy0yLjN6IiBmaWxsPSIjRkJCQzA1IiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNOSAzLjZjMS4zIDAgMi41LjQgMy40IDEuM0wxNSAyLjNBOSA5IDAgMCAwIDEgNWwzIDIuNGE1LjQgNS40IDAgMCAxIDUtMy44eiIgZmlsbD0iI0VBNDMzNSIgZmlsbC1ydWxlPSJub256ZXJvIi8+PHBhdGggZD0iTTAgMGgxOHYxOEgweiIvPjwvZz48L3N2Zz4=" alt="Google" width="18" height="18"/>
+      Continue with Google
+    </button>
+    <div class="login-divider"><span>or use email</span></div>
+    <div class="form-group"><label class="form-label">Email</label><input type="email" id="admin-login-email" class="form-input" placeholder="admin@makemetop.in" autocomplete="email"/></div>
+    <div class="form-group"><label class="form-label">Password</label><input type="password" id="admin-login-pass" class="form-input" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')adminEmailLogin()"/></div>
+    <button class="btn btn-primary" style="width:100%;padding:12px;font-size:.9rem" id="admin-login-btn" onclick="adminEmailLogin()">Sign In to Admin Panel</button>
+    <p style="text-align:center;font-size:.72rem;color:var(--gray400);margin-top:14px">Only authorized admin accounts can access this panel.<br/>Access attempts are logged.</p>
+  </div>
+</div>
+
+<div id="admin-app" style="display:none">
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside id="sidebar">
+    <div class="sidebar-logo">
+      MakeMe<span>Top</span>
+      <span class="admin-badge">MBP · ADMIN PANEL</span>
+    </div>
+
+    <div class="nav-section">Listings</div>
+    <button class="nav-item active" data-section="dashboard" onclick="showSection('dashboard',this)">
+      <svg class="ni-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </button>
+    <button class="nav-item" data-section="payments" onclick="showSection('payments',this)">
+      <svg class="ni-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      Payments
+      <span class="nav-badge" id="nb-payments" style="display:none">0</span>
+    </button>
+    <button class="nav-item" data-section="pending" onclick="showSection('pending',this)">
+      <svg class="ni-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Pending
+      <span class="nav-badge" id="nb-pending" style="display:none">0</span>
+    </button>
+    <button class="nav-item" data-section="approved" onclick="showSection('approved',this)">
+      <svg class="ni-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      Approved
+    </button>
+    <button class="nav-item" data-section="rejected" onclick="showSection('rejected',this)">
+      <svg class="ni-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      Rejected
+    </button>
+
+    <div class="nav-section">Users & Support</div>
+    <button class="nav-item" data-section="users" onclick="showSection('users',this)">
+      <svg class="ni-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Users
+    </button>
+    <button class="nav-item" data-section="chats" onclick="showSection('chats',this)">
+      <svg class="ni-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Live Chat
+      <span class="nav-badge" id="nb-chats" style="display:none">0</span>
+    </button>
+    <button class="nav-item" data-section="claims" onclick="showSection('claims',this)">
+      <svg class="ni-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Claims
+    </button>
+    <button class="nav-item" data-section="contacts" onclick="showSection('contacts',this)">
+      <svg class="ni-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Contact Messages
+    </button>
+
+    <div class="nav-section">Content</div>
+    <button class="nav-item" data-section="updates" onclick="showSection('updates',this)">
+      <svg class="ni-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="3 9 21 9"/><path d="M9 21V9"/></svg>
+      Home Slider
+    </button>
+
+    <div class="sidebar-footer">
+      <button class="nav-item" style="margin:0;width:100%" onclick="logout()">
+        <svg class="ni-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign Out
+      </button>
+    </div>
+  </aside>
+
+  <!-- ══ MAIN ══ -->
+  <div id="main">
+    <div id="topbar">
+      <div class="topbar-title" id="topbar-title">Dashboard</div>
+      <div class="topbar-admin text-sm">Signed in as <strong id="admin-email-display">—</strong></div>
+      <button class="refresh-btn" onclick="refreshSection()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.63"/></svg>
+        Refresh
+      </button>
+      <a href="index.html" class="btn btn-ghost btn-sm">← Back to MBP</a>
+    </div>
+
+    <div id="content">
+      <!-- sections injected here by JS -->
+      <div class="loading-row"><div class="spinner"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODALS ══ -->
+
+<!-- Payment detail modal -->
+<div class="modal-bg" id="modal-payment">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Payment Submission</h3>
+      <button class="modal-close" onclick="closeModal('modal-payment')">✕</button>
+    </div>
+    <div class="modal-body" id="modal-payment-body"></div>
+  </div>
+</div>
+
+<!-- Business detail modal -->
+<div class="modal-bg" id="modal-biz">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modal-biz-title">Business</h3>
+      <button class="modal-close" onclick="closeModal('modal-biz')">✕</button>
+    </div>
+    <div class="modal-body" id="modal-biz-body"></div>
+  </div>
+</div>
+
+<!-- Screenshot lightbox -->
+<div class="modal-bg" id="modal-ss" onclick="closeModal('modal-ss')">
+  <div style="max-width:520px;width:100%"><img id="modal-ss-img" src="" alt="Screenshot" style="width:100%;border-radius:12px"/></div>
+</div>
+
+<!-- Add/Edit Update modal -->
+<div class="modal-bg" id="modal-update">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modal-update-title">Add Slide</h3>
+      <button class="modal-close" onclick="closeModal('modal-update')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Title *</label><input type="text" id="upd-title" class="form-input" placeholder="e.g. Special Offer – Dal Lake Houseboat"/></div>
+      <div class="form-group"><label class="form-label">Subtitle</label><input type="text" id="upd-subtitle" class="form-input" placeholder="Optional tagline"/></div>
+      <div class="form-group"><label class="form-label">Image URL *</label><input type="url" id="upd-img" class="form-input" placeholder="https://…" oninput="previewUpdImg(this.value)"/><img id="upd-img-preview" class="update-form-img" src="" alt="" style="display:none;margin-top:8px"/></div>
+      <div class="form-group"><label class="form-label">Link URL (optional)</label><input type="url" id="upd-link" class="form-input" placeholder="https://…"/></div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-primary" style="flex:1" onclick="saveUpdate()">Save Slide</button>
+        <button class="btn btn-ghost" onclick="closeModal('modal-update')">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chat thread modal -->
+<div class="modal-bg" id="modal-chat">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-head">
+      <h3 id="modal-chat-name">Chat</h3>
+      <button class="modal-close" onclick="closeModal('modal-chat')">✕</button>
+    </div>
+    <div id="modal-chat-msgs" style="padding:14px 18px;max-height:360px;overflow-y:auto;display:flex;flex-direction:column;gap:8px"></div>
+    <div style="padding:12px 18px 18px;border-top:1px solid var(--gray200);display:flex;gap:8px">
+      <input type="text" id="modal-chat-input" class="form-input" placeholder="Type reply…" style="flex:1" onkeydown="if(event.key==='Enter')sendAdminReplyFromModal()"/>
+      <button class="btn btn-primary" onclick="sendAdminReplyFromModal()">Send</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- end #admin-app -->
+
+<div id="toast"></div>
+
+<!-- ══ FIREBASE ══ -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc, addDoc, query, where, orderBy, serverTimestamp, onSnapshot, limit, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// ── PASTE YOUR FIREBASE CONFIG ──
+const firebaseConfig = {
+  apiKey:            "PASTE_YOUR_FIREBASE_API_KEY",
+  authDomain:        "PASTE_YOUR_PROJECT.firebaseapp.com",
+  projectId:         "PASTE_YOUR_PROJECT_ID",
+  storageBucket:     "PASTE_YOUR_PROJECT.firebasestorage.app",
+  messagingSenderId: "PASTE_YOUR_SENDER_ID",
+  appId:             "PASTE_YOUR_APP_ID"
+};
+const ADMIN_EMAILS = ["YOUR_ADMIN_EMAIL@gmail.com"];
+// ── Apps Script URL for sending approval/rejection emails ──
+// Same URL as index.html — paste your deployed Web App URL here:
+const APPS_SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+// ── Unified Apps Script caller ──
+async function callAppsScript(payload) {
+  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('PASTE')) return null;
+  try {
+    const resp = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload)
+    });
+    const text = await resp.text();
+    try { return JSON.parse(text); } catch(e) { return { status: 'sent' }; }
+  } catch(e) {
+    console.warn('Apps Script:', payload.action, e.message);
+    return null;
+  }
+}
+
+const app      = initializeApp(firebaseConfig);
+const auth     = getAuth(app);
+const db       = getFirestore(app);
+const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: 'select_account' });
+
+window._db      = db;
+window._auth    = auth;
+window._col     = { collection, getDocs, doc, updateDoc, deleteDoc, addDoc, query, where, orderBy, serverTimestamp, onSnapshot, limit, getDoc };
+window.ADMIN_EMAILS = ADMIN_EMAILS;
+
+// ── Auth state handler — shows login screen or admin panel, never blindly redirects ──
+onAuthStateChanged(auth, user => {
+  const loginScreen = document.getElementById('admin-login-screen');
+  const adminApp    = document.getElementById('admin-app');
+
+  if (!user) {
+    // Not signed in → show the admin login screen (never redirect away)
+    loginScreen.style.display = 'flex';
+    adminApp.style.display    = 'none';
+    return;
+  }
+
+  // Signed in — check if they are an admin
+  if (!ADMIN_EMAILS.includes(user.email?.toLowerCase())) {
+    // Signed in but NOT an admin — show error on login screen, sign them out silently
+    loginScreen.style.display = 'flex';
+    adminApp.style.display    = 'none';
+    const err = document.getElementById('login-err');
+    if (err) { err.textContent = '⛔ Access denied. This account is not an admin.'; err.classList.add('show'); }
+    signOut(auth);
+    return;
+  }
+
+  // Valid admin — show the panel
+  loginScreen.style.display = 'none';
+  adminApp.style.display    = 'flex';
+  window._adminUser = user;
+  document.getElementById('admin-email-display').textContent = user.email;
+
+  // Bind logout
+  window.logout = () => {
+    signOut(auth); // onAuthStateChanged will show login screen again automatically
+  };
+
+  initAdmin();
+});
+
+// ── Google sign-in ──
+document.getElementById('admin-google-btn').onclick = async () => {
+  const err = document.getElementById('login-err');
+  err.classList.remove('show');
+  try {
+    await signInWithPopup(auth, provider);
+    // onAuthStateChanged will handle the result
+  } catch(e) {
+    if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
+      err.textContent = '❌ ' + (e.message || 'Google sign-in failed'); err.classList.add('show');
+    }
+  }
+};
+
+// ── Email sign-in ──
+window.adminEmailLogin = async () => {
+  const email = document.getElementById('admin-login-email').value.trim();
+  const pass  = document.getElementById('admin-login-pass').value;
+  const err   = document.getElementById('login-err');
+  const btn   = document.getElementById('admin-login-btn');
+  err.classList.remove('show');
+  if (!email || !pass) { err.textContent = '⚠️ Enter email and password'; err.classList.add('show'); return; }
+  btn.textContent = 'Signing in…'; btn.disabled = true;
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+    // onAuthStateChanged handles the rest
+  } catch(e) {
+    const map = { 'auth/user-not-found':'No account with this email', 'auth/wrong-password':'Wrong password', 'auth/invalid-credential':'Invalid credentials', 'auth/too-many-requests':'Too many attempts. Try later.', 'auth/network-request-failed':'Network error.' };
+    err.textContent = '❌ ' + (map[e.code] || e.message); err.classList.add('show');
+  }
+  btn.textContent = 'Sign In to Admin Panel'; btn.disabled = false;
+};
+</script>
+
+<script>
+// ══════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════
+let currentSection = 'dashboard';
+let editingUpdateId = null;
+let activeChatConvId = null, chatUnsub = null;
+
+// ══════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════
+async function initAdmin() {
+  await showSection('dashboard', document.querySelector('.nav-item[data-section="dashboard"]'));
+  loadBadgeCounts();
+}
+
+// ══════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════
+function showSection(name, el) {
+  currentSection = name;
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (el) el.classList.add('active');
+  const titles = { dashboard:'Dashboard', payments:'Payment Submissions', pending:'Pending Listings', approved:'Approved Listings', rejected:'Rejected Listings', users:'Registered Users', chats:'Live Chat', claims:'Ownership Claims', contacts:'Contact Messages', updates:'Home Slider' };
+  document.getElementById('topbar-title').textContent = titles[name] || name;
+  const content = document.getElementById('content');
+  content.innerHTML = '<div class="loading-row"><div class="spinner"></div></div>';
+  const fn = { dashboard:loadDashboard, payments:loadPayments, pending:()=>loadListings('pending'), approved:()=>loadListings('approved'), rejected:()=>loadListings('rejected'), users:loadUsers, chats:loadChats, claims:loadClaims, contacts:loadContacts, updates:loadUpdates };
+  if (fn[name]) fn[name]();
+}
+function refreshSection() { showSection(currentSection, document.querySelector(`.nav-item[data-section="${currentSection}"]`)); }
+
+// ══════════════════════════════════════
+//  BADGE COUNTS
+// ══════════════════════════════════════
+async function loadBadgeCounts() {
+  const { getDocs, collection, query, where } = window._col;
+  try {
+    const [pay, pend, ppay, convs] = await Promise.all([
+      getDocs(query(collection(window._db,'payment_submissions'), where('status','==','pending'))),
+      getDocs(query(collection(window._db,'businesses'),         where('status','==','pending'))),
+      getDocs(query(collection(window._db,'businesses'),         where('status','==','pending_payment'))),
+      getDocs(query(collection(window._db,'chat_conversations'), where('unread_admin','>',0)))
+    ]);
+    setBadge('nb-payments', pay.size);
+    setBadge('nb-pending',  pend.size + ppay.size);
+    setBadge('nb-chats',    convs.size);
+  } catch(e) { console.warn(e); }
+}
+function setBadge(id, n) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = n; el.style.display = n > 0 ? 'inline-block' : 'none';
+}
+
+// ══════════════════════════════════════
+//  DASHBOARD
+// ══════════════════════════════════════
+async function loadDashboard() {
+  const { getDocs, collection, query, where } = window._col;
+  try {
+    const [total, approved, pending, ppay, payments, users, reviews] = await Promise.all([
+      getDocs(collection(window._db,'businesses')),
+      getDocs(query(collection(window._db,'businesses'), where('status','==','approved'))),
+      getDocs(query(collection(window._db,'businesses'), where('status','==','pending'))),
+      getDocs(query(collection(window._db,'businesses'), where('status','==','pending_payment'))),
+      getDocs(collection(window._db,'payment_submissions')),
+      getDocs(collection(window._db,'users')),
+      getDocs(collection(window._db,'reviews'))
+    ]);
+    const pendingPay = Array.from(payments.docs).filter(d => d.data().status === 'pending').length;
+    document.getElementById('content').innerHTML = `
+      <div class="stats-grid">
+        <div class="stat-card"><div class="sc-label">Total Listings</div><div class="sc-val">${total.size}</div><div class="sc-sub">all statuses</div></div>
+        <div class="stat-card green"><div class="sc-label">Live (Approved)</div><div class="sc-val">${approved.size}</div><div class="sc-sub">visible to tourists</div></div>
+        <div class="stat-card amber"><div class="sc-label">Pending Review</div><div class="sc-val">${pending.size + ppay.size}</div><div class="sc-sub">needs action</div></div>
+        <div class="stat-card purple"><div class="sc-label">Payments</div><div class="sc-val">${payments.size}</div><div class="sc-sub">${pendingPay} pending verification</div></div>
+        <div class="stat-card blue"><div class="sc-label">Registered Users</div><div class="sc-val">${users.size}</div><div class="sc-sub">total signups</div></div>
+        <div class="stat-card"><div class="sc-label">Total Reviews</div><div class="sc-val">${reviews.size}</div><div class="sc-sub">5-star only</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="panel" style="cursor:pointer" onclick="showSection('payments', document.querySelector('[data-section=payments]'))">
+          <div class="panel-header"><h3>💰 Pending Payments</h3><span class="ph-count">${pendingPay} need action</span></div>
+          <div style="padding:14px 18px;font-size:.83rem;color:var(--gray500)">Click to view all payment submissions and verify/reject them.</div>
+        </div>
+        <div class="panel" style="cursor:pointer" onclick="showSection('pending', document.querySelector('[data-section=pending]'))">
+          <div class="panel-header"><h3>⏳ Pending Listings</h3><span class="ph-count">${pending.size + ppay.size} listings</span></div>
+          <div style="padding:14px 18px;font-size:.83rem;color:var(--gray500)">Listings awaiting manual approval or payment verification.</div>
+        </div>
+      </div>`;
+  } catch(e) { showError(e); }
+}
+
+// ══════════════════════════════════════
+//  PAYMENT SUBMISSIONS
+// ══════════════════════════════════════
+async function loadPayments() {
+  const { getDocs, collection, query, orderBy } = window._col;
+  try {
+    const snap = await getDocs(query(collection(window._db,'payment_submissions'), orderBy('submitted_at','desc')));
+    const payments = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    if (!payments.length) { document.getElementById('content').innerHTML = emptyHtml('💰', 'No payment submissions yet'); return; }
+    document.getElementById('content').innerHTML = `
+      <div class="panel">
+        <div class="panel-header"><h3>Payment Submissions</h3><span class="ph-count">${payments.length} total</span></div>
+        <table>
+          <thead><tr><th>Screenshot</th><th>Business</th><th>User</th><th>Txn ID</th><th>Amount</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody>${payments.map(p => {
+            const date = p.submitted_at?.toDate ? p.submitted_at.toDate().toLocaleDateString('en-IN') : '—';
+            const statusBadge = `<span class="badge badge-${p.status === 'verified' ? 'approved' : p.status === 'rejected' ? 'rejected' : 'pending_pay'}">${p.status}</span>`;
+            return `<tr>
+              <td><img class="pay-ss" src="${esc(p.screenshot_url||'')}" onclick="openSS('${esc(p.screenshot_url||'')}')"/></td>
+              <td><div style="font-weight:600;font-size:.83rem">${esc(p.business_name||'—')}</div><div class="text-sm text-muted">${esc(p.payment_remark||'')}</div></td>
+              <td><div class="text-sm">${esc(p.user_email||'—')}</div>${p.contact?`<div class="text-sm text-muted">${esc(p.contact)}</div>`:''}</td>
+              <td><code style="font-size:.75rem;background:var(--gray100);padding:2px 6px;border-radius:4px">${esc(p.transaction_id||'—')}</code></td>
+              <td style="font-weight:700">₹${esc(p.amount_paid||'999')}</td>
+              <td class="text-sm text-muted">${date}</td>
+              <td>${statusBadge}</td>
+              <td><div class="action-btns">
+                <button class="btn btn-sm btn-ghost" onclick="viewPaymentDetail('${p.id}')">Detail</button>
+                ${p.status === 'pending' ? `
+                <button class="btn btn-sm btn-green" onclick="verifyPayment('${p.id}','${esc(p.business_id||'')}','approve')">✓ Approve</button>
+                <button class="btn btn-sm btn-red"   onclick="verifyPayment('${p.id}','${esc(p.business_id||'')}','reject')">✗ Reject</button>` : ''}
+              </div></td>
+            </tr>`;
+          }).join('')}</tbody>
+        </table>
+      </div>`;
+  } catch(e) { showError(e); }
+}
+
+async function verifyPayment(paymentId, bizId, action) {
+  if (!confirm(action === 'approve' ? '✅ Verify this payment and approve the listing?' : '❌ Reject this payment?')) return;
+  const { doc, updateDoc } = window._col;
+  try {
+    await updateDoc(doc(window._db,'payment_submissions',paymentId), {
+      status: action === 'approve' ? 'verified' : 'rejected',
+      reviewed_at: new Date().toISOString(),
+      reviewed_by: window._adminUser.email
+    });
+    if (bizId) {
+      await updateDoc(doc(window._db,'businesses',bizId), {
+        status:         action === 'approve' ? 'approved' : 'rejected',
+        is_premium:     action === 'approve',
+        premium_expiry: action === 'approve' ? new Date(Date.now() + 365*24*60*60*1000).toISOString() : null
+      });
+    }
+    showToast(action === 'approve' ? '✅ Payment verified — listing is now live!' : '❌ Payment rejected');
+    // Send email
+    if (action === 'approve') {
+      const snapBiz = await window._col.getDoc(window._col.doc(window._db,'businesses', bizId));
+      const biz = snapBiz.exists() ? snapBiz.data() : {};
+      if (biz.user_email) {
+        await callAppsScript({ action:'sendBusinessApproved', to:biz.user_email, name:biz.user_email.split('@')[0], businessName:biz.name||'Your Listing' });
+      }
+    }
+    loadPayments(); loadBadgeCounts();
+  } catch(e) { showToast('❌ Error: ' + e.message); }
+}
+
+async function viewPaymentDetail(paymentId) {
+  const { doc, getDoc } = window._col;
+  const snap = await getDoc(doc(window._db,'payment_submissions',paymentId));
+  if (!snap.exists()) return;
+  const p = snap.data();
+  const date = p.submitted_at?.toDate ? p.submitted_at.toDate().toLocaleString('en-IN') : '—';
+  document.getElementById('modal-payment-body').innerHTML = `
+    ${p.screenshot_url ? `<img src="${esc(p.screenshot_url)}" alt="Screenshot" onclick="openSS('${esc(p.screenshot_url)}')"/>` : ''}
+    <div class="meta-row">
+      <div class="meta-item"><strong>Business</strong>${esc(p.business_name||'—')}</div>
+      <div class="meta-item"><strong>Amount</strong>₹${esc(p.amount_paid||'999')}</div>
+      <div class="meta-item"><strong>Status</strong>${p.status}</div>
+    </div>
+    <div class="meta-row">
+      <div class="meta-item"><strong>Txn ID / UTR</strong>${esc(p.transaction_id||'—')}</div>
+      <div class="meta-item"><strong>Remark</strong>${esc(p.payment_remark||'—')}</div>
+    </div>
+    <div class="meta-row">
+      <div class="meta-item"><strong>User Email</strong>${esc(p.user_email||'—')}</div>
+      <div class="meta-item"><strong>Contact</strong>${esc(p.contact||'—')}</div>
+      <div class="meta-item"><strong>Submitted</strong>${date}</div>
+    </div>
+    ${p.reviewed_by ? `<div class="meta-row"><div class="meta-item"><strong>Reviewed By</strong>${esc(p.reviewed_by)}</div><div class="meta-item"><strong>Reviewed At</strong>${p.reviewed_at||'—'}</div></div>` : ''}
+    ${p.status === 'pending' ? `<hr class="sep"/><div class="action-btns">
+      <button class="btn btn-green" style="flex:1" onclick="verifyPayment('${paymentId}','${esc(p.business_id||'')}','approve');closeModal('modal-payment')">✓ Verify &amp; Approve</button>
+      <button class="btn btn-red"   style="flex:1" onclick="verifyPayment('${paymentId}','${esc(p.business_id||'')}','reject');closeModal('modal-payment')">✗ Reject</button>
+    </div>` : ''}`;
+  openModal('modal-payment');
+}
+
+// ══════════════════════════════════════
+//  LISTINGS (pending / approved / rejected)
+// ══════════════════════════════════════
+async function loadListings(status) {
+  const { getDocs, collection, query, where } = window._col;
+  try {
+    let businesses = [];
+    if (status === 'pending') {
+      const [s1, s2] = await Promise.all([
+        getDocs(query(collection(window._db,'businesses'), where('status','==','pending'))),
+        getDocs(query(collection(window._db,'businesses'), where('status','==','pending_payment')))
+      ]);
+      businesses = [...s1.docs, ...s2.docs].map(d => ({id:d.id,...d.data()}));
+    } else {
+      const snap = await getDocs(query(collection(window._db,'businesses'), where('status','==',status)));
+      businesses = snap.docs.map(d => ({id:d.id,...d.data()}));
+    }
+    if (!businesses.length) { document.getElementById('content').innerHTML = emptyHtml('✅', `No ${status} listings`); return; }
+    document.getElementById('content').innerHTML = `
+      <div class="panel">
+        <div class="panel-header"><h3>${status.charAt(0).toUpperCase()+status.slice(1)} Listings</h3><span class="ph-count">${businesses.length}</span></div>
+        <table>
+          <thead><tr><th>Business</th><th>Type</th><th>Address</th><th>Owner</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody>${businesses.map(b => `<tr>
+            <td><div class="biz-name-cell">
+              <img class="biz-thumb" src="${esc(b.logo_url||'')}" onerror="this.style.background='var(--gray200)'" alt=""/>
+              <div><div class="nm">${esc(b.name||'—')}</div><div class="tp" style="font-size:.68rem;color:var(--gray400)">${esc(b.id)}</div></div>
+            </div></td>
+            <td class="text-sm">${esc(b.type||'—')}</td>
+            <td class="text-sm text-muted" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(b.address||'—')}</td>
+            <td class="text-sm text-muted">${esc(b.user_email||'—')}</td>
+            <td><span class="badge badge-${b.status}">${b.status}</span></td>
+            <td><div class="action-btns">
+              <button class="btn btn-sm btn-ghost" onclick="viewBizDetail('${b.id}')">Detail</button>
+              ${b.status!=='approved'?`<button class="btn btn-sm btn-green" onclick="bizAction('${b.id}','approved')">✓ Approve</button>`:''}
+              ${b.status!=='rejected'?`<button class="btn btn-sm btn-red"   onclick="bizAction('${b.id}','rejected')">✗ Reject</button>`:''}
+              <button class="btn btn-sm btn-ghost" onclick="deleteListing('${b.id}','${esc(b.name||'')}')">🗑</button>
+            </div></td>
+          </tr>`).join('')}</tbody>
+        </table>
+      </div>`;
+  } catch(e) { showError(e); }
+}
+
+async function bizAction(bizId, status) {
+  const { doc, updateDoc, getDoc } = window._col;
+  try {
+    // Get biz data for email
+    const snap = await getDoc(doc(window._db,'businesses',bizId));
+    const biz  = snap.exists() ? snap.data() : {};
+    await updateDoc(doc(window._db,'businesses',bizId), { status, is_premium: status === 'approved' });
+    // Send email notification
+    if (biz.user_email) {
+      if (status === 'approved') {
+        await callAppsScript({ action:'sendBusinessApproved', to:biz.user_email, name:biz.user_email.split('@')[0], businessName:biz.name||'Your Listing' });
+      } else {
+        await callAppsScript({ action:'sendBusinessRejected', to:biz.user_email, name:biz.user_email.split('@')[0], businessName:biz.name||'Your Listing' });
+      }
+    }
+    showToast(status === 'approved' ? '✅ Approved! Email sent.' : '❌ Rejected. Email sent.');
+    refreshSection(); loadBadgeCounts();
+  } catch(e) { showToast('❌ ' + e.message); }
+}
+
+async function deleteListing(bizId, name) {
+  if (!confirm(`Delete "${name}"? This cannot be undone.`)) return;
+  const { doc, deleteDoc } = window._col;
+  try { await deleteDoc(doc(window._db,'businesses',bizId)); showToast('🗑 Listing deleted'); refreshSection(); }
+  catch(e) { showToast('❌ ' + e.message); }
+}
+
+async function viewBizDetail(bizId) {
+  const { doc, getDoc } = window._col;
+  try {
+    const snap = await getDoc(doc(window._db,'businesses',bizId));
+    if (!snap.exists()) return;
+    const b = { id: snap.id, ...snap.data() };
+    document.getElementById('modal-biz-title').textContent = b.name;
+    document.getElementById('modal-biz-body').innerHTML = `
+      ${b.cover_url ? `<img src="${esc(b.cover_url)}" alt="Cover"/>` : ''}
+      <div class="meta-row">
+        <div class="meta-item"><strong>Type</strong>${esc(b.type||'—')}</div>
+        <div class="meta-item"><strong>Status</strong><span class="badge badge-${b.status}">${b.status}</span></div>
+        <div class="meta-item"><strong>Premium</strong>${b.is_premium?'Yes':'No'}</div>
+      </div>
+      <div class="meta-row">
+        <div class="meta-item"><strong>Phone</strong>${esc(b.phone||'—')}</div>
+        <div class="meta-item"><strong>WhatsApp</strong>${esc(b.whatsapp||'—')}</div>
+      </div>
+      <div class="meta-row"><div class="meta-item" style="flex:1"><strong>Address</strong>${esc(b.address||'—')}</div></div>
+      <div class="meta-row"><div class="meta-item" style="flex:1"><strong>Description</strong>${esc((b.description||'—').slice(0,200))}</div></div>
+      ${b.services?.length ? `<div style="margin-top:8px">${b.services.map(s=>`<span class="chip">${esc(s)}</span>`).join('')}</div>` : ''}
+      <hr class="sep"/>
+      <div class="meta-row"><div class="meta-item"><strong>Owner Email</strong>${esc(b.user_email||'—')}</div><div class="meta-item"><strong>Owner UID</strong><span style="font-size:.7rem">${esc(b.user_id||'—')}</span></div></div>
+      <hr class="sep"/>
+      <div class="action-btns">
+        ${b.status!=='approved'?`<button class="btn btn-green" onclick="bizAction('${b.id}','approved');closeModal('modal-biz')">✓ Approve</button>`:''}
+        ${b.status!=='rejected'?`<button class="btn btn-red"   onclick="bizAction('${b.id}','rejected');closeModal('modal-biz')">✗ Reject</button>`:''}
+        <button class="btn btn-ghost" onclick="deleteListing('${b.id}','${esc(b.name||'')}');closeModal('modal-biz')">🗑 Delete</button>
+      </div>`;
+    openModal('modal-biz');
+  } catch(e) { showToast('❌ ' + e.message); }
+}
+
+// ══════════════════════════════════════
+//  USERS
+// ══════════════════════════════════════
+async function loadUsers() {
+  const { getDocs, collection, query, orderBy } = window._col;
+  try {
+    const snap = await getDocs(query(collection(window._db,'users'), orderBy('joined_at','desc')));
+    const users = snap.docs.map(d => ({id:d.id,...d.data()}));
+    if (!users.length) { document.getElementById('content').innerHTML = emptyHtml('👤', 'No users yet'); return; }
+    document.getElementById('content').innerHTML = `
+      <div class="panel">
+        <div class="panel-header"><h3>Registered Users</h3><span class="ph-count">${users.length}</span></div>
+        <table>
+          <thead><tr><th>Name</th><th>Email</th><th>UID</th><th>Joined</th></tr></thead>
+          <tbody>${users.map(u => {
+            const date = u.joined_at?.toDate ? u.joined_at.toDate().toLocaleDateString('en-IN') : '—';
+            return `<tr>
+              <td style="font-weight:600">${esc(u.name||'—')}</td>
+              <td class="text-sm">${esc(u.email||'—')}</td>
+              <td class="text-sm text-muted" style="font-size:.72rem">${esc(u.id)}</td>
+              <td class="text-sm text-muted">${date}</td>
+            </tr>`;
+          }).join('')}</tbody>
+        </table>
+      </div>`;
+  } catch(e) { showError(e); }
+}
+
+// ══════════════════════════════════════
+//  LIVE CHAT
+// ══════════════════════════════════════
+async function loadChats() {
+  const { getDocs, collection, query, orderBy } = window._col;
+  try {
+    const snap = await getDocs(query(collection(window._db,'chat_conversations'), orderBy('last_at','desc')));
+    const convs = snap.docs.map(d => ({id:d.id,...d.data()}));
+    if (!convs.length) { document.getElementById('content').innerHTML = emptyHtml('💬', 'No conversations yet'); return; }
+    document.getElementById('content').innerHTML = `
+      <div class="panel">
+        <div class="panel-header"><h3>Live Chat Conversations</h3><span class="ph-count">${convs.length}</span></div>
+        <table>
+          <thead><tr><th>User</th><th>Email</th><th>Last Message</th><th>Unread</th><th>Actions</th></tr></thead>
+          <tbody>${convs.map(c => `<tr>
+            <td style="font-weight:600">${esc(c.user_name||'User')}</td>
+            <td class="text-sm text-muted">${esc(c.user_email||'—')}</td>
+            <td class="text-sm" style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(c.last_message||'—')}</td>
+            <td>${c.unread_admin>0?`<span class="badge" style="background:#FEE2E2;color:var(--red)">${c.unread_admin} new</span>`:'<span class="text-muted text-sm">—</span>'}</td>
+            <td><button class="btn btn-sm btn-primary" onclick="openChatThread('${c.id}','${esc(c.user_name||'User')}')">Open Chat</button></td>
+          </tr>`).join('')}</tbody>
+        </table>
+      </div>`;
+  } catch(e) { showError(e); }
+}
+
+function openChatThread(convId, userName) {
+  activeChatConvId = convId;
+  document.getElementById('modal-chat-name').textContent = userName;
+  document.getElementById('modal-chat-msgs').innerHTML = '<div class="loading-row"><div class="spinner"></div></div>';
+  document.getElementById('modal-chat-input').value = '';
+  openModal('modal-chat');
+  const { collection, query, orderBy, onSnapshot, doc, updateDoc } = window._col;
+  if (chatUnsub) chatUnsub();
+  updateDoc(doc(window._db,'chat_conversations',convId), { unread_admin: 0 });
+  chatUnsub = onSnapshot(
+    query(collection(window._db,'chat_conversations',convId,'messages'), orderBy('created_at')),
+    snap => {
+      const msgs = snap.docs.map(d => d.data());
+      const container = document.getElementById('modal-chat-msgs');
+      if (!container) return;
+      container.innerHTML = msgs.map(m => {
+        const isAdmin = m.sender === 'admin';
+        return `<div style="display:flex;justify-content:${isAdmin?'flex-end':'flex-start'}">
+          <div style="background:${isAdmin?'var(--primary)':'var(--gray100)'};color:${isAdmin?'#fff':'var(--primary)'};padding:8px 12px;border-radius:12px;max-width:80%;font-size:.83rem;line-height:1.4">${esc(m.text||'')}</div>
+        </div>`;
+      }).join('');
+      container.scrollTop = container.scrollHeight;
+    }
+  );
+}
+
+async function sendAdminReplyFromModal() {
+  if (!activeChatConvId) return;
+  const text = document.getElementById('modal-chat-input').value.trim();
+  if (!text) return;
+  document.getElementById('modal-chat-input').value = '';
+  const { collection, addDoc, serverTimestamp, doc, updateDoc } = window._col;
+  try {
+    await addDoc(collection(window._db,'chat_conversations',activeChatConvId,'messages'), {
+      text, sender: 'admin', sender_id: window._adminUser.uid,
+      sender_name: 'MakeMe Top Support', created_at: serverTimestamp()
+    });
+    await updateDoc(doc(window._db,'chat_conversations',activeChatConvId), {
+      last_message: text, last_at: serverTimestamp(), unread_user: 1
+    });
+  } catch(e) { showToast('❌ Failed to send'); }
+}
+
+// ══════════════════════════════════════
+//  OWNERSHIP CLAIMS
+// ══════════════════════════════════════
+async function loadClaims() {
+  const { getDocs, collection, query, orderBy } = window._col;
+  try {
+    const snap = await getDocs(query(collection(window._db,'ownership_claims'), orderBy('created_at','desc')));
+    const claims = snap.docs.map(d => ({id:d.id,...d.data()}));
+    if (!claims.length) { document.getElementById('content').innerHTML = emptyHtml('🏢', 'No ownership claims'); return; }
+    document.getElementById('content').innerHTML = `
+      <div class="panel">
+        <div class="panel-header"><h3>Ownership Claims</h3><span class="ph-count">${claims.length}</span></div>
+        <table>
+          <thead><tr><th>Requester</th><th>Business</th><th>Message</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody>${claims.map(c => `<tr>
+            <td><div style="font-weight:600">${esc(c.requester_name||'—')}</div><div class="text-sm text-muted">${esc(c.requester_email||'')}</div><div class="text-sm text-muted">${esc(c.requester_phone||'')}</div></td>
+            <td class="text-sm">${esc(c.business_name||'—')}</td>
+            <td class="text-sm text-muted" style="max-width:180px">${esc((c.requester_message||'—').slice(0,80))}</td>
+            <td><span class="badge badge-${c.status==='accepted'?'approved':c.status==='rejected'?'rejected':'pending_pay'}">${c.status||'pending'}</span></td>
+            <td><div class="action-btns">
+              ${c.status==='pending'?`
+              <button class="btn btn-sm btn-green" onclick="resolveClaim('${c.id}','accept','${esc(c.business_id||'')}','${esc(c.requester_uid||'')}','${esc(c.requester_email||'')}')">✓ Accept</button>
+              <button class="btn btn-sm btn-red"   onclick="resolveClaim('${c.id}','reject','','','')">✗ Reject</button>`:'—'}
+            </div></td>
+          </tr>`).join('')}</tbody>
+        </table>
+      </div>`;
+  } catch(e) { showError(e); }
+}
+
+async function resolveClaim(claimId, action, bizId, newOwnerUid, newOwnerEmail) {
+  if (!confirm(action === 'accept' ? 'Accept this ownership claim and transfer the listing?' : 'Reject this claim?')) return;
+  const { doc, updateDoc } = window._col;
+  try {
+    if (action === 'accept' && bizId && newOwnerUid) {
+      await updateDoc(doc(window._db,'businesses',bizId), { user_id: newOwnerUid, user_email: newOwnerEmail });
+    }
+    await updateDoc(doc(window._db,'ownership_claims',claimId), {
+      status: action === 'accept' ? 'accepted' : 'rejected',
+      resolved_by: window._adminUser.email,
+      resolved_at: new Date().toISOString()
+    });
+    showToast(action === 'accept' ? '✅ Ownership transferred!' : '❌ Claim rejected');
+    loadClaims();
+  } catch(e) { showToast('❌ ' + e.message); }
+}
+
+// ══════════════════════════════════════
+//  CONTACT MESSAGES
+// ══════════════════════════════════════
+async function loadContacts() {
+  const { getDocs, collection, query, orderBy } = window._col;
+  try {
+    const snap = await getDocs(query(collection(window._db,'contact_messages'), orderBy('created_at','desc')));
+    const msgs = snap.docs.map(d => ({id:d.id,...d.data()}));
+    if (!msgs.length) { document.getElementById('content').innerHTML = emptyHtml('📩', 'No contact messages'); return; }
+    document.getElementById('content').innerHTML = `
+      <div class="panel">
+        <div class="panel-header"><h3>Contact Messages</h3><span class="ph-count">${msgs.length}</span></div>
+        <table>
+          <thead><tr><th>Name</th><th>Email</th><th>Message</th><th>Date</th><th>Actions</th></tr></thead>
+          <tbody>${msgs.map(m => {
+            const date = m.created_at?.toDate ? m.created_at.toDate().toLocaleDateString('en-IN') : '—';
+            return `<tr>
+              <td style="font-weight:600">${esc(m.name||'—')}</td>
+              <td class="text-sm text-muted">${esc(m.email||'—')}</td>
+              <td class="text-sm" style="max-width:260px">${esc((m.message||'—').slice(0,100))}</td>
+              <td class="text-sm text-muted">${date}</td>
+              <td><button class="btn btn-sm btn-red" onclick="deleteContact('${m.id}')">🗑</button></td>
+            </tr>`;
+          }).join('')}</tbody>
+        </table>
+      </div>`;
+  } catch(e) { showError(e); }
+}
+
+async function deleteContact(id) {
+  if (!confirm('Delete this message?')) return;
+  const { doc, deleteDoc } = window._col;
+  try { await deleteDoc(doc(window._db,'contact_messages',id)); showToast('🗑 Deleted'); loadContacts(); }
+  catch(e) { showToast('❌ ' + e.message); }
+}
+
+// ══════════════════════════════════════
+//  HOME SLIDER UPDATES
+// ══════════════════════════════════════
+async function loadUpdates() {
+  const { getDocs, collection, query, orderBy } = window._col;
+  try {
+    const snap = await getDocs(query(collection(window._db,'updates'), orderBy('created_at','desc')));
+    const updates = snap.docs.map(d => ({id:d.id,...d.data()}));
+    document.getElementById('content').innerHTML = `
+      <div style="display:flex;justify-content:flex-end;margin-bottom:14px">
+        <button class="btn btn-primary" onclick="openAddUpdate()">+ Add Slide</button>
+      </div>
+      <div class="panel">
+        <div class="panel-header"><h3>Home Slider Slides</h3><span class="ph-count">${updates.length}/8 shown</span></div>
+        ${updates.length ? `<table>
+          <thead><tr><th>Image</th><th>Title</th><th>Subtitle</th><th>Link</th><th>Actions</th></tr></thead>
+          <tbody>${updates.map(u => `<tr>
+            <td><img src="${esc(u.image_url||'')}" style="width:70px;height:44px;object-fit:cover;border-radius:6px;background:var(--gray200)" onerror="this.style.background='var(--gray200)'" alt=""/></td>
+            <td style="font-weight:600">${esc(u.title||'—')}</td>
+            <td class="text-sm text-muted">${esc(u.subtitle||'—')}</td>
+            <td class="text-sm text-muted">${u.link?`<a href="${esc(u.link)}" target="_blank" style="color:var(--blue)">Open ↗</a>`:'—'}</td>
+            <td><div class="action-btns">
+              <button class="btn btn-sm btn-ghost" onclick="openEditUpdate('${u.id}','${esc(u.title||'')}','${esc(u.subtitle||'')}','${esc(u.image_url||'')}','${esc(u.link||'')}')">✏️ Edit</button>
+              <button class="btn btn-sm btn-red"   onclick="deleteUpdate('${u.id}')">🗑</button>
+            </div></td>
+          </tr>`).join('')}</tbody>
+        </table>` : `<div class="empty"><div class="ei">🖼️</div><p>No slides yet. Add one to show on the home screen.</p></div>`}
+      </div>`;
+  } catch(e) { showError(e); }
+}
+
+function openAddUpdate() {
+  editingUpdateId = null;
+  document.getElementById('modal-update-title').textContent = 'Add Slide';
+  ['upd-title','upd-subtitle','upd-img','upd-link'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('upd-img-preview').style.display = 'none';
+  openModal('modal-update');
+}
+
+function openEditUpdate(id, title, subtitle, img, link) {
+  editingUpdateId = id;
+  document.getElementById('modal-update-title').textContent = 'Edit Slide';
+  document.getElementById('upd-title').value    = title;
+  document.getElementById('upd-subtitle').value = subtitle;
+  document.getElementById('upd-img').value      = img;
+  document.getElementById('upd-link').value     = link;
+  previewUpdImg(img);
+  openModal('modal-update');
+}
+
+function previewUpdImg(url) {
+  const el = document.getElementById('upd-img-preview');
+  if (url && url.startsWith('http')) { el.src = url; el.style.display = 'block'; }
+  else el.style.display = 'none';
+}
+
+async function saveUpdate() {
+  const title  = document.getElementById('upd-title').value.trim();
+  const img    = document.getElementById('upd-img').value.trim();
+  if (!title) { showToast('⚠️ Enter a title'); return; }
+  if (!img)   { showToast('⚠️ Enter an image URL'); return; }
+  const subtitle = document.getElementById('upd-subtitle').value.trim();
+  const link     = document.getElementById('upd-link').value.trim();
+  const { addDoc, collection, serverTimestamp, doc, updateDoc } = window._col;
+  try {
+    if (editingUpdateId) {
+      await updateDoc(doc(window._db,'updates',editingUpdateId), { title, subtitle, image_url: img, link });
+    } else {
+      await addDoc(collection(window._db,'updates'), { title, subtitle, image_url: img, link, created_at: serverTimestamp() });
+    }
+    showToast(editingUpdateId ? '✅ Slide updated!' : '✅ Slide added!');
+    closeModal('modal-update'); loadUpdates();
+  } catch(e) { showToast('❌ ' + e.message); }
+}
+
+async function deleteUpdate(id) {
+  if (!confirm('Delete this slide?')) return;
+  const { doc, deleteDoc } = window._col;
+  try { await deleteDoc(doc(window._db,'updates',id)); showToast('🗑 Slide deleted'); loadUpdates(); }
+  catch(e) { showToast('❌ ' + e.message); }
+}
+
+// ══════════════════════════════════════
+//  UTILITIES
+// ══════════════════════════════════════
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  if (id === 'modal-chat' && chatUnsub) { chatUnsub(); chatUnsub = null; activeChatConvId = null; }
+}
+function openSS(url) { document.getElementById('modal-ss-img').src = url; openModal('modal-ss'); }
+function emptyHtml(icon, msg) {
+  return `<div class="panel"><div class="empty"><div class="ei">${icon}</div><p>${msg}</p></div></div>`;
+}
+function showError(e) {
+  console.error(e);
+  document.getElementById('content').innerHTML = `<div class="panel"><div class="empty"><div class="ei">⚠️</div><p>Error: ${esc(e.message)}</p></div></div>`;
+}
+let _toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(_toastTimer); _toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
+}
+// Close modals on bg click
+document.querySelectorAll('.modal-bg').forEach(bg => {
+  bg.addEventListener('click', e => { if (e.target === bg) closeModal(bg.id); });
+});
+</script>
+</body>
+</html>

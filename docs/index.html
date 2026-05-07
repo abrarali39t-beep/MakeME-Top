@@ -6,9 +6,9 @@
 <meta name="theme-color" content="#1F1F1F"/>
 
 <!-- ═══ PRIMARY SEO ═══ -->
-<title>MBP – MakeMeTop Business Profile | #1 Local Business Directory Srinagar, Kashmir J&K</title>
-<meta name="description" content="MBP – MakeMeTop Business Profile (MMT) is Srinagar's #1 local business listing platform. Create your MBP free. Find top restaurants, shops, doctors, services in Kashmir J&K. Get discovered on Google today!"/>
-<meta name="keywords" content="MBP, MakeMeTop Business Profile, MMT, MMTBP, MakeMeTop, makemetop.in, create MBP, MBP Srinagar, MBP Kashmir, MBP J&K, local business Srinagar, Kashmir business directory, business listing Srinagar, best businesses Srinagar, local services Kashmir, restaurant Srinagar, shops Kashmir, find business near me Srinagar, business directory J&K, Jammu Kashmir business, free business listing, top businesses Kashmir, MBP profile Kashmir, MakeMeTop Business Profile J&K, MBP directory"/>
+<title>KashmirStay – Verified Travel Agencies & Resorts in Kashmir | Book Kashmir Tours</title>
+<meta name="description" content="KashmirStay – Discover and book verified travel agencies, resorts, and tour operators in Kashmir. Trusted MBP listings for Srinagar, Gulmarg, Pahalgam, Sonamarg, Dal Lake & all of J&K."/>
+<meta name="keywords" content="Kashmir travel agency, Kashmir resorts, Kashmir tour operator, Srinagar hotels, Gulmarg resort, Pahalgam tour, Kashmir holiday packages, Dal Lake houseboats, Kashmir tourism, J&K travel, Kashmir tour packages, verified travel agents Kashmir, best resorts Kashmir, Kashmir adventure tours, snow tours Kashmir"/>
 <meta name="author" content="MakeMeTop – MBP"/>
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
 <link rel="canonical" href="https://makemetop.in/"/>
@@ -22,13 +22,13 @@
 <!-- ═══ OPEN GRAPH ═══ -->
 <meta property="og:type" content="website"/>
 <meta property="og:url" content="https://makemetop.in/"/>
-<meta property="og:title" content="MBP – MakeMeTop Business Profile | #1 Local Business Directory Srinagar Kashmir"/>
-<meta property="og:description" content="Create your free MBP (MakeMeTop Business Profile) and get discovered on Google. Srinagar's #1 local business directory for J&K. Free listings, real reviews, direct contact."/>
+  <meta property="og:title" content="KashmirStay – Verified Travel Agencies &amp; Resorts in Kashmir"/>
+  <meta property="og:description" content="Discover and book verified travel agencies, resorts and tour operators across Kashmir J&amp;K"/>
 <meta property="og:image" content="https://makemetop.in/icon-512.png"/>
 <meta property="og:image:width" content="512"/>
 <meta property="og:image:height" content="512"/>
 <meta property="og:image:alt" content="MakeMeTop – Local Business Directory Srinagar Kashmir"/>
-<meta property="og:site_name" content="MakeMeTop"/>
+  <meta property="og:site_name" content="KashmirStay – MBP"/>
 <meta property="og:locale" content="en_IN"/>
 
 <!-- ═══ TWITTER CARD ═══ -->
@@ -280,6 +280,66 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--primary);min-
 .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600}
 .badge-pending{background:#FEF3C7;color:#92400E}.badge-approved{background:#D1FAE5;color:#065F46}
 .badge-rejected{background:#FEE2E2;color:#991B1B}.badge-premium{background:linear-gradient(135deg,#F5A623,#E58A09);color:#fff}
+.badge-pending_payment{background:#FEF3C7;color:#92400E}
+
+/* ─── PAYMENT SYSTEM ─── */
+.step-indicator{display:flex;align-items:center;padding:16px 20px 0;gap:0;margin-bottom:4px}
+.step-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;transition:all .3s;flex-shrink:0;border:2px solid var(--gray200);color:var(--gray400);background:var(--bg)}
+.step-dot.done{background:var(--green);border-color:var(--green);color:#fff}
+.step-dot.active{background:var(--primary);border-color:var(--primary);color:#fff;box-shadow:0 0 0 4px rgba(31,31,31,.12)}
+.step-line{flex:1;height:2px;background:var(--gray200);transition:background .3s}
+.step-line.done{background:var(--green)}
+.step-labels{display:flex;justify-content:space-between;padding:4px 12px 0;margin-bottom:16px}
+.step-labels span{font-size:.62rem;font-weight:600;color:var(--gray400);text-align:center;flex:1}
+.step-labels span.active{color:var(--primary)}
+.step-labels span.done{color:var(--green)}
+.form-step{display:none;animation:fadeIn .22s ease}
+.form-step.active{display:block}
+.upi-box{border:2px solid var(--gray200);border-radius:var(--radius);overflow:hidden;margin-bottom:16px}
+.upi-box-header{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:16px 20px;color:#fff;text-align:center}
+.upi-box-header .mbp-logo-pay{font-family:var(--font-display);font-size:1.2rem;font-weight:800;margin-bottom:2px}
+.upi-box-header .pay-amount{font-size:2rem;font-weight:800;font-family:var(--font-display);color:#F5A623;margin:4px 0}
+.upi-box-header .pay-label{font-size:.75rem;opacity:.7}
+.upi-qr-section{padding:20px;text-align:center;background:#fafafa;border-bottom:1px solid var(--gray100)}
+.upi-qr-section .qr-wrap{width:160px;height:160px;margin:0 auto 12px;background:#fff;border-radius:12px;padding:8px;box-shadow:0 4px 16px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center}
+.upi-qr-section .scan-label{font-size:.78rem;color:var(--gray500);font-weight:600}
+.upi-divider{display:flex;align-items:center;gap:10px;padding:0 20px;margin:12px 0}
+.upi-divider::before,.upi-divider::after{content:'';flex:1;height:1px;background:var(--gray200)}
+.upi-divider span{font-size:.72rem;color:var(--gray400)}
+.upi-id-row{padding:0 20px 20px;display:flex;flex-direction:column;gap:8px}
+.upi-id-copy{display:flex;align-items:center;gap:10px;background:var(--gray50);border:1.5px solid var(--gray200);border-radius:var(--radius-sm);padding:12px 14px}
+.upi-id-copy .upi-id-val{flex:1;font-family:monospace;font-size:.95rem;font-weight:700;color:var(--primary);letter-spacing:.5px}
+.upi-id-copy button{background:var(--primary);color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:.75rem;font-weight:600;cursor:pointer;flex-shrink:0;white-space:nowrap}
+.upi-apps{display:flex;gap:10px;padding:0 20px 20px;justify-content:center;flex-wrap:wrap}
+.upi-app-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 14px;border:1.5px solid var(--gray200);border-radius:10px;cursor:pointer;transition:var(--transition);background:var(--bg);text-decoration:none;min-width:64px}
+.upi-app-btn:hover{border-color:var(--primary);background:var(--gray50)}
+.upi-app-btn .app-icon{font-size:1.5rem}
+.upi-app-btn .app-name{font-size:.65rem;font-weight:600;color:var(--gray700)}
+.discount-timer{background:linear-gradient(135deg,#DC2626,#B91C1C);color:#fff;border-radius:var(--radius-sm);padding:10px 14px;display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.discount-timer .timer-icon{font-size:1.2rem;flex-shrink:0}
+.discount-timer .timer-text{flex:1;font-size:.78rem;line-height:1.4}
+.discount-timer .timer-val{font-family:var(--font-display);font-size:1rem;font-weight:800;white-space:nowrap;background:rgba(255,255,255,.15);padding:4px 10px;border-radius:8px}
+.ss-upload-box{border:2.5px dashed var(--gray200);border-radius:var(--radius);padding:28px 20px;text-align:center;cursor:pointer;transition:var(--transition);background:var(--gray50);position:relative}
+.ss-upload-box:hover{border-color:var(--accent);background:#FFFBEB}
+.ss-upload-box input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.ss-upload-box .ss-icon{font-size:2.5rem;margin-bottom:8px}
+.ss-upload-box .ss-label{font-size:.85rem;font-weight:600;color:var(--gray700);margin-bottom:4px}
+.ss-upload-box .ss-hint{font-size:.75rem;color:var(--gray400)}
+.ss-upload-box img.ss-preview{width:100%;max-height:220px;object-fit:contain;border-radius:8px;margin-top:12px;display:none}
+.submit-success{text-align:center;padding:24px 8px}
+.submit-success .success-icon{font-size:4rem;margin-bottom:12px;display:block}
+.submit-success h2{font-family:var(--font-display);font-size:1.3rem;font-weight:800;margin-bottom:8px}
+.submit-success p{font-size:.83rem;color:var(--gray500);line-height:1.6;margin-bottom:16px}
+.submit-success .timeline{display:flex;flex-direction:column;gap:10px;text-align:left;background:var(--gray50);border-radius:var(--radius-sm);padding:14px;border:1px solid var(--gray100)}
+.submit-success .tl-item{display:flex;align-items:flex-start;gap:10px;font-size:.8rem}
+.submit-success .tl-dot{width:22px;height:22px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0;margin-top:1px}
+.payment-row{padding:14px 16px;border-bottom:1px solid var(--gray100)}
+.payment-row .pr-biz{font-weight:700;font-size:.88rem;margin-bottom:2px}
+.payment-row .pr-meta{font-size:.75rem;color:var(--gray500);line-height:1.6}
+.payment-row .pr-ss{width:56px;height:56px;border-radius:8px;object-fit:cover;background:var(--gray100);flex-shrink:0;cursor:pointer;border:1.5px solid var(--gray200)}
+.payment-status-pending{background:#FEF3C7;color:#92400E;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:700;display:inline-block}
+.payment-status-verified{background:#D1FAE5;color:#065F46;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:700;display:inline-block}
+.payment-status-rejected{background:#FEE2E2;color:#991B1B;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:700;display:inline-block}
 
 /* ─── TOAST ─── */
 #toast{position:fixed;bottom:calc(var(--nav-h)+16px+env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(20px);background:var(--primary);color:#fff;padding:10px 20px;border-radius:24px;font-size:.85rem;font-weight:500;z-index:9999;opacity:0;transition:all .3s ease;white-space:nowrap;max-width:90vw;text-align:center;pointer-events:none}
@@ -476,6 +536,15 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--primary);min-
 /* ─── OFFLINE ─── */
 #offline-banner{position:fixed;top:0;left:0;right:0;z-index:9998;background:#DC2626;color:#fff;text-align:center;padding:8px 16px;font-size:.8rem;font-weight:600;display:none}
 
+/* ─── UPDATES SLIDER ─── */
+.update-slide{min-width:100%;position:relative;cursor:pointer;display:block;text-decoration:none}
+.update-slide img{width:100%;height:200px;object-fit:cover;display:block}
+.update-slide-cap{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.75));padding:20px 16px 12px;color:#fff}
+.update-slide-cap h3{font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:3px}
+.update-slide-cap p{font-size:.75rem;opacity:.85}
+.slider-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.35);transition:.3s;cursor:pointer}
+.slider-dot.active{background:#fff;width:18px;border-radius:3px}
+
 /* ─── LOADING OVERLAY ─── */
 #page-loader{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:opacity .4s ease}
 #page-loader.hide{opacity:0;pointer-events:none}
@@ -663,13 +732,12 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:0}
   </header>
   <div class="scroll-body">
     <div class="home-hero">
-      <!-- SEO: Primary H1 – MBP brand + J&K geo -->
-      <h1>Create Your <span>MBP</span> 🔥<br/>Get on Google Free</h1>
-      <!-- SEO: supporting keyword -->
-      <p>MakeMeTop Business Profile – Srinagar's #1 directory for J&amp;K. Find restaurants, shops, doctors &amp; services in Kashmir.</p>
-      <div class="search-bar" id="home-search-bar" onclick="navTo('search')" role="search" aria-label="Search local businesses in Srinagar Kashmir">
+      <!-- SEO: Primary H1 – Kashmir Travel platform -->
+      <h1>Verified Travel Agencies<br/><span>&amp; Resorts in Kashmir</span> 🏔️</h1>
+      <p>MBP by MakeMe Top – Trusted travel listings for Srinagar, Gulmarg, Pahalgam, Sonamarg &amp; all of J&amp;K</p>
+      <div class="search-bar" id="home-search-bar" onclick="navTo('search')" role="search" aria-label="Search Kashmir travel agencies and resorts">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" placeholder="Search MBP listings – restaurants, doctors, shops…" readonly aria-label="Search MBP listings in Srinagar"/>
+        <input type="text" placeholder="Search travel agencies, resorts, tours…" readonly aria-label="Search Kashmir travel agencies"/>
       </div>
     </div>
 
@@ -678,27 +746,27 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:0}
       <div style="padding:0 16px;margin-bottom:8px">
         <h2 class="section-title" style="font-size:.9rem">Browse by Category</h2>
       </div>
-      <div class="cat-scroll" id="cat-scroll" role="list" aria-label="Business categories">
-        <div class="cat-chip active" data-cat="all" onclick="filterCat(this,'all')" role="listitem"><div class="cat-icon">🏪</div><div class="cat-label">All</div></div>
-        <div class="cat-chip" data-cat="Restaurant & Food Services" onclick="filterCat(this,'Restaurant & Food Services')" role="listitem"><div class="cat-icon">🍽️</div><div class="cat-label">Food</div></div>
-        <div class="cat-chip" data-cat="Retail & E-commerce" onclick="filterCat(this,'Retail & E-commerce')" role="listitem"><div class="cat-icon">🛍️</div><div class="cat-label">Retail</div></div>
-        <div class="cat-chip" data-cat="Healthcare & Medical" onclick="filterCat(this,'Healthcare & Medical')" role="listitem"><div class="cat-icon">🏥</div><div class="cat-label">Health</div></div>
-        <div class="cat-chip" data-cat="Education & Training" onclick="filterCat(this,'Education & Training')" role="listitem"><div class="cat-icon">📚</div><div class="cat-label">Education</div></div>
-        <div class="cat-chip" data-cat="Technology & IT Services" onclick="filterCat(this,'Technology & IT Services')" role="listitem"><div class="cat-icon">💻</div><div class="cat-label">Tech</div></div>
-        <div class="cat-chip" data-cat="Beauty & Salon" onclick="filterCat(this,'Beauty & Salon')" role="listitem"><div class="cat-icon">💄</div><div class="cat-label">Beauty</div></div>
-        <div class="cat-chip" data-cat="Finance & Banking" onclick="filterCat(this,'Finance & Banking')" role="listitem"><div class="cat-icon">💰</div><div class="cat-label">Finance</div></div>
-        <div class="cat-chip" data-cat="Hospitality & Tourism" onclick="filterCat(this,'Hospitality & Tourism')" role="listitem"><div class="cat-icon">🏨</div><div class="cat-label">Hotels</div></div>
-        <div class="cat-chip" data-cat="Real Estate & Property" onclick="filterCat(this,'Real Estate & Property')" role="listitem"><div class="cat-icon">🏠</div><div class="cat-label">Property</div></div>
-        <div class="cat-chip" data-cat="Web Development" onclick="filterCat(this,'Web Development')" role="listitem"><div class="cat-icon">🌐</div><div class="cat-label">Web Dev</div></div>
-        <div class="cat-chip" data-cat="Event Planning" onclick="filterCat(this,'Event Planning')" role="listitem"><div class="cat-icon">🎉</div><div class="cat-label">Events</div></div>
+      <div class="cat-scroll" id="cat-scroll" role="list" aria-label="Kashmir travel categories">
+        <div class="cat-chip active" data-cat="all" onclick="filterCat(this,'all')" role="listitem"><div class="cat-icon">🏔️</div><div class="cat-label">All</div></div>
+        <div class="cat-chip" data-cat="Travel Agency" onclick="filterCat(this,'Travel Agency')" role="listitem"><div class="cat-icon">✈️</div><div class="cat-label">Travel</div></div>
+        <div class="cat-chip" data-cat="Resort" onclick="filterCat(this,'Resort')" role="listitem"><div class="cat-icon">🏨</div><div class="cat-label">Resorts</div></div>
+        <div class="cat-chip" data-cat="Houseboat" onclick="filterCat(this,'Houseboat')" role="listitem"><div class="cat-icon">🛶</div><div class="cat-label">Houseboats</div></div>
+        <div class="cat-chip" data-cat="Tour Operator" onclick="filterCat(this,'Tour Operator')" role="listitem"><div class="cat-icon">🗺️</div><div class="cat-label">Tours</div></div>
+        <div class="cat-chip" data-cat="Adventure" onclick="filterCat(this,'Adventure')" role="listitem"><div class="cat-icon">🧗</div><div class="cat-label">Adventure</div></div>
+        <div class="cat-chip" data-cat="Hotel" onclick="filterCat(this,'Hotel')" role="listitem"><div class="cat-icon">🏩</div><div class="cat-label">Hotels</div></div>
+        <div class="cat-chip" data-cat="Guest House" onclick="filterCat(this,'Guest House')" role="listitem"><div class="cat-icon">🏡</div><div class="cat-label">Guest House</div></div>
+        <div class="cat-chip" data-cat="Camping" onclick="filterCat(this,'Camping')" role="listitem"><div class="cat-icon">⛺</div><div class="cat-label">Camping</div></div>
+        <div class="cat-chip" data-cat="Shikara" onclick="filterCat(this,'Shikara')" role="listitem"><div class="cat-icon">🚤</div><div class="cat-label">Shikara</div></div>
+        <div class="cat-chip" data-cat="Skiing" onclick="filterCat(this,'Skiing')" role="listitem"><div class="cat-icon">⛷️</div><div class="cat-label">Skiing</div></div>
+        <div class="cat-chip" data-cat="Trekking" onclick="filterCat(this,'Trekking')" role="listitem"><div class="cat-icon">🥾</div><div class="cat-label">Trekking</div></div>
       </div>
     </div>
 
     <div class="section" style="padding-top:12px;padding-bottom:0">
       <div class="featured-banner" role="banner">
-        <h2>🔥 MBP Premium</h2>
-        <p>Rank your MBP at the top — reach thousands of customers across Srinagar &amp; J&amp;K</p>
-        <button class="btn" onclick="navTo('premium')">Get MBP Premium →</button>
+        <h2>🏔️ Go Premium</h2>
+        <p>Get your travel agency or resort verified and listed on MakeMe Top — visible to thousands of tourists</p>
+        <button class="btn" onclick="navTo('premium')">Get Listed – ₹999 →</button>
       </div>
     </div>
 
@@ -710,7 +778,15 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:0}
         <div class="empty-state"><div class="empty-icon">🔥</div><h3>No MBPs yet</h3><p>Be the first to create your MBP in Srinagar!</p></div>
       </div>
     </div>
-    <div style="padding:0 16px 8px"><button class="btn btn-outline" onclick="tryAddBusiness()">+ Create Your MBP – Free</button></div>
+    <!-- ══ SCROLLING UPDATES SLIDER ══ -->
+    <div id="updates-slider-wrap" style="display:none;margin:0 0 4px;position:relative;overflow:hidden;background:var(--primary)">
+      <div id="updates-track" style="display:flex;transition:transform .5s cubic-bezier(.4,0,.2,1)">
+        <!-- slides injected by JS -->
+      </div>
+      <div id="updates-dots" style="display:flex;justify-content:center;gap:6px;padding:8px 0;background:var(--primary)"></div>
+    </div>
+
+    <div style="padding:0 16px 8px"><button class="btn btn-outline" onclick="tryAddBusiness()">🏔️ List Your Agency / Resort – Premium</button></div>
     <div style="padding:12px 16px 8px;font-size:.72rem;color:var(--gray400);line-height:1.6;text-align:center">
       <strong style="color:var(--gray500)">MBP · MakeMeTop Business Profile · MMT · MMTBP</strong><br/>
       Create your free MBP and get ranked on Google. Srinagar's #1 local business directory for Jammu &amp; Kashmir. Find restaurants, shops, doctors, tech services &amp; more across J&amp;K. Free MBP listings. Verified customer reviews.
@@ -734,153 +810,231 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:0}
   </div>
 </div>
 
-<!-- ══ PAGE: ADD BUSINESS ══ -->
+<!-- ══ PAGE: ADD BUSINESS — 4-STEP PAYMENT FLOW ══ -->
 <div id="page-add" class="page">
   <header class="top-header">
     <button class="back-btn" onclick="navBack()" aria-label="Go back"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
-    <div class="title">Create MBP</div>
+    <div class="title" id="add-page-title">List Your Business</div>
     <div class="spacer"></div>
     <button class="icon-btn" style="width:auto;padding:0 10px;color:var(--gray500);font-size:.78rem" id="save-draft-btn" onclick="saveDraft()">Save Draft</button>
   </header>
   <div class="scroll-body">
-    <div class="section">
-      <div style="background:linear-gradient(135deg,#1F1F1F,#333);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:16px;color:#fff">
-        <div style="font-family:var(--font-display);font-weight:800;font-size:1rem;margin-bottom:4px">🔥 Create Your MBP</div>
-        <div style="font-size:.78rem;opacity:.85;line-height:1.5">Your <strong>MBP (MakeMeTop Business Profile)</strong> will be reviewed within 24 hours. Once approved, it ranks on Google Search with your name, reviews &amp; location — powered by MakeMeTop J&amp;K's #1 directory.</div>
-      </div>
 
-      <!-- SEO: H2 for form section -->
-      <h2 style="font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:16px">Business Information</h2>
+    <!-- ── Step Progress Indicator ── -->
+    <div class="step-indicator">
+      <div class="step-dot active" id="sdot-1">1</div>
+      <div class="step-line" id="sline-1"></div>
+      <div class="step-dot" id="sdot-2">2</div>
+      <div class="step-line" id="sline-2"></div>
+      <div class="step-dot" id="sdot-3">3</div>
+      <div class="step-line" id="sline-3"></div>
+      <div class="step-dot" id="sdot-4">4</div>
+    </div>
+    <div class="step-labels">
+      <span class="active" id="slabel-1">Details</span>
+      <span id="slabel-2">Payment</span>
+      <span id="slabel-3">Proof</span>
+      <span id="slabel-4">Done</span>
+    </div>
 
-      <div class="form-group"><label class="form-label">Business Name *</label><input type="text" id="biz-name" class="form-input" placeholder="e.g. Kashmir Sweets, Srinagar" oninput="autosaveDraft()"/></div>
-
-      <!-- FULL business type list from requirements -->
-      <div class="form-group"><label class="form-label">Business Type *</label>
-        <select id="biz-type" class="form-select" onchange="autosaveDraft()">
-          <option value="">Select business type...</option>
-          <optgroup label="Food & Lifestyle">
-            <option>Restaurant & Food Services</option>
-            <option>Beauty & Salon</option>
-            <option>Fitness & Gym</option>
-            <option>Fashion & Apparel</option>
-          </optgroup>
-          <optgroup label="Commerce">
-            <option>Retail & E-commerce</option>
-            <option>Real Estate & Property</option>
-            <option>Finance & Banking</option>
-          </optgroup>
-          <optgroup label="Health & Education">
-            <option>Healthcare & Medical</option>
-            <option>Education & Training</option>
-          </optgroup>
-          <optgroup label="Technology & Digital">
-            <option>Technology & IT Services</option>
-            <option>Web Development</option>
-            <option>Mobile App Development</option>
-            <option>Digital Marketing</option>
-            <option>Graphic Design</option>
-            <option>UI/UX Design</option>
-            <option>Content Creation</option>
-            <option>Photography & Videography</option>
-            <option>Advertising Agency</option>
-          </optgroup>
-          <optgroup label="Services">
-            <option>Hospitality & Tourism</option>
-            <option>Transportation & Logistics</option>
-            <option>Event Planning</option>
-            <option>Wedding Services</option>
-            <option>Home Services (Cleaning, Repair)</option>
-            <option>Laundry & Dry Cleaning</option>
-            <option>Legal Services</option>
-            <option>Consulting</option>
-            <option>Accounting & Tax</option>
-            <option>Business Services</option>
-            <option>Security Services</option>
-          </optgroup>
-          <optgroup label="Industry">
-            <option>Manufacturing</option>
-            <option>Construction</option>
-            <option>Engineering Services</option>
-            <option>Automobile Services</option>
-            <option>Energy & Utilities</option>
-            <option>Agriculture & Farming</option>
-          </optgroup>
-          <optgroup label="Media & Entertainment">
-            <option>Media & Publishing</option>
-            <option>Film & Entertainment</option>
-            <option>Gaming & Esports</option>
-            <option>Music & Audio Production</option>
-          </optgroup>
-          <optgroup label="Other">
-            <option>Non-Profit / NGO</option>
-            <option>Government & Public Services</option>
-            <option>Research & Development</option>
-            <option>Other</option>
-          </optgroup>
-        </select>
-      </div>
-
-      <!-- Full services list -->
-      <div class="form-group"><label class="form-label">Services Offered</label>
-        <div class="chip-group" id="services-chips">
-          <div class="chip" onclick="toggleService(this,'Delivery')">Delivery</div>
-          <div class="chip" onclick="toggleService(this,'Pickup')">Pickup</div>
-          <div class="chip" onclick="toggleService(this,'Takeaway')">Takeaway</div>
-          <div class="chip" onclick="toggleService(this,'Home Service')">Home Service</div>
-          <div class="chip" onclick="toggleService(this,'On-site Service')">On-site Service</div>
-          <div class="chip" onclick="toggleService(this,'24/7 Service')">24/7 Service</div>
-          <div class="chip" onclick="toggleService(this,'Online Booking')">Online Booking</div>
-          <div class="chip" onclick="toggleService(this,'Appointments')">Appointments</div>
-          <div class="chip" onclick="toggleService(this,'Consultation')">Consultation</div>
-          <div class="chip" onclick="toggleService(this,'Customer Support')">Customer Support</div>
-          <div class="chip" onclick="toggleService(this,'Custom Orders')">Custom Orders</div>
-          <div class="chip" onclick="toggleService(this,'Bulk Orders')">Bulk Orders</div>
-          <div class="chip" onclick="toggleService(this,'Subscriptions')">Subscriptions</div>
-          <div class="chip" onclick="toggleService(this,'Installation')">Installation</div>
-          <div class="chip" onclick="toggleService(this,'Repair')">Repair</div>
-          <div class="chip" onclick="toggleService(this,'Maintenance')">Maintenance</div>
-          <div class="chip" onclick="toggleService(this,'Technical Support')">Technical Support</div>
-          <div class="chip" onclick="toggleService(this,'Web Development')">Web Development</div>
-          <div class="chip" onclick="toggleService(this,'App Development')">App Development</div>
-          <div class="chip" onclick="toggleService(this,'SEO Services')">SEO Services</div>
-          <div class="chip" onclick="toggleService(this,'Digital Marketing')">Digital Marketing</div>
-          <div class="chip" onclick="toggleService(this,'UI/UX Design')">UI/UX Design</div>
-          <div class="chip" onclick="toggleService(this,'Consulting')">Consulting</div>
-          <div class="chip" onclick="toggleService(this,'Training')">Training</div>
-          <div class="chip" onclick="toggleService(this,'Workshops')">Workshops</div>
-          <div class="chip" onclick="toggleService(this,'Event Services')">Event Services</div>
-          <div class="chip" onclick="toggleService(this,'Catering')">Catering</div>
-          <div class="chip" onclick="toggleService(this,'Decoration')">Decoration</div>
-          <div class="chip" onclick="toggleService(this,'Online Payment')">Online Payment</div>
-          <div class="chip" onclick="toggleService(this,'Cash on Delivery')">Cash on Delivery</div>
-          <div class="chip" onclick="toggleService(this,'EMI Available')">EMI Available</div>
+    <!-- ══ STEP 1: Business Details ══ -->
+    <div class="form-step active" id="step-1">
+      <div class="section" style="padding-top:0">
+        <div style="background:linear-gradient(135deg,#1F1F1F,#333);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:16px;color:#fff">
+          <div style="font-family:var(--font-display);font-weight:800;font-size:1rem;margin-bottom:4px">🏔️ List on MakeMe Top MBP</div>
+          <div style="font-size:.78rem;opacity:.85;line-height:1.5">Fill your details, pay <strong>₹999 via UPI</strong>, upload screenshot. We verify &amp; publish within <strong>48 hours</strong>.</div>
         </div>
-      </div>
-
-      <div class="form-group"><label class="form-label">Description *</label><textarea id="biz-desc" class="form-textarea" placeholder="Describe your business, specialties, and why customers should choose you..." oninput="autosaveDraft()"></textarea></div>
-      <div class="form-group"><label class="form-label">Address in Srinagar *</label><input type="text" id="biz-addr" class="form-input" placeholder="e.g. Lal Chowk, Residency Road, Srinagar" oninput="autosaveDraft()"/></div>
-      <div class="form-group"><label class="form-label">Phone Number *</label><input type="tel" id="biz-phone" class="form-input" placeholder="+91 94000 00000" oninput="autosaveDraft()" autocomplete="tel"/></div>
-      <div class="form-group"><label class="form-label">WhatsApp Number</label><input type="tel" id="biz-whatsapp" class="form-input" placeholder="+91 94000 00000 (optional)" oninput="autosaveDraft()"/></div>
-      <div class="form-group"><label class="form-label">Website URL</label><input type="url" id="biz-website" class="form-input" placeholder="https://yourbusiness.com (optional)" oninput="autosaveDraft()"/></div>
-
-      <div style="border-top:1px solid var(--gray100);padding-top:16px;margin-top:4px">
-        <p class="form-label" style="margin-bottom:12px">Business Images</p>
-        <div class="form-group"><label class="form-label">Logo *</label>
-          <div class="img-upload-box" id="logo-box"><input type="file" accept="image/*" onchange="previewImg(this,'logo-box','logo-preview')" id="logo-file" aria-label="Upload business logo"/><span class="upload-icon">🏷️</span><span class="upload-label">Tap to upload logo</span><img id="logo-preview" class="preview hidden" alt="Business logo preview"/></div>
+        <h2 style="font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:16px">Business Information</h2>
+        <div class="form-group"><label class="form-label">Business Name *</label><input type="text" id="biz-name" class="form-input" placeholder="e.g. Kashmir Grand Resorts" oninput="autosaveDraft()"/></div>
+        <div class="form-group"><label class="form-label">Business Type *</label>
+          <select id="biz-type" class="form-select" onchange="autosaveDraft()">
+            <option value="">Select type...</option>
+            <optgroup label="Accommodation">
+              <option>Resort</option><option>Hotel</option><option>Houseboat</option>
+              <option>Guest House</option><option>Camping</option><option>Homestay</option><option>Lodge</option>
+            </optgroup>
+            <optgroup label="Travel Services">
+              <option>Travel Agency</option><option>Tour Operator</option><option>Car Rental</option><option>Taxi Service</option>
+            </optgroup>
+            <optgroup label="Activities">
+              <option>Adventure</option><option>Trekking</option><option>Skiing</option><option>Shikara</option>
+              <option>River Rafting</option><option>Paragliding</option><option>Photography Tour</option>
+            </optgroup>
+            <optgroup label="Other">
+              <option>Restaurant</option><option>Handicrafts</option><option>Other</option>
+            </optgroup>
+          </select>
         </div>
-        <div class="form-group"><label class="form-label">Cover Image *</label>
-          <div class="img-upload-box" id="cover-box"><input type="file" accept="image/*" onchange="previewImg(this,'cover-box','cover-preview')" id="cover-file" aria-label="Upload cover image"/><span class="upload-icon">🖼️</span><span class="upload-label">Tap to upload cover (banner)</span><img id="cover-preview" class="preview hidden" alt="Business cover preview"/></div>
-        </div>
-        <div class="form-group"><label class="form-label">Gallery (up to 3 photos)</label>
-          <div id="gallery-grid-upload" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
-            <div class="img-upload-box" style="padding:16px" id="gal-box-0"><input type="file" accept="image/*" onchange="previewGal(this,0)" aria-label="Gallery photo 1"/><span style="font-size:1.2rem">📷</span><img id="gal-prev-0" class="preview hidden" alt="Gallery 1"/></div>
-            <div class="img-upload-box" style="padding:16px" id="gal-box-1"><input type="file" accept="image/*" onchange="previewGal(this,1)" aria-label="Gallery photo 2"/><span style="font-size:1.2rem">📷</span><img id="gal-prev-1" class="preview hidden" alt="Gallery 2"/></div>
-            <div class="img-upload-box" style="padding:16px" id="gal-box-2"><input type="file" accept="image/*" onchange="previewGal(this,2)" aria-label="Gallery photo 3"/><span style="font-size:1.2rem">📷</span><img id="gal-prev-2" class="preview hidden" alt="Gallery 3"/></div>
+        <div class="form-group"><label class="form-label">Services Offered</label>
+          <div class="chip-group" id="services-chips">
+            <div class="chip" onclick="toggleService(this,'Airport Pickup')">Airport Pickup</div>
+            <div class="chip" onclick="toggleService(this,'Hotel Transfers')">Hotel Transfers</div>
+            <div class="chip" onclick="toggleService(this,'Online Booking')">Online Booking</div>
+            <div class="chip" onclick="toggleService(this,'Customised Packages')">Custom Packages</div>
+            <div class="chip" onclick="toggleService(this,'Group Tours')">Group Tours</div>
+            <div class="chip" onclick="toggleService(this,'Honeymoon Packages')">Honeymoon</div>
+            <div class="chip" onclick="toggleService(this,'Family Packages')">Family Packages</div>
+            <div class="chip" onclick="toggleService(this,'Adventure Tours')">Adventure Tours</div>
+            <div class="chip" onclick="toggleService(this,'Snow Tours')">Snow Tours</div>
+            <div class="chip" onclick="toggleService(this,'Houseboat Stay')">Houseboat Stay</div>
+            <div class="chip" onclick="toggleService(this,'Dal Lake Tour')">Dal Lake Tour</div>
+            <div class="chip" onclick="toggleService(this,'Gulmarg Tour')">Gulmarg Tour</div>
+            <div class="chip" onclick="toggleService(this,'Pahalgam Tour')">Pahalgam Tour</div>
+            <div class="chip" onclick="toggleService(this,'Sonamarg Tour')">Sonamarg Tour</div>
+            <div class="chip" onclick="toggleService(this,'Shikara Ride')">Shikara Ride</div>
+            <div class="chip" onclick="toggleService(this,'Trekking')">Trekking</div>
+            <div class="chip" onclick="toggleService(this,'Skiing')">Skiing</div>
+            <div class="chip" onclick="toggleService(this,'Camping')">Camping</div>
+            <div class="chip" onclick="toggleService(this,'Meals Included')">Meals Included</div>
+            <div class="chip" onclick="toggleService(this,'Photography')">Photography</div>
+            <div class="chip" onclick="toggleService(this,'24/7 Support')">24/7 Support</div>
+            <div class="chip" onclick="toggleService(this,'Visa Assistance')">Visa Assistance</div>
+            <div class="chip" onclick="toggleService(this,'UPI Payment')">UPI Payment</div>
           </div>
         </div>
+        <div class="form-group"><label class="form-label">Description *</label><textarea id="biz-desc" class="form-textarea" placeholder="Describe your agency/resort, specialties, and why tourists should choose you..." oninput="autosaveDraft()"></textarea></div>
+        <div class="form-group"><label class="form-label">Address *</label><input type="text" id="biz-addr" class="form-input" placeholder="e.g. Dal Lake Road, Srinagar" oninput="autosaveDraft()"/></div>
+        <div class="form-group"><label class="form-label">Phone Number *</label><input type="tel" id="biz-phone" class="form-input" placeholder="+91 94000 00000" oninput="autosaveDraft()" autocomplete="tel"/></div>
+        <div class="form-group"><label class="form-label">WhatsApp Number</label><input type="tel" id="biz-whatsapp" class="form-input" placeholder="+91 94000 00000 (optional)" oninput="autosaveDraft()"/></div>
+        <div class="form-group"><label class="form-label">Website URL</label><input type="url" id="biz-website" class="form-input" placeholder="https://yourwebsite.com (optional)" oninput="autosaveDraft()"/></div>
+        <div style="border-top:1px solid var(--gray100);padding-top:16px;margin-top:4px">
+          <p class="form-label" style="margin-bottom:12px">Business Images</p>
+          <div class="form-group"><label class="form-label">Logo *</label>
+            <div class="img-upload-box" id="logo-box"><input type="file" accept="image/*" onchange="previewImg(this,'logo-box','logo-preview')" id="logo-file" aria-label="Upload business logo"/><span class="upload-icon">🏷️</span><span class="upload-label">Tap to upload logo</span><img id="logo-preview" class="preview hidden" alt="Business logo preview"/></div>
+          </div>
+          <div class="form-group"><label class="form-label">Cover Image *</label>
+            <div class="img-upload-box" id="cover-box"><input type="file" accept="image/*" onchange="previewImg(this,'cover-box','cover-preview')" id="cover-file" aria-label="Upload cover image"/><span class="upload-icon">🖼️</span><span class="upload-label">Tap to upload cover (banner)</span><img id="cover-preview" class="preview hidden" alt="Business cover preview"/></div>
+          </div>
+          <div class="form-group"><label class="form-label">Gallery (up to 3 photos)</label>
+            <div id="gallery-grid-upload" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+              <div class="img-upload-box" style="padding:16px" id="gal-box-0"><input type="file" accept="image/*" onchange="previewGal(this,0)" aria-label="Gallery photo 1"/><span style="font-size:1.2rem">📷</span><img id="gal-prev-0" class="preview hidden" alt="Gallery 1"/></div>
+              <div class="img-upload-box" style="padding:16px" id="gal-box-1"><input type="file" accept="image/*" onchange="previewGal(this,1)" aria-label="Gallery photo 2"/><span style="font-size:1.2rem">📷</span><img id="gal-prev-1" class="preview hidden" alt="Gallery 2"/></div>
+              <div class="img-upload-box" style="padding:16px" id="gal-box-2"><input type="file" accept="image/*" onchange="previewGal(this,2)" aria-label="Gallery photo 3"/><span style="font-size:1.2rem">📷</span><img id="gal-prev-2" class="preview hidden" alt="Gallery 3"/></div>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-primary" id="next-to-payment-btn" onclick="goToStep(2)">Continue to Payment →</button>
       </div>
-      <button class="btn btn-primary" id="submit-biz-btn" onclick="submitBusiness()">🔥 Create My MBP</button>
     </div>
+
+    <!-- ══ STEP 2: UPI Payment ══ -->
+    <div class="form-step" id="step-2">
+      <div class="section" style="padding-top:8px">
+        <div class="discount-timer">
+          <div class="timer-icon">⏰</div>
+          <div class="timer-text"><strong>50% Launch Offer!</strong><br/>Expires in</div>
+          <div class="timer-val" id="discount-countdown">Loading...</div>
+        </div>
+        <!-- Pricing breakdown -->
+        <div style="background:var(--gray50);border-radius:var(--radius-sm);border:1px solid var(--gray100);padding:14px 16px;margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <span style="font-size:.85rem;color:var(--gray500)">Verified Listing (1 Year)</span>
+            <span style="font-size:.85rem;text-decoration:line-through;color:var(--gray400)">₹1,999</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <span style="font-size:.85rem;color:var(--green);font-weight:600">Launch Discount (50%)</span>
+            <span style="font-size:.85rem;color:var(--green);font-weight:600">−₹1,000</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--gray200);padding-top:8px">
+            <span style="font-size:1rem;font-weight:800;font-family:var(--font-display)">Total</span>
+            <span style="font-size:1.3rem;font-weight:800;font-family:var(--font-display);color:var(--primary)">₹999</span>
+          </div>
+        </div>
+        <!-- UPI payment box -->
+        <div class="upi-box">
+          <div class="upi-box-header">
+            <div class="mbp-logo-pay">MakeMe Top · MBP</div>
+            <div class="pay-amount">₹999</div>
+            <div class="pay-label">Scan QR or use UPI ID below</div>
+          </div>
+          <div class="upi-qr-section">
+            <div class="qr-wrap" id="payment-qr-wrap"></div>
+            <div class="scan-label">📱 Scan with any UPI app</div>
+          </div>
+          <div class="upi-divider"><span>or pay directly</span></div>
+          <div class="upi-id-row">
+            <div class="upi-id-copy">
+              <div class="upi-id-val">willianxpeed@pingpay</div>
+              <button onclick="copyUpiId()">Copy ID</button>
+            </div>
+            <div style="font-size:.75rem;color:var(--gray500);text-align:center;line-height:1.5">Pay <strong>₹999</strong> to <strong>willianxpeed@pingpay</strong><br/>Use remark: <strong id="payment-remark" style="color:var(--primary)">MBP-XXXXXX</strong></div>
+          </div>
+          <div class="upi-apps">
+            <a class="upi-app-btn" onclick="openUpiApp('gpay');return false" href="#"><span class="app-icon">💳</span><span class="app-name">GPay</span></a>
+            <a class="upi-app-btn" onclick="openUpiApp('phonepe');return false" href="#"><span class="app-icon">💜</span><span class="app-name">PhonePe</span></a>
+            <a class="upi-app-btn" onclick="openUpiApp('paytm');return false" href="#"><span class="app-icon">🔵</span><span class="app-name">Paytm</span></a>
+            <a class="upi-app-btn" onclick="openUpiApp('bhim');return false" href="#"><span class="app-icon">🇮🇳</span><span class="app-name">BHIM</span></a>
+          </div>
+        </div>
+        <div style="background:#EFF6FF;border:1.5px solid #BFDBFE;border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:.78rem;color:#1E40AF;line-height:1.5">
+          ℹ️ <strong>After paying:</strong> Take a screenshot of your payment confirmation and upload it on the next step. Your listing will be approved within <strong>48 hours</strong>.
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-ghost" onclick="goToStep(1)" style="flex:0 0 auto;width:auto;padding:12px 18px">← Back</button>
+          <button class="btn btn-primary" onclick="goToStep(3)" style="flex:1">I've Paid — Upload Proof →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ STEP 3: Upload Payment Proof ══ -->
+    <div class="form-step" id="step-3">
+      <div class="section" style="padding-top:8px">
+        <div style="text-align:center;margin-bottom:20px">
+          <div style="font-size:2rem;margin-bottom:6px">📸</div>
+          <h2 style="font-family:var(--font-display);font-size:1.1rem;font-weight:800;margin-bottom:4px">Upload Payment Proof</h2>
+          <p style="font-size:.8rem;color:var(--gray500);line-height:1.5">Upload your UPI payment screenshot so we can verify your payment quickly.</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Payment Screenshot *</label>
+          <div class="ss-upload-box" id="ss-upload-box">
+            <input type="file" accept="image/*" id="payment-ss-file" onchange="previewPaymentSS(this)"/>
+            <div class="ss-icon">📲</div>
+            <div class="ss-label">Tap to upload screenshot</div>
+            <div class="ss-hint">JPG or PNG · Must show amount &amp; transaction ID</div>
+            <img id="payment-ss-preview" class="ss-preview" alt="Payment screenshot preview"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Transaction ID / UTR Number *</label>
+          <input type="text" id="payment-txn-id" class="form-input" placeholder="e.g. 407298374651 or T2412345678"/>
+          <div class="form-hint">Find this in your UPI app under payment history</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Amount Paid *</label>
+          <input type="text" id="payment-amount-paid" class="form-input" placeholder="999" value="999"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contact Number (for verification)</label>
+          <input type="tel" id="payment-contact" class="form-input" placeholder="+91 94000 00000"/>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:4px">
+          <button class="btn btn-ghost" onclick="goToStep(2)" style="flex:0 0 auto;width:auto;padding:12px 18px">← Back</button>
+          <button class="btn btn-primary" id="final-submit-btn" onclick="submitBusinessWithPayment()" style="flex:1">🔥 Submit for Review</button>
+        </div>
+        <p style="font-size:.72rem;color:var(--gray400);text-align:center;margin-top:10px;line-height:1.5">By submitting you confirm payment of ₹999 to willianxpeed@pingpay and agree to our Terms.</p>
+      </div>
+    </div>
+
+    <!-- ══ STEP 4: Success ══ -->
+    <div class="form-step" id="step-4">
+      <div class="section">
+        <div class="submit-success">
+          <span class="success-icon">🎉</span>
+          <h2>Submission Received!</h2>
+          <p>Your business details and payment proof have been sent to our team. We'll verify your payment and publish your listing within <strong>48 hours</strong>.</p>
+          <div class="timeline">
+            <div class="tl-item"><div class="tl-dot" style="background:var(--green)">✓</div><div><strong>Details Submitted</strong><br/><span style="color:var(--gray500)">Business info saved securely</span></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--green)">✓</div><div><strong>Payment Proof Uploaded</strong><br/><span style="color:var(--gray500)">Screenshot sent to admin</span></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--accent)">⏳</div><div><strong>Admin Verification</strong><br/><span style="color:var(--gray500)">Payment verified within 48 hours</span></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--gray200);color:var(--gray500)">🔒</div><div><strong>Go Live on Google</strong><br/><span style="color:var(--gray500)">Profile published &amp; indexed once approved</span></div></div>
+          </div>
+          <div style="margin-top:16px;background:#EFF6FF;border-radius:10px;padding:12px 14px;font-size:.78rem;color:#1E40AF;line-height:1.5">📩 Check your Dashboard to track approval status.</div>
+        </div>
+        <button class="btn btn-primary" onclick="navTo('dashboard')">View My Dashboard</button>
+        <button class="btn btn-ghost" style="margin-top:8px" onclick="navTo('home')">Back to Home</button>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -985,12 +1139,48 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:0}
 
 <!-- ══ PAGE: PREMIUM ══ -->
 <div id="page-premium" class="page">
-  <header class="top-header"><button class="back-btn" onclick="navBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button><div class="title">MBP Premium</div><div class="spacer"></div></header>
+  <header class="top-header"><button class="back-btn" onclick="navBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button><div class="title">Get Listed</div><div class="spacer"></div></header>
   <div class="scroll-body"><div class="section">
-    <div style="text-align:center;padding:8px 0 20px"><div style="font-size:2.5rem;margin-bottom:8px">🔥</div><h1 style="font-family:var(--font-display);font-size:1.4rem;font-weight:800;margin-bottom:6px">MBP Premium</h1><p class="text-muted text-sm">Rank your MakeMeTop Business Profile at the top<br/>across Srinagar &amp; J&amp;K</p></div>
-    <div class="price-card"><h3>MBP Free</h3><div class="price">₹0 <span>/ forever</span></div><ul><li>Create your MBP on MakeMeTop</li><li>Business profile with photos &amp; gallery</li><li>Customer reviews &amp; ratings</li><li>Call, WhatsApp &amp; Website buttons</li><li>Google-indexed MBP with schema</li><li>QR code for easy sharing</li></ul><button class="btn btn-ghost" disabled>Current Plan</button></div>
-    <div class="price-card featured" style="margin-top:20px"><div class="popular-tag">🔥 Most Popular</div><h3>MBP Premium</h3><div class="price">₹499 <span>/ month</span></div><ul><li>Priority MBP – appear first on Google</li><li>Featured in "Top MBPs in Srinagar"</li><li>🏆 Premium badge on your MBP</li><li>10x more profile visibility</li><li>Analytics dashboard for your MBP</li><li>Priority approval within 2 hours</li></ul><button class="btn" style="background:rgba(255,255,255,.2);color:#fff;cursor:not-allowed;opacity:.8" disabled>🚀 Coming Soon</button></div>
-    <div class="price-card" style="margin-top:14px"><h3>🎯 MBP Boost Ad</h3><div class="price">₹199 <span>/ week</span></div><ul><li>Homepage banner for your MBP</li><li>Top of search results in J&amp;K</li><li>5x more MBP profile views</li><li>Targeted local audience in Kashmir</li></ul><button class="btn btn-ghost" style="cursor:not-allowed;opacity:.7" disabled>🚀 Coming Soon</button></div>
+    <div style="text-align:center;padding:8px 0 20px">
+      <div style="font-size:2.5rem;margin-bottom:8px">🏔️</div>
+      <h1 style="font-family:var(--font-display);font-size:1.4rem;font-weight:800;margin-bottom:6px">List Your Agency / Resort</h1>
+      <p class="text-muted text-sm">Get verified &amp; visible to thousands of tourists planning Kashmir trips</p>
+    </div>
+    <div class="discount-timer" style="margin-bottom:20px">
+      <div class="timer-icon">⏰</div>
+      <div class="timer-text"><strong>50% Launch Offer!</strong><br/>Expires in</div>
+      <div class="timer-val" id="premium-countdown">Loading...</div>
+    </div>
+    <div class="price-card featured" style="margin-bottom:20px">
+      <div class="popular-tag">🔥 Best Value</div>
+      <h3>Verified Agency / Resort</h3>
+      <div style="margin-bottom:8px">
+        <span style="font-size:1rem;color:rgba(255,255,255,.5);text-decoration:line-through">₹1,999</span>
+        <span style="font-size:.75rem;font-weight:700;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:20px;margin-left:6px">50% OFF</span>
+      </div>
+      <div class="price">₹999 <span>/ year</span></div>
+      <ul>
+        <li>Verified badge on your profile</li>
+        <li>Featured on MakeMe Top homepage</li>
+        <li>Google-indexed with full Schema markup</li>
+        <li>Unlimited photo gallery</li>
+        <li>Call, WhatsApp &amp; booking buttons</li>
+        <li>5-star customer reviews</li>
+        <li>QR code for easy sharing</li>
+        <li>Priority placement in search</li>
+        <li>Live within 48 hours of payment</li>
+      </ul>
+      <button class="btn" style="background:#fff;color:var(--primary);font-weight:800" onclick="tryAddBusiness()">Get Listed – ₹999 →</button>
+    </div>
+    <div style="background:var(--gray50);border-radius:var(--radius);padding:16px;border:1px solid var(--gray100)">
+      <h3 style="font-family:var(--font-display);font-size:.95rem;font-weight:700;margin-bottom:12px">How It Works</h3>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;flex-shrink:0">1</div><div style="font-size:.82rem"><strong>Fill Your Details</strong><br/><span style="color:var(--gray500)">Add your agency/resort info, photos &amp; services</span></div></div>
+        <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;flex-shrink:0">2</div><div style="font-size:.82rem"><strong>Pay ₹999 via UPI</strong><br/><span style="color:var(--gray500)">Scan QR or pay to willianxpeed@pingpay</span></div></div>
+        <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;flex-shrink:0">3</div><div style="font-size:.82rem"><strong>Upload Screenshot</strong><br/><span style="color:var(--gray500)">Submit payment proof with your transaction ID</span></div></div>
+        <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;flex-shrink:0">✓</div><div style="font-size:.82rem"><strong>Go Live in 48 Hours</strong><br/><span style="color:var(--gray500)">We verify &amp; manually approve your listing</span></div></div>
+      </div>
+    </div>
   </div></div>
 </div>
 
@@ -1057,7 +1247,7 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:0}
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
           <div class="avatar" style="background:#fff;color:var(--primary);font-size:.8rem;font-weight:800;flex-shrink:0">MT</div>
           <div>
-            <div style="font-weight:700;font-size:.95rem">MakeMeTop Support</div>
+            <div style="font-weight:700;font-size:.95rem">MakeMe Top Support</div>
             <div style="font-size:.75rem;opacity:.8"><span class="chat-online-dot"></span>Live chat · Usually replies in minutes</div>
           </div>
         </div>
@@ -1093,7 +1283,7 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:0}
 <div id="page-chat" class="page" style="padding-bottom:0">
   <header class="top-header">
     <button class="back-btn" onclick="navBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
-    <div style="flex:1"><div class="title" style="font-size:.95rem">MakeMeTop Support</div><div style="font-size:.7rem;color:var(--green);font-weight:600"><span class="chat-online-dot"></span>Online</div></div>
+    <div style="flex:1"><div class="title" style="font-size:.95rem">MakeMe Top Support</div><div style="font-size:.7rem;color:var(--green);font-weight:600"><span class="chat-online-dot"></span>Online</div></div>
   </header>
   <div id="chat-messages" role="log" aria-live="polite"></div>
   <div id="chat-input-bar" style="padding-bottom:calc(12px + env(safe-area-inset-bottom))">
@@ -1257,11 +1447,12 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:0}
   </header>
   <div class="scroll-body">
     <div style="display:flex;gap:0;border-bottom:2px solid var(--gray100)" id="admin-tabs">
-      <button class="admin-tab active" onclick="loadAdminTab(this,'pending')" style="flex:1;padding:12px;background:none;border:none;font-weight:600;font-size:.85rem;border-bottom:2px solid var(--primary);margin-bottom:-2px;cursor:pointer">Pending</button>
-      <button class="admin-tab" onclick="loadAdminTab(this,'approved')" style="flex:1;padding:12px;background:none;border:none;font-weight:600;font-size:.85rem;color:var(--gray500);cursor:pointer">Approved</button>
-      <button class="admin-tab" onclick="loadAdminTab(this,'rejected')" style="flex:1;padding:12px;background:none;border:none;font-weight:600;font-size:.85rem;color:var(--gray500);cursor:pointer">Rejected</button>
-      <button class="admin-tab" onclick="loadAdminTab(this,'messages')" style="flex:1;padding:12px;background:none;border:none;font-weight:600;font-size:.85rem;color:var(--gray500);cursor:pointer">💬 Chat</button>
-      <button class="admin-tab" onclick="loadAdminTab(this,'claims')" style="flex:1;padding:12px;background:none;border:none;font-weight:600;font-size:.78rem;color:var(--gray500);cursor:pointer">🏢 Claims</button>
+      <button class="admin-tab active" onclick="loadAdminTab(this,'pending')" style="flex:1;padding:10px 4px;background:none;border:none;font-weight:600;font-size:.72rem;border-bottom:2px solid var(--primary);margin-bottom:-2px;cursor:pointer;white-space:nowrap">Pending</button>
+      <button class="admin-tab" onclick="loadAdminTab(this,'payments')" style="flex:1;padding:10px 4px;background:none;border:none;font-weight:600;font-size:.72rem;color:var(--gray500);cursor:pointer;white-space:nowrap">💰 Pay</button>
+      <button class="admin-tab" onclick="loadAdminTab(this,'approved')" style="flex:1;padding:10px 4px;background:none;border:none;font-weight:600;font-size:.72rem;color:var(--gray500);cursor:pointer;white-space:nowrap">Approved</button>
+      <button class="admin-tab" onclick="loadAdminTab(this,'rejected')" style="flex:1;padding:10px 4px;background:none;border:none;font-weight:600;font-size:.72rem;color:var(--gray500);cursor:pointer;white-space:nowrap">Rejected</button>
+      <button class="admin-tab" onclick="loadAdminTab(this,'messages')" style="flex:1;padding:10px 4px;background:none;border:none;font-weight:600;font-size:.72rem;color:var(--gray500);cursor:pointer;white-space:nowrap">💬 Chat</button>
+      <button class="admin-tab" onclick="loadAdminTab(this,'claims')" style="flex:1;padding:10px 4px;background:none;border:none;font-weight:600;font-size:.72rem;color:var(--gray500);cursor:pointer;white-space:nowrap">🏢 Claims</button>
     </div>
     <div id="admin-list"></div>
   </div>
@@ -1430,13 +1621,21 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:0}
   <div style="width:100%;max-width:480px;padding:20px"><img id="lightbox-img" src="" alt="Business photo enlarged" style="width:100%;border-radius:var(--radius);max-height:80dvh;object-fit:contain"/></div>
 </div>
 
+<!-- Payment Screenshot Lightbox -->
+<div class="modal-overlay" id="modal-payment-ss" onclick="closeModal('modal-payment-ss')" role="dialog" aria-modal="true">
+  <div style="width:100%;max-width:480px;padding:20px">
+    <img id="payment-ss-lightbox" src="" alt="Payment screenshot" style="width:100%;border-radius:var(--radius);max-height:80dvh;object-fit:contain"/>
+    <div style="text-align:center;margin-top:10px;color:#fff;font-size:.8rem;opacity:.7">Tap anywhere to close</div>
+  </div>
+</div>
+
 <!-- ══════════════════════════════════
      FIREBASE + APP LOGIC
 ══════════════════════════════════ -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendEmailVerification, sendPasswordResetEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, orderBy, serverTimestamp, getDoc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, orderBy, serverTimestamp, getDoc, onSnapshot, setDoc, limit } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // ── FIREBASE CONFIG — get from console.firebase.google.com ──
 const firebaseConfig = {
@@ -1453,6 +1652,9 @@ const DRIVE_UPLOAD_URL = "https://script.google.com/macros/s/AKfycbycICnJVrzE-0S
 const EMAIL_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbycICnJVrzE-0Sj2_FajqWU9qy7ggm_UTNLxxHfvvApnePatDFTjdrthrz66vs3Eqp7/exec";
 // ⬇ Your admin email(s) — who can access the admin panel:
 const ADMIN_EMAILS = ["abrarrtallks@gmail.com"];
+// ⬇ Payment constants:
+const UPI_ID = "willianxpeed@pingpay";
+const LISTING_PRICE = "999";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -1463,11 +1665,13 @@ googleProvider.addScope('profile');
 googleProvider.setCustomParameters({ prompt: 'select_account' });
 
 window._auth = auth; window._db = db; window._googleProvider = googleProvider;
-window._collections = { addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, orderBy, serverTimestamp, getDoc, collection, onSnapshot, setDoc };
+window._collections = { addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, orderBy, serverTimestamp, getDoc, collection, onSnapshot, setDoc, limit };
 window._authFns = { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup, sendEmailVerification, sendPasswordResetEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential };
 window.ADMIN_EMAILS = ADMIN_EMAILS;
 window.DRIVE_UPLOAD_URL = DRIVE_UPLOAD_URL;
 window.EMAIL_SCRIPT_URL = EMAIL_SCRIPT_URL;
+window.UPI_ID = UPI_ID;
+window.LISTING_PRICE = LISTING_PRICE;
 
 onAuthStateChanged(auth, async user => {
   window._currentUser = user;
@@ -1513,20 +1717,29 @@ async function handleFirstLogin(user) {
   } catch(e) { console.warn('First-login check failed:', e); }
 }
 
+// ── UNIFIED APPS SCRIPT CALLER ──
+// All Apps Script calls go through this function for consistent error handling
+async function callAppsScript(payload) {
+  const url = window.EMAIL_SCRIPT_URL || window.APPS_SCRIPT_URL;
+  if (!url || url.includes('PASTE')) { console.warn('Apps Script URL not configured'); return null; }
+  try {
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload)
+    });
+    const text = await resp.text();
+    try { return JSON.parse(text); } catch(e) { return { status: 'sent' }; }
+  } catch(e) {
+    console.warn('Apps Script call failed:', payload.action, e.message);
+    return null;
+  }
+}
+
 // ── SEND WELCOME EMAIL via Google Apps Script ──
 async function sendWelcomeEmail(email, name) {
   if (!email) return;
-  try {
-    await fetch(window.EMAIL_SCRIPT_URL, {
-      method: 'POST',
-      body: JSON.stringify({
-        action: 'sendWelcomeEmail',
-        to: email,
-        name: name
-      }),
-      headers: {'Content-Type': 'text/plain'}
-    });
-  } catch(e) { /* Silent fail */ }
+  await callAppsScript({ action: 'sendWelcomeEmail', to: email, name });
 }
 
 function hidePageLoader() {
@@ -1584,6 +1797,7 @@ function navTo(page) {
   if (page === 'admin') loadAdmin();
   if (page === 'home') loadHomeBiz();
   if (page === 'chat') initChat();
+  if (page === 'premium') startDiscountCountdown();
   // Dynamically inject per-business JSON-LD on detail page
   if (page === 'biz-detail' && currentBizData) injectBizSchema(currentBizData);
 }
@@ -1687,30 +1901,45 @@ function isAdmin() { return window.ADMIN_EMAILS.includes(window._currentUser?.em
 // ══════════════════════════════════════
 //  IMAGE UPLOAD
 // ══════════════════════════════════════
+// ══════════════════════════════════════
+//  IMAGE UPLOAD
+// ══════════════════════════════════════
 async function uploadImageToDrive(file, folder) {
   if (!file) return null;
   const compressed = await compressImage(file, 800, 0.82);
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = async e => {
-      const base64 = e.target.result.split(',')[1];
+      const dataUrl = e.target.result;
+      const base64  = dataUrl.includes(',') ? dataUrl.split(',')[1] : dataUrl;
+      const scriptUrl = window.DRIVE_UPLOAD_URL || window.APPS_SCRIPT_URL;
+      if (!scriptUrl || scriptUrl.includes('PASTE')) {
+        console.warn('Apps Script URL not set — using base64 fallback');
+        resolve(dataUrl); return;
+      }
       try {
-        const resp = await fetch(window.DRIVE_UPLOAD_URL, {
-          method: 'POST',
-          body: JSON.stringify({
-            file:       base64,
-            name:       'mbp_' + folder + '_' + Date.now() + '.webp',
-            folder:     'MBP_Uploads/' + (folder || 'general'), // always inside MBP_Uploads
-            mimeType:   'image/webp'
-          }),
-          headers: { 'Content-Type': 'text/plain' }
+        const resp = await fetch(scriptUrl, {
+          method:  'POST',
+          // Apps Script requires text/plain to avoid CORS preflight
+          headers: { 'Content-Type': 'text/plain' },
+          body:    JSON.stringify({
+            action:   'uploadImage',
+            file:     base64,
+            name:     'mbp_' + (folder || 'general') + '_' + Date.now() + '.webp',
+            folder:   (folder || 'general'),
+            mimeType: 'image/webp'
+          })
         });
-        const data = await resp.json();
-        if (data.url) resolve(data.url);
-        else resolve(e.target.result); // fallback to base64
+        const text = await resp.text();
+        let data;
+        try { data = JSON.parse(text); } catch(pe) { throw new Error('Invalid JSON from Apps Script: ' + text.slice(0,100)); }
+        if (data.error)  { console.warn('Upload error:', data.error); resolve(dataUrl); return; }
+        if (data.url)    { resolve(data.url); return; }
+        if (data.fallbackUrl) { resolve(data.fallbackUrl); return; }
+        resolve(dataUrl); // last resort fallback
       } catch(err) {
-        console.warn('Drive upload failed, using base64 fallback:', err);
-        resolve(e.target.result);
+        console.warn('Drive upload failed, using base64 fallback:', err.message);
+        resolve(dataUrl);
       }
     };
     reader.onerror = () => reject(new Error('File read failed'));
@@ -1732,11 +1961,282 @@ function compressImage(file, maxWidth, quality) {
 }
 
 // ══════════════════════════════════════
-//  BUSINESS SUBMIT
+//  PAYMENT FLOW — MULTI-STEP
 // ══════════════════════════════════════
+let currentFormStep = 1, paymentSSFile = null, paymentRemark = '';
+
 function tryAddBusiness() {
   if (!window._currentUser) { showAuth('login'); return; }
-  loadDraftToForm(); navTo('add');
+  loadDraftToForm();
+  currentFormStep = 1;
+  paymentRemark = 'MBP-' + (window._currentUser.uid||'USER').slice(-6).toUpperCase();
+  const remarkEl = document.getElementById('payment-remark');
+  if (remarkEl) remarkEl.textContent = paymentRemark;
+  goToStep(1);
+  navTo('add');
+  startDiscountCountdown();
+  setTimeout(generatePaymentQR, 600);
+}
+
+function goToStep(n) {
+  // Validate before advancing past step 1
+  if (n === 2) {
+    const name  = document.getElementById('biz-name')?.value.trim();
+    const type  = document.getElementById('biz-type')?.value;
+    const desc  = document.getElementById('biz-desc')?.value.trim();
+    const addr  = document.getElementById('biz-addr')?.value.trim();
+    const phone = document.getElementById('biz-phone')?.value.trim();
+    const logo  = document.getElementById('logo-file')?.files[0];
+    const cover = document.getElementById('cover-file')?.files[0];
+    if (!name)  { showToast('⚠️ Enter your business name'); return; }
+    if (!type)  { showToast('⚠️ Select a business type'); return; }
+    if (!desc)  { showToast('⚠️ Add a description'); return; }
+    if (!addr)  { showToast('⚠️ Enter your address'); return; }
+    if (!phone) { showToast('⚠️ Enter phone number'); return; }
+    if (!logo)  { showToast('⚠️ Upload your logo'); return; }
+    if (!cover) { showToast('⚠️ Upload a cover image'); return; }
+  }
+  currentFormStep = n;
+  for (let i = 1; i <= 4; i++) {
+    const s = document.getElementById('step-' + i);
+    if (s) s.classList.toggle('active', i === n);
+    const dot   = document.getElementById('sdot-'   + i);
+    const label = document.getElementById('slabel-' + i);
+    if (dot) {
+      dot.classList.remove('active', 'done');
+      if (i < n)      { dot.classList.add('done');   dot.textContent = '✓'; }
+      else if (i === n){ dot.classList.add('active'); dot.textContent = i;   }
+      else             { dot.textContent = i; }
+    }
+    if (label) {
+      label.classList.remove('active', 'done');
+      if (i < n) label.classList.add('done');
+      else if (i === n) label.classList.add('active');
+    }
+    if (i < 4) {
+      const line = document.getElementById('sline-' + i);
+      if (line) line.classList.toggle('done', i < n);
+    }
+  }
+  const titles = ['', 'Business Details', 'Payment', 'Upload Proof', 'Submitted!'];
+  const hdr = document.getElementById('add-page-title');
+  if (hdr) hdr.textContent = titles[n] || 'List Your Business';
+  const sb = document.querySelector('#page-add .scroll-body');
+  if (sb) sb.scrollTo(0, 0);
+}
+
+// ── QR Code generator ──
+function generatePaymentQR() {
+  const upiUrl = `upi://pay?pa=${window.UPI_ID||'willianxpeed@pingpay'}&pn=${encodeURIComponent('MakeMe Top MBP')}&am=${window.LISTING_PRICE||'999'}&cu=INR&tn=${encodeURIComponent(paymentRemark||'MBP')}`;
+  const wrap = document.getElementById('payment-qr-wrap');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  try {
+    if (typeof QRCode !== 'undefined') {
+      new QRCode(wrap, { text: upiUrl, width: 144, height: 144, colorDark: '#1F1F1F', colorLight: '#FFFFFF', correctLevel: QRCode.CorrectLevel.M });
+    } else {
+      wrap.innerHTML = `<div style="font-size:.7rem;color:var(--gray500);text-align:center;padding:8px;word-break:break-all">UPI: ${window.UPI_ID||'willianxpeed@pingpay'}<br/><a href="${upiUrl}" style="color:var(--accent2)">Tap to Pay</a></div>`;
+    }
+  } catch(e) { wrap.innerHTML = `<div style="font-size:.7rem;color:var(--gray500);text-align:center;padding:8px">UPI: willianxpeed@pingpay</div>`; }
+}
+
+// ── Open UPI app deep links ──
+function openUpiApp(app) {
+  const id  = window.UPI_ID || 'willianxpeed@pingpay';
+  const amt = window.LISTING_PRICE || '999';
+  const tn  = encodeURIComponent(paymentRemark || 'MBP');
+  const nm  = encodeURIComponent('MakeMe Top MBP');
+  const links = {
+    gpay:    `tez://upi/pay?pa=${id}&pn=${nm}&am=${amt}&cu=INR&tn=${tn}`,
+    phonepe: `phonepe://pay?pa=${id}&pn=${nm}&am=${amt}&cu=INR&tn=${tn}`,
+    paytm:   `paytmmp://pay?pa=${id}&pn=${nm}&am=${amt}&cu=INR&tn=${tn}`,
+    bhim:    `bhim://pay?pa=${id}&pn=${nm}&am=${amt}&cu=INR&tn=${tn}`
+  };
+  const a = document.createElement('a');
+  a.href = links[app] || `upi://pay?pa=${id}&pn=${nm}&am=${amt}&cu=INR&tn=${tn}`;
+  a.click();
+  setTimeout(() => showToast(`📱 Open your UPI app and pay ₹${amt} to ${id}`), 2000);
+}
+
+// ── Copy UPI ID ──
+function copyUpiId() {
+  const id = window.UPI_ID || 'willianxpeed@pingpay';
+  navigator.clipboard.writeText(id).then(() => showToast('✅ UPI ID copied: ' + id)).catch(() => {
+    const ta = document.createElement('textarea'); ta.value = id;
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    showToast('✅ UPI ID copied!');
+  });
+}
+
+// ── 10-day discount countdown ──
+function startDiscountCountdown() {
+  const key = 'ks_offer_expiry';
+  let expiry = localStorage.getItem(key);
+  if (!expiry) { expiry = Date.now() + (10 * 24 * 60 * 60 * 1000); localStorage.setItem(key, expiry); }
+  expiry = parseInt(expiry);
+  function update() {
+    const diff = Math.max(0, expiry - Date.now());
+    const d = Math.floor(diff / 86400000), h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000), s = Math.floor((diff % 60000) / 1000);
+    const str = diff === 0 ? 'Offer Expired' : d > 0 ? `${d}d ${h}h ${m}m` : `${h}h ${m}m ${s}s`;
+    ['discount-countdown', 'premium-countdown'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = str; });
+  }
+  update();
+  if (window._cdTimer) clearInterval(window._cdTimer);
+  window._cdTimer = setInterval(update, 1000);
+}
+
+// ── Payment screenshot preview ──
+function previewPaymentSS(input) {
+  const file = input.files[0]; if (!file) return;
+  paymentSSFile = file;
+  const prev = document.getElementById('payment-ss-preview');
+  if (prev) { prev.src = URL.createObjectURL(file); prev.style.display = 'block'; }
+  const box = document.getElementById('ss-upload-box');
+  if (box) {
+    const icon = box.querySelector('.ss-icon'), label = box.querySelector('.ss-label'), hint = box.querySelector('.ss-hint');
+    if (icon) icon.textContent = '✅'; if (label) label.textContent = 'Screenshot uploaded!'; if (hint) hint.textContent = file.name;
+  }
+}
+
+// ── Final submit: business + payment proof ──
+async function submitBusinessWithPayment() {
+  const ssFile  = document.getElementById('payment-ss-file')?.files[0] || paymentSSFile;
+  const txnId   = document.getElementById('payment-txn-id')?.value.trim();
+  const amtPaid = document.getElementById('payment-amount-paid')?.value.trim();
+  if (!ssFile)  { showToast('⚠️ Upload your payment screenshot'); return; }
+  if (!txnId)   { showToast('⚠️ Enter Transaction ID / UTR Number'); return; }
+  if (!amtPaid) { showToast('⚠️ Enter amount paid'); return; }
+  const name  = document.getElementById('biz-name')?.value.trim();
+  const type  = document.getElementById('biz-type')?.value;
+  const desc  = document.getElementById('biz-desc')?.value.trim();
+  const addr  = document.getElementById('biz-addr')?.value.trim();
+  const phone = document.getElementById('biz-phone')?.value.trim();
+  const logoFile  = document.getElementById('logo-file')?.files[0];
+  const coverFile = document.getElementById('cover-file')?.files[0];
+  if (!name || !type || !desc || !addr || !phone || !logoFile || !coverFile) {
+    showToast('⚠️ Missing details. Please go back to Step 1.'); goToStep(1); return;
+  }
+  setLoading('final-submit-btn', true, 'Uploading...');
+  try {
+    const bizId = 'biz_' + Date.now();
+    const [logoUrl, coverUrl] = await Promise.all([uploadImageToDrive(logoFile, bizId), uploadImageToDrive(coverFile, bizId)]);
+    const galleryUrls = [];
+    for (let i = 0; i < 3; i++) { if (galleryFiles[i]) { const u = await uploadImageToDrive(galleryFiles[i], bizId); if (u) galleryUrls.push(u); } }
+    const ssUrl = await uploadImageToDrive(ssFile, 'payments_' + bizId);
+    const { addDoc, collection, serverTimestamp } = window._collections;
+    const contact = document.getElementById('payment-contact')?.value.trim();
+    // Save business as pending_payment — hidden from public until admin approves
+    const bizRef = await addDoc(collection(window._db, 'businesses'), {
+      name:        sanitizeInput(name, 150),
+      type:        sanitizeInput(type, 60),
+      services:    getSelectedServices(),
+      description: sanitizeInput(desc, 2000),
+      address:     sanitizeInput(addr, 300),
+      phone:       sanitizeInput(phone, 20),
+      whatsapp:    sanitizeInput(document.getElementById('biz-whatsapp')?.value.trim() || '', 20),
+      website:     sanitizeInput(document.getElementById('biz-website')?.value.trim()  || '', 200),
+      logo_url:    logoUrl, cover_url: coverUrl, gallery_urls: galleryUrls,
+      status:      'pending_payment',
+      created_at:  serverTimestamp(),
+      user_id:     window._currentUser.uid,
+      user_email:  window._currentUser.email,
+      rating: 0, review_count: 0, is_premium: false
+    });
+    // Save payment submission for admin to verify
+    await addDoc(collection(window._db, 'payment_submissions'), {
+      business_id:    bizRef.id,
+      business_name:  name,
+      user_id:        window._currentUser.uid,
+      user_email:     window._currentUser.email,
+      upi_id:         window.UPI_ID || 'willianxpeed@pingpay',
+      transaction_id: sanitizeInput(txnId, 100),
+      amount_paid:    sanitizeInput(amtPaid, 20),
+      payment_remark: paymentRemark,
+      contact:        sanitizeInput(contact || '', 20),
+      screenshot_url: ssUrl,
+      status:         'pending',
+      submitted_at:   serverTimestamp()
+    });
+    localStorage.removeItem('mmt_draft');
+    clearAddForm();
+    goToStep(4);
+    loadDashboard();
+  } catch(e) { console.error(e); showToast('❌ Submission failed: ' + e.message); }
+  setLoading('final-submit-btn', false, '🔥 Submit for Review');
+}
+
+// ── Clear form ──
+function clearAddForm() {
+  ['biz-name','biz-type','biz-desc','biz-addr','biz-phone','biz-whatsapp','biz-website'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  document.querySelectorAll('#services-chips .chip').forEach(c => c.classList.remove('active'));
+  ['logo-preview','cover-preview','gal-prev-0','gal-prev-1','gal-prev-2'].forEach(id => { const el = document.getElementById(id); if (el) { el.src = ''; el.classList.add('hidden'); } });
+  galleryFiles = [null, null, null]; paymentSSFile = null;
+  const pp = document.getElementById('payment-ss-preview'); if (pp) { pp.src = ''; pp.style.display = 'none'; }
+  const ti = document.getElementById('payment-txn-id'); if (ti) ti.value = '';
+  const pi = document.getElementById('payment-ss-file'); if (pi) pi.value = '';
+}
+
+// ── Admin: load payment submissions ──
+async function loadAdminPayments(container) {
+  if (!isAdmin()) return;
+  const { getDocs, collection, query: fsQ, orderBy } = window._collections;
+  try {
+    const snap = await getDocs(fsQ(collection(window._db, 'payment_submissions'), orderBy('submitted_at', 'desc')));
+    const payments = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    if (!payments.length) { container.innerHTML = '<div class="empty-state"><div class="empty-icon">💰</div><h3>No payment submissions yet</h3><p>Payments appear here when users submit.</p></div>'; return; }
+    container.innerHTML = payments.map(p => {
+      const statusClass = `payment-status-${p.status || 'pending'}`;
+      const date = p.submitted_at?.toDate ? p.submitted_at.toDate().toLocaleDateString() : 'N/A';
+      return `<div class="payment-row">
+        <div style="display:flex;align-items:flex-start;gap:12px">
+          <img class="pr-ss" src="${escapeHtml(p.screenshot_url||'')}" alt="Payment SS" onclick="viewPaymentSS('${escapeHtml(p.screenshot_url||'')}')" onerror="this.style.background='var(--gray200)'"/>
+          <div style="flex:1;min-width:0">
+            <div class="pr-biz">${escapeHtml(p.business_name||'')}</div>
+            <div class="pr-meta">
+              📧 ${escapeHtml(p.user_email||'')} · 📅 ${date}<br/>
+              🔑 Txn: <strong>${escapeHtml(p.transaction_id||'N/A')}</strong><br/>
+              💰 ₹${escapeHtml(p.amount_paid||'999')} · Remark: <code style="font-size:.7rem;background:var(--gray100);padding:1px 5px;border-radius:4px">${escapeHtml(p.payment_remark||'')}</code>
+              ${p.contact ? `<br/>📞 ${escapeHtml(p.contact)}` : ''}
+            </div>
+            <div style="margin-top:6px"><span class="${statusClass}">${p.status||'pending'}</span></div>
+          </div>
+        </div>
+        ${p.status === 'pending' ? `<div style="display:flex;gap:8px;margin-top:10px">
+          <button class="btn btn-green btn-sm" style="flex:1" onclick="adminVerifyPayment('${p.id}','${escapeForAttr(p.business_id||'')}','approve')">✓ Verify &amp; Approve</button>
+          <button class="btn btn-red btn-sm" style="flex:1" onclick="adminVerifyPayment('${p.id}','${escapeForAttr(p.business_id||'')}','reject')">✗ Reject</button>
+        </div>` : ''}
+      </div>`;
+    }).join('');
+  } catch(e) { console.error(e); container.innerHTML = '<div class="empty-state"><h3>Error loading payments</h3></div>'; }
+}
+
+function viewPaymentSS(url) {
+  if (!url) return;
+  document.getElementById('payment-ss-lightbox').src = url;
+  openModal('modal-payment-ss');
+}
+
+async function adminVerifyPayment(paymentId, bizId, action) {
+  if (!isAdmin()) { showToast('❌ Unauthorized'); return; }
+  if (!confirm(action === 'approve' ? '✅ Verify payment and approve this listing?' : '❌ Reject this payment?')) return;
+  const { doc, updateDoc } = window._collections;
+  try {
+    await updateDoc(doc(window._db, 'payment_submissions', paymentId), {
+      status: action === 'approve' ? 'verified' : 'rejected',
+      reviewed_at: new Date().toISOString(),
+      reviewed_by: window._currentUser.email
+    });
+    if (bizId) {
+      await updateDoc(doc(window._db, 'businesses', bizId), {
+        status:          action === 'approve' ? 'approved' : 'rejected',
+        is_premium:      action === 'approve',
+        premium_expiry:  action === 'approve' ? new Date(Date.now() + 365*24*60*60*1000).toISOString() : null
+      });
+    }
+    showToast(action === 'approve' ? '✅ Approved! Listing is now live.' : '❌ Payment rejected');
+    loadAdmin(); loadHomeBiz();
+  } catch(e) { showToast('❌ Error: ' + e.message); }
 }
 function previewImg(input, boxId, previewId) {
   const file = input.files[0]; if (!file) return;
@@ -1771,45 +2271,7 @@ function loadDraftToForm() {
 }
 function getSelectedServices() { return [...document.querySelectorAll('#services-chips .chip.active')].map(c => c.textContent.trim()); }
 
-async function submitBusiness() {
-  const name = document.getElementById('biz-name').value.trim();
-  const type = document.getElementById('biz-type').value;
-  const desc = document.getElementById('biz-desc').value.trim();
-  const addr = document.getElementById('biz-addr').value.trim();
-  const phone = document.getElementById('biz-phone').value.trim();
-  const logoFile = document.getElementById('logo-file').files[0];
-  const coverFile = document.getElementById('cover-file').files[0];
-  if (!name||!type||!desc||!addr||!phone) { showToast('⚠️ Please fill all required fields'); return; }
-  if (!logoFile) { showToast('⚠️ Logo image is required'); return; }
-  if (!coverFile) { showToast('⚠️ Cover image is required'); return; }
-  setLoading('submit-biz-btn', true, 'Uploading...');
-  try {
-    const bizId = 'biz_'+Date.now();
-    const [logoUrl, coverUrl] = await Promise.all([uploadImageToDrive(logoFile,bizId), uploadImageToDrive(coverFile,bizId)]);
-    const galleryUrls = [];
-    for (let i=0;i<3;i++) { if (galleryFiles[i]) { const u=await uploadImageToDrive(galleryFiles[i],bizId); if(u) galleryUrls.push(u); } }
-    const { addDoc, collection, serverTimestamp } = window._collections;
-    await addDoc(collection(window._db,'businesses'), {
-      name, type, services:getSelectedServices(), description:desc, address:addr, phone,
-      whatsapp:document.getElementById('biz-whatsapp').value.trim(),
-      website:document.getElementById('biz-website').value.trim(),
-      logo_url:logoUrl, cover_url:coverUrl, gallery_urls:galleryUrls,
-      status:'pending', created_at:serverTimestamp(),
-      user_id:window._currentUser.uid, user_email:window._currentUser.email,
-      rating:0, review_count:0
-    });
-    localStorage.removeItem('mmt_draft');
-    showToast('🔥 MBP submitted! Will be live on Google within 24hrs.');
-    clearAddForm(); loadDashboard(); navTo('dashboard');
-  } catch(e) { showToast('❌ Submission failed: '+e.message); }
-  setLoading('submit-biz-btn', false, 'Submit for Review');
-}
-function clearAddForm() {
-  ['biz-name','biz-type','biz-desc','biz-addr','biz-phone','biz-whatsapp','biz-website'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
-  document.querySelectorAll('#services-chips .chip').forEach(c => c.classList.remove('active'));
-  ['logo-preview','cover-preview','gal-prev-0','gal-prev-1','gal-prev-2'].forEach(id => { const el=document.getElementById(id); if(el){el.src='';el.classList.add('hidden');} });
-  galleryFiles = [null,null,null];
-}
+// (submitBusiness replaced by submitBusinessWithPayment above)
 
 // ══════════════════════════════════════
 //  EDIT BUSINESS
@@ -1860,6 +2322,7 @@ async function deleteMyBusiness() {
 // ══════════════════════════════════════
 let allBizData = [], currentCatFilter = 'all';
 async function loadHomeBiz() {
+  loadUpdatesSlider();
   const { getDocs, collection, query, where } = window._collections;
   try {
     const snap = await getDocs(query(collection(window._db,'businesses'), where('status','==','approved')));
@@ -2276,24 +2739,18 @@ async function submitClaimRequest() {
     });
 
     // Send email to current owner via Apps Script
-    if (window.EMAIL_SCRIPT_URL && !window.EMAIL_SCRIPT_URL.includes('PASTE')) {
-      await fetch(window.EMAIL_SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify({
-          action:          'sendOwnershipClaimEmail',
-          ownerEmail:      currentBizData.user_email || '',
-          ownerName:       currentBizData.user_email?.split('@')[0] || 'Owner',
-          businessName:    currentBizData.name,
-          requesterName:   name,
-          requesterEmail:  email,
-          requesterPhone:  phone,
-          requesterMsg:    message,
-          token:           token,
-          businessId:      currentBizData.id
-        }),
-        headers: { 'Content-Type': 'text/plain' }
-      });
-    }
+    await callAppsScript({
+      action: 'sendOwnershipClaim',
+      ownerEmail:     currentBizData.user_email || '',
+      ownerName:      currentBizData.user_email?.split('@')[0] || 'Owner',
+      businessName:   currentBizData.name,
+      requesterName:  name,
+      requesterEmail: email,
+      requesterPhone: phone,
+      requesterMsg:   message,
+      token:          token,
+      businessId:     currentBizData.id
+    });
 
     // Clear form and close
     ['claim-name','claim-email','claim-phone','claim-message'].forEach(id => {
@@ -2336,18 +2793,12 @@ async function handleClaimAction(token, action) {
         resolved_at: new Date().toISOString()
       });
       // Send confirmation email to requester
-      if (window.EMAIL_SCRIPT_URL && !window.EMAIL_SCRIPT_URL.includes('PASTE')) {
-        await fetch(window.EMAIL_SCRIPT_URL, {
-          method: 'POST',
-          body: JSON.stringify({
-            action:       'sendClaimAcceptedEmail',
-            to:           claim.requester_email,
-            name:         claim.requester_name,
-            businessName: claim.business_name
-          }),
-          headers: { 'Content-Type': 'text/plain' }
-        });
-      }
+      await callAppsScript({
+        action: 'sendClaimAccepted',
+        to: claim.requester_email,
+        name: claim.requester_name,
+        businessName: claim.business_name
+      });
       showToast('✅ Ownership transferred successfully!');
       // Reload if the requester is now logged in
       if (window._currentUser?.uid === claim.requester_uid) {
@@ -2413,15 +2864,8 @@ async function adminResolveClaim(claimId, action, bizId, newOwnerUid, newOwnerEm
         user_email: newOwnerEmail
       });
       // Send acceptance email to requester
-      if (window.EMAIL_SCRIPT_URL && !window.EMAIL_SCRIPT_URL.includes('PASTE') && newOwnerEmail) {
-        await fetch(window.EMAIL_SCRIPT_URL, {
-          method: 'POST',
-          body: JSON.stringify({
-            action: 'sendClaimAcceptedEmail',
-            to: newOwnerEmail, name: requesterName, businessName: bizName
-          }),
-          headers: { 'Content-Type': 'text/plain' }
-        });
+      if (newOwnerEmail) {
+        await callAppsScript({ action: 'sendClaimAccepted', to: newOwnerEmail, name: requesterName, businessName: bizName });
       }
       showToast('✅ Ownership transferred to ' + requesterName);
     } else {
@@ -2456,16 +2900,22 @@ async function loadDashboard() {
   try {
     const snap = await getDocs(fsQ(collection(window._db,'businesses'), where('user_id','==',window._currentUser.uid)));
     const businesses = snap.docs.map(d=>({id:d.id,...d.data()}));
-    document.getElementById('dash-total').textContent = businesses.length;
+    document.getElementById('dash-total').textContent    = businesses.length;
     document.getElementById('dash-approved').textContent = businesses.filter(b=>b.status==='approved').length;
-    document.getElementById('dash-pending').textContent = businesses.filter(b=>b.status==='pending').length;
+    document.getElementById('dash-pending').textContent  = businesses.filter(b=>b.status==='pending'||b.status==='pending_payment').length;
     const container = document.getElementById('dash-biz-list');
-    if (!businesses.length) { container.innerHTML='<div class="empty-state"><div class="empty-icon">🏪</div><h3>No businesses yet</h3><p>Add your first business listing in Srinagar!</p></div>'; return; }
+    if (!businesses.length) { container.innerHTML='<div class="empty-state"><div class="empty-icon">🏔️</div><h3>No listings yet</h3><p>List your agency or resort on MakeMe Top!</p></div>'; return; }
+    const statusLabel = { approved:'✅ Live', pending:'🔄 Under Review', pending_payment:'⏳ Payment Pending', rejected:'❌ Rejected' };
     container.innerHTML = businesses.map(b=>`
       <div class="card" style="margin-bottom:10px">
         <div class="biz-card" onclick="openBizDetail('${b.id}')">
           <img class="biz-logo" src="${b.logo_url||''}" alt="${escapeHtml(b.name)}" loading="lazy" onerror="this.style.background='var(--gray200)'"/>
-          <div class="biz-info"><div class="biz-name">${escapeHtml(b.name)}</div><div class="biz-type">${escapeHtml(b.type)}</div><div style="margin-top:4px"><span class="badge badge-${b.status}">${b.status}</span></div></div>
+          <div class="biz-info">
+            <div class="biz-name">${escapeHtml(b.name)}</div>
+            <div class="biz-type">${escapeHtml(b.type)}</div>
+            <div style="margin-top:4px"><span class="badge badge-${b.status}">${statusLabel[b.status]||b.status}</span></div>
+            ${b.status==='pending_payment'?`<div style="font-size:.72rem;color:var(--accent);margin-top:4px">⏳ Awaiting payment verification (48 hrs)</div>`:''}
+          </div>
         </div>
         <div style="padding:0 14px 12px;display:flex;gap:8px">
           <button class="btn btn-ghost btn-sm" style="flex:1" onclick="openBizDetail('${b.id}')">View</button>
@@ -2529,17 +2979,31 @@ async function loadAdminTab(el, status) {
   el.style.borderBottom = '2px solid var(--primary)'; el.style.color = 'var(--primary)'; el.classList.add('active');
   const container = document.getElementById('admin-list');
   container.innerHTML = '<div class="empty-state"><div class="spinner spinner-dark"></div></div>';
-  if (status==='messages') { await loadAdminChats(container); return; }
-  if (status==='claims')   { await loadAdminClaims(container); return; }
+  if (status === 'messages')  { await loadAdminChats(container);   return; }
+  if (status === 'claims')    { await loadAdminClaims(container);   return; }
+  if (status === 'payments')  { await loadAdminPayments(container); return; }
   const { getDocs, collection, query: fsQ, where } = window._collections;
   try {
-    const snap = await getDocs(fsQ(collection(window._db,'businesses'), where('status','==',status)));
-    const businesses = snap.docs.map(d=>({id:d.id,...d.data()}));
-    if (!businesses.length) { container.innerHTML=`<div class="empty-state"><div class="empty-icon">✅</div><h3>No ${status} businesses</h3></div>`; return; }
-    container.innerHTML = businesses.map(b=>`
+    let businesses = [];
+    if (status === 'pending') {
+      // Show both pending (re-reviews) and pending_payment (new submissions)
+      const [s1, s2] = await Promise.all([
+        getDocs(fsQ(collection(window._db,'businesses'), where('status','==','pending'))),
+        getDocs(fsQ(collection(window._db,'businesses'), where('status','==','pending_payment')))
+      ]);
+      businesses = [...s1.docs, ...s2.docs].map(d => ({id:d.id,...d.data()}));
+    } else {
+      const snap = await getDocs(fsQ(collection(window._db,'businesses'), where('status','==',status)));
+      businesses = snap.docs.map(d => ({id:d.id,...d.data()}));
+    }
+    if (!businesses.length) { container.innerHTML=`<div class="empty-state"><div class="empty-icon">✅</div><h3>No ${status} listings</h3></div>`; return; }
+    container.innerHTML = businesses.map(b => `
       <div class="admin-biz-row">
         <img class="biz-logo-sm" src="${b.logo_url||''}" alt="${escapeHtml(b.name)}" onerror="this.style.background='var(--gray200)'"/>
-        <div class="info"><div class="name">${escapeHtml(b.name)}</div><div class="sub">${escapeHtml(b.type||'')} • ${escapeHtml(b.address?.substring(0,30)||'')} • ${b.user_email||''}</div></div>
+        <div class="info">
+          <div class="name">${escapeHtml(b.name)}</div>
+          <div class="sub">${escapeHtml(b.type||'')} · ${escapeHtml(b.address?.substring(0,28)||'')} · <span style="color:${b.status==='pending_payment'?'var(--accent)':'var(--gray500)'}">${b.status}</span></div>
+        </div>
         <div class="admin-actions">
           ${status!=='approved'?`<button class="btn btn-green btn-sm" onclick="adminAction('${b.id}','approved')">✓</button>`:''}
           ${status!=='rejected'?`<button class="btn btn-red btn-sm" onclick="adminAction('${b.id}','rejected')">✗</button>`:''}
@@ -2577,7 +3041,7 @@ async function sendAdminReply() {
   document.getElementById('admin-reply-text').value=''; document.getElementById('admin-reply-text').style.height='auto';
   const { collection, addDoc, serverTimestamp, doc, updateDoc } = window._collections;
   try {
-    await addDoc(collection(window._db,'chat_conversations',adminChatConvId,'messages'), {text, sender:'admin', sender_id:window._currentUser.uid, sender_name:'MakeMeTop Support', created_at:serverTimestamp()});
+    await addDoc(collection(window._db,'chat_conversations',adminChatConvId,'messages'), {text, sender:'admin', sender_id:window._currentUser.uid, sender_name:'MakeMe Top Support', created_at:serverTimestamp()});
     await updateDoc(doc(window._db,'chat_conversations',adminChatConvId), {last_message:text, last_at:serverTimestamp(), unread_user:1});
   } catch(e) { showToast('❌ Failed to reply'); }
 }
@@ -2741,6 +3205,125 @@ window.addEventListener('load', () => {
 });
 
 // ══════════════════════════════════════
+//  UPDATES SLIDER — admin posts, shown at top of home
+// ══════════════════════════════════════
+let sliderTimer = null;
+let sliderIndex = 0;
+
+async function loadUpdatesSlider() {
+  const { getDocs, collection, query: fsQ, orderBy, limit } = window._collections;
+  try {
+    const snap = await getDocs(fsQ(collection(window._db,'updates'), orderBy('created_at','desc'), limit(8)));
+    const updates = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    if (!updates.length) return;
+    const wrap = document.getElementById('updates-slider-wrap');
+    const track = document.getElementById('updates-track');
+    const dots  = document.getElementById('updates-dots');
+    if (!wrap || !track || !dots) return;
+
+    // Sanitize and render slides
+    track.innerHTML = updates.map((u, i) => `
+      <a class="update-slide" href="${u.link ? escapeHtml(u.link) : '#'}" ${u.link ? 'target="_blank" rel="noopener noreferrer"' : 'onclick="return false"'}>
+        <img src="${escapeHtml(u.image_url||'')}" alt="${escapeHtml(u.title||'Update')}" loading="${i===0?'eager':'lazy'}" onerror="this.style.background='#2d2d2d';this.style.height='180px';this.removeAttribute('src')"/>
+        <div class="update-slide-cap">
+          <h3>${escapeHtml(u.title||'')}</h3>
+          ${u.subtitle ? `<p>${escapeHtml(u.subtitle)}</p>` : ''}
+        </div>
+      </a>`).join('');
+
+    dots.innerHTML = updates.map((_,i) => `<div class="slider-dot ${i===0?'active':''}" onclick="goSlide(${i})"></div>`).join('');
+
+    wrap.style.display = 'block';
+    sliderIndex = 0;
+    if (sliderTimer) clearInterval(sliderTimer);
+    if (updates.length > 1) {
+      sliderTimer = setInterval(() => goSlide((sliderIndex + 1) % updates.length), 4000);
+    }
+    // Touch/swipe support
+    let startX = 0;
+    track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', e => {
+      const diff = startX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) {
+        if (diff > 0) goSlide((sliderIndex + 1) % updates.length);
+        else goSlide((sliderIndex - 1 + updates.length) % updates.length);
+      }
+    }, { passive: true });
+  } catch(e) { /* silent if collection doesn't exist yet */ }
+}
+
+function goSlide(n) {
+  sliderIndex = n;
+  const track = document.getElementById('updates-track');
+  if (track) track.style.transform = `translateX(-${n * 100}%)`;
+  document.querySelectorAll('.slider-dot').forEach((d, i) => d.classList.toggle('active', i === n));
+}
+
+// ══════════════════════════════════════
+//  SECURITY HARDENING
+// ══════════════════════════════════════
+
+// Rate limiting for writes (prevent spam)
+const _rateLimits = {};
+function rateLimit(key, maxPerMinute = 5) {
+  const now = Date.now();
+  if (!_rateLimits[key]) _rateLimits[key] = [];
+  _rateLimits[key] = _rateLimits[key].filter(t => now - t < 60000);
+  if (_rateLimits[key].length >= maxPerMinute) {
+    showToast('⚠️ Too many requests. Please wait a moment.');
+    return false;
+  }
+  _rateLimits[key].push(now);
+  return true;
+}
+
+// Deep sanitization for all user inputs before writing to Firestore
+function sanitizeInput(str, maxLen = 500) {
+  if (!str) return '';
+  // Strip HTML tags, trim, limit length
+  return String(str)
+    .replace(/<[^>]*>/g, '')       // strip HTML
+    .replace(/javascript:/gi, '')  // strip JS proto
+    .replace(/on\w+=/gi, '')       // strip event handlers
+    .replace(/data:/gi, '')        // strip data URIs
+    .trim()
+    .slice(0, maxLen);
+}
+
+function sanitizeBizData(data) {
+  return {
+    name:        sanitizeInput(data.name, 150),
+    type:        sanitizeInput(data.type, 60),
+    description: sanitizeInput(data.description, 2000),
+    address:     sanitizeInput(data.address, 300),
+    phone:       sanitizeInput(data.phone, 20).replace(/[^0-9+\-() ]/g, ''),
+    whatsapp:    sanitizeInput(data.whatsapp, 20).replace(/[^0-9+\-() ]/g, ''),
+    email:       sanitizeInput(data.email, 100),
+    website:     sanitizeInput(data.website, 200).replace(/^(?!https?:\/\/)/i, ''),
+    logo_url:    sanitizeInput(data.logo_url, 500),
+    cover_url:   sanitizeInput(data.cover_url, 500),
+    services:    (data.services||[]).map(s => sanitizeInput(s, 50)).slice(0, 20),
+    user_id:     data.user_id,
+    user_email:  data.user_email,
+    status:      data.status,
+    is_free:     data.is_free || false,
+    is_premium:  data.is_premium || false,
+  };
+}
+
+// Block URL inputs that aren't Unsplash / Cloudinary / Drive / known CDNs (for updates only)
+function isAllowedImageUrl(url) {
+  if (!url) return false;
+  const allowed = ['unsplash.com','images.unsplash.com','cloudinary.com','res.cloudinary.com',
+    'drive.google.com','lh3.googleusercontent.com','googleapis.com','imgur.com',
+    'cdn.pixabay.com','images.pexels.com','makemetop.in'];
+  try {
+    const host = new URL(url).hostname;
+    return allowed.some(d => host === d || host.endsWith('.' + d));
+  } catch { return false; }
+}
+
+// ══════════════════════════════════════
 //  DEEP LINK
 // ══════════════════════════════════════
 window.addEventListener('DOMContentLoaded',()=>{
@@ -2788,7 +3371,7 @@ if ('serviceWorker' in navigator) {
 // ══════════════════════════════════════
 //  EXPOSE GLOBALS
 // ══════════════════════════════════════
-Object.assign(window,{navTo,navBack,tryAddBusiness,loadHomeBiz,loadDashboard,filterCat,openBizDetail,callBusiness,whatsappBusiness,openWebsite,shareBusiness,openReviewModal,editReview,deleteReview,selectStar,submitReview,previewImg,previewGal,toggleService,saveDraft,autosaveDraft,submitBusiness,openEditBizModal,saveEditBusiness,deleteMyBusiness,openBizDetailAndEdit,toggleFaq,sendContactMsg,sendVerification,openModal,closeModal,openLightbox,logout,changePassword,sendPasswordReset,showToast,loadAdmin,loadAdminTab,adminAction,adminDelete,sendChatMsg,sendAdminReply,openAdminChatThread,showWelcomeModal,triggerInstall,updateInstallButtonVisibility,showInstallInstructions,showMainApp,showAuth,updateSettingsUI,checkAdminAccess,showVerifyBanner,loadDashboard,loadHomeBiz,openClaimModal,submitClaimRequest,handleClaimAction,adminResolveClaim,loadAdminClaims});
+Object.assign(window,{navTo,navBack,tryAddBusiness,loadHomeBiz,loadDashboard,filterCat,openBizDetail,callBusiness,whatsappBusiness,openWebsite,shareBusiness,openReviewModal,editReview,deleteReview,selectStar,submitReview,previewImg,previewGal,toggleService,saveDraft,autosaveDraft,goToStep,generatePaymentQR,openUpiApp,copyUpiId,startDiscountCountdown,previewPaymentSS,submitBusinessWithPayment,loadAdminPayments,adminVerifyPayment,viewPaymentSS,openEditBizModal,saveEditBusiness,deleteMyBusiness,openBizDetailAndEdit,toggleFaq,sendContactMsg,sendVerification,openModal,closeModal,openLightbox,logout,changePassword,sendPasswordReset,showToast,loadAdmin,loadAdminTab,adminAction,adminDelete,sendChatMsg,sendAdminReply,openAdminChatThread,showWelcomeModal,triggerInstall,updateInstallButtonVisibility,showInstallInstructions,showMainApp,showAuth,updateSettingsUI,checkAdminAccess,showVerifyBanner,loadDashboard,loadHomeBiz,openClaimModal,submitClaimRequest,handleClaimAction,adminResolveClaim,loadAdminClaims,goSlide,rateLimit,sanitizeInput});
 
 // ── Safety net: if Firebase auth resolved before this script ran ──
 if (window._currentUser !== undefined) {
@@ -2799,5 +3382,17 @@ if (window._currentUser !== undefined) {
   if (u) { updateSettingsUI(u); loadDashboard(); checkAdminAccess(u); }
 }
 </script>
+<!-- ══ FLOATING AI ASSISTANT BUTTON ══ -->
+<style>
+#ai-fab{position:fixed;bottom:calc(var(--nav-h) + 14px + env(safe-area-inset-bottom));right:16px;z-index:400;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#6366F1,#8B5CF6);box-shadow:0 4px 18px rgba(99,102,241,.45);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s}
+#ai-fab:hover{transform:scale(1.1);box-shadow:0 6px 24px rgba(99,102,241,.6)}
+#ai-fab svg{width:22px;height:22px;stroke:#fff}
+#ai-fab .ai-pulse{position:absolute;inset:-3px;border-radius:50%;border:2px solid rgba(99,102,241,.4);animation:ai-ring 2s ease-out infinite}
+@keyframes ai-ring{0%{transform:scale(1);opacity:1}100%{transform:scale(1.5);opacity:0}}
+</style>
+<button id="ai-fab" onclick="window.open('help-ai.html','_blank')" title="Ask MBP AI Assistant" aria-label="Open AI Assistant">
+  <div class="ai-pulse"></div>
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 1 8 8c0 5-8 12-8 12S4 15 4 10a8 8 0 0 1 8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+</button>
 </body>
 </html>
