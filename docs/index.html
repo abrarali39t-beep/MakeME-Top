@@ -1149,30 +1149,56 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:0}
     </div>
     <div class="discount-timer" style="margin-bottom:20px">
       <div class="timer-icon">⏰</div>
-      <div class="timer-text"><strong>50% Launch Offer!</strong><br/>Expires in</div>
+     <div class="timer-text"><strong>Live Launch Offer!</strong><br/>Expires in</div>
       <div class="timer-val" id="premium-countdown">Loading...</div>
     </div>
-    <div class="price-card featured" style="margin-bottom:20px">
-      <div class="popular-tag">🔥 Best Value</div>
-      <h3>Verified Agency / Resort</h3>
-      <div style="margin-bottom:8px">
-        <span style="font-size:1rem;color:rgba(255,255,255,.5);text-decoration:line-through">₹1,999</span>
-        <span style="font-size:.75rem;font-weight:700;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:20px;margin-left:6px">50% OFF</span>
-      </div>
-      <div class="price">₹999 <span>/ year</span></div>
-      <ul>
-        <li>Verified badge on your profile</li>
-        <li>Featured on MakeMe Top homepage</li>
-        <li>Google-indexed with full Schema markup</li>
-        <li>Unlimited photo gallery</li>
-        <li>Call, WhatsApp &amp; booking buttons</li>
-        <li>5-star customer reviews</li>
-        <li>QR code for easy sharing</li>
-        <li>Priority placement in search</li>
-        <li>Live within 48 hours of payment</li>
-      </ul>
-      <button class="btn" style="background:#fff;color:var(--primary);font-weight:800" onclick="tryAddBusiness()">Get Listed – ₹999 →</button>
-    </div>
+   <div class="price-card featured" style="margin-bottom:20px">
+  <div class="popular-tag">🔥 Best Value</div>
+  <h3>Verified Agency / Resort</h3>
+
+  <div style="margin-bottom:8px">
+    <span style="font-size:1rem;color:rgba(255,255,255,.5);text-decoration:line-through">₹1,599</span>
+    <span style="font-size:.75rem;font-weight:700;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:20px;margin-left:6px">50% OFF</span>
+  </div>
+
+  <div class="price">₹799 <span>1 month</span></div>
+
+  <ul>
+    <li>Verified badge on your profile</li>
+    <li>Featured on MakeMe Top homepage</li>
+    <li>Google-indexed with full Schema markup</li>
+    <li>Unlimited photo gallery</li>
+    <li>Call, WhatsApp &amp; booking buttons</li>
+    <li>5-star customer reviews</li>
+    <li>QR code for easy sharing</li>
+    <li>Priority placement in search</li>
+    <li>Live within 48 hours of payment</li>
+  </ul>
+
+  <button class="btn" style="background:#fff;color:var(--primary);font-weight:800" onclick="tryAddBusiness()">Get Listed – ₹799 →</button>
+</div>
+
+<div class="price-card" style="margin-bottom:20px">
+  <div class="popular-tag" style="background:var(--green)">💎 1 Year Plan</div>
+  <h3>Verified Agency / Resort — Yearly</h3>
+
+  <div style="margin-bottom:8px">
+    <span style="font-size:1rem;color:rgba(255,255,255,.5);text-decoration:line-through">₹9,588</span>
+    <span style="font-size:.75rem;font-weight:700;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:20px;margin-left:6px">20% OFF</span>
+  </div>
+
+  <div class="price">₹7,670 <span>1 year</span></div>
+
+  <ul>
+    <li>12 months verified listing</li>
+    <li>Save ₹1,918 instantly</li>
+    <li>Homepage featured placement</li>
+    <li>Google-indexed SEO profile</li>
+    <li>Priority approval &amp; updates</li>
+  </ul>
+
+  <button class="btn" style="background:var(--primary);color:#fff;font-weight:800" onclick="tryAddBusiness()">Get Yearly Plan – ₹7,670 →</button>
+</div>
     <div style="background:var(--gray50);border-radius:var(--radius);padding:16px;border:1px solid var(--gray100)">
       <h3 style="font-family:var(--font-display);font-size:.95rem;font-weight:700;margin-bottom:12px">How It Works</h3>
       <div style="display:flex;flex-direction:column;gap:12px">
@@ -3383,6 +3409,27 @@ if (window._currentUser !== undefined) {
   if (u) { updateSettingsUI(u); loadDashboard(); checkAdminAccess(u); }
 }
 </script>
+  <script> const endDate = new Date("2026-05-31T23:59:59").getTime();
+
+setInterval(() => {
+  const now = new Date().getTime();
+  const diff = endDate - now;
+
+  const el = document.getElementById("premium-countdown");
+  if (!el) return;
+
+  if (diff <= 0) {
+    el.innerHTML = "Expired";
+    return;
+  }
+
+  const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const m = Math.floor((diff / (1000 * 60)) % 60);
+  const s = Math.floor((diff / 1000) % 60);
+
+  el.innerHTML = `${d}d ${h}h ${m}m ${s}s`;
+}, 1000); </script>
 <!-- ══ FLOATING AI ASSISTANT BUTTON ══ -->
 <style>
 #ai-fab{position:fixed;bottom:calc(var(--nav-h) + 14px + env(safe-area-inset-bottom));right:16px;z-index:400;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#6366F1,#8B5CF6);box-shadow:0 4px 18px rgba(99,102,241,.45);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s}
