@@ -868,30 +868,46 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:0}
         </div>
         <div class="form-group"><label class="form-label">Services Offered</label>
           <div class="chip-group" id="services-chips">
-            <div class="chip" onclick="toggleService(this,'Airport Pickup')">Airport Pickup</div>
-            <div class="chip" onclick="toggleService(this,'Hotel Transfers')">Hotel Transfers</div>
-            <div class="chip" onclick="toggleService(this,'Online Booking')">Online Booking</div>
-            <div class="chip" onclick="toggleService(this,'Customised Packages')">Custom Packages</div>
-            <div class="chip" onclick="toggleService(this,'Group Tours')">Group Tours</div>
-            <div class="chip" onclick="toggleService(this,'Honeymoon Packages')">Honeymoon</div>
-            <div class="chip" onclick="toggleService(this,'Family Packages')">Family Packages</div>
-            <div class="chip" onclick="toggleService(this,'Adventure Tours')">Adventure Tours</div>
-            <div class="chip" onclick="toggleService(this,'Snow Tours')">Snow Tours</div>
-            <div class="chip" onclick="toggleService(this,'Houseboat Stay')">Houseboat Stay</div>
-            <div class="chip" onclick="toggleService(this,'Dal Lake Tour')">Dal Lake Tour</div>
-            <div class="chip" onclick="toggleService(this,'Gulmarg Tour')">Gulmarg Tour</div>
-            <div class="chip" onclick="toggleService(this,'Pahalgam Tour')">Pahalgam Tour</div>
-            <div class="chip" onclick="toggleService(this,'Sonamarg Tour')">Sonamarg Tour</div>
-            <div class="chip" onclick="toggleService(this,'Shikara Ride')">Shikara Ride</div>
-            <div class="chip" onclick="toggleService(this,'Trekking')">Trekking</div>
-            <div class="chip" onclick="toggleService(this,'Skiing')">Skiing</div>
-            <div class="chip" onclick="toggleService(this,'Camping')">Camping</div>
-            <div class="chip" onclick="toggleService(this,'Meals Included')">Meals Included</div>
-            <div class="chip" onclick="toggleService(this,'Photography')">Photography</div>
-            <div class="chip" onclick="toggleService(this,'24/7 Support')">24/7 Support</div>
-            <div class="chip" onclick="toggleService(this,'Visa Assistance')">Visa Assistance</div>
-            <div class="chip" onclick="toggleService(this,'UPI Payment')">UPI Payment</div>
-          </div>
+
+  <div class="chip" onclick="toggleService(this,'Room Booking')">Room Booking</div>
+  <div class="chip" onclick="toggleService(this,'Luxury Stay')">Luxury Stay</div>
+  <div class="chip" onclick="toggleService(this,'Family Rooms')">Family Rooms</div>
+  <div class="chip" onclick="toggleService(this,'Mountain View')">Mountain View</div>
+  <div class="chip" onclick="toggleService(this,'Lake View')">Lake View</div>
+  <div class="chip" onclick="toggleService(this,'Houseboat Stay')">Houseboat Stay</div>
+  <div class="chip" onclick="toggleService(this,'Bonfire')">Bonfire</div>
+  <div class="chip" onclick="toggleService(this,'Camping')">Camping</div>
+
+  <div class="chip" onclick="toggleService(this,'Tour Packages')">Tour Packages</div>
+  <div class="chip" onclick="toggleService(this,'Custom Tours')">Custom Tours</div>
+  <div class="chip" onclick="toggleService(this,'Honeymoon Packages')">Honeymoon Packages</div>
+  <div class="chip" onclick="toggleService(this,'Group Tours')">Group Tours</div>
+  <div class="chip" onclick="toggleService(this,'Airport Pickup')">Airport Pickup</div>
+  <div class="chip" onclick="toggleService(this,'Taxi Service')">Taxi Service</div>
+  <div class="chip" onclick="toggleService(this,'Car Rental')">Car Rental</div>
+  <div class="chip" onclick="toggleService(this,'Driver Service')">Driver Service</div>
+
+  <div class="chip" onclick="toggleService(this,'Adventure Tours')">Adventure Tours</div>
+  <div class="chip" onclick="toggleService(this,'Trekking')">Trekking</div>
+  <div class="chip" onclick="toggleService(this,'Skiing')">Skiing</div>
+  <div class="chip" onclick="toggleService(this,'Shikara Ride')">Shikara Ride</div>
+  <div class="chip" onclick="toggleService(this,'River Rafting')">River Rafting</div>
+  <div class="chip" onclick="toggleService(this,'Paragliding')">Paragliding</div>
+  <div class="chip" onclick="toggleService(this,'Photography Tour')">Photography Tour</div>
+  <div class="chip" onclick="toggleService(this,'Guided Tours')">Guided Tours</div>
+
+  <div class="chip" onclick="toggleService(this,'Restaurant')">Restaurant</div>
+  <div class="chip" onclick="toggleService(this,'Local Food')">Local Food</div>
+  <div class="chip" onclick="toggleService(this,'Kashmiri Cuisine')">Kashmiri Cuisine</div>
+  <div class="chip" onclick="toggleService(this,'Handicrafts')">Handicrafts</div>
+  <div class="chip" onclick="toggleService(this,'Souvenir Shopping')">Souvenir Shopping</div>
+
+  <div class="chip" onclick="toggleService(this,'Online Booking')">Online Booking</div>
+  <div class="chip" onclick="toggleService(this,'24/7 Support')">24/7 Support</div>
+  <div class="chip" onclick="toggleService(this,'Customer Support')">Customer Support</div>
+  <div class="chip" onclick="toggleService(this,'Travel Consultation')">Travel Consultation</div>
+
+</div>
         </div>
         <div class="form-group"><label class="form-label">Description *</label><textarea id="biz-desc" class="form-textarea" placeholder="Describe your agency/resort, specialties, and why tourists should choose you..." oninput="autosaveDraft()"></textarea></div>
         <div class="form-group"><label class="form-label">Address *</label><input type="text" id="biz-addr" class="form-input" placeholder="e.g. Dal Lake Road, Srinagar" oninput="autosaveDraft()"/></div>
@@ -1614,14 +1630,33 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:0}
     <div class="form-group"><label class="form-label">Business Name *</label><input type="text" id="edit-biz-name" class="form-input"/></div>
     <div class="form-group"><label class="form-label">Business Type *</label>
       <select id="edit-biz-type" class="form-select">
-        <option value="">Select type</option>
-        <option>Restaurant & Food Services</option><option>Retail & E-commerce</option><option>Healthcare & Medical</option>
-        <option>Education & Training</option><option>Technology & IT Services</option><option>Web Development</option>
-        <option>Mobile App Development</option><option>Digital Marketing</option><option>Beauty & Salon</option>
-        <option>Finance & Banking</option><option>Hospitality & Tourism</option><option>Real Estate & Property</option>
-        <option>Event Planning</option><option>Wedding Services</option><option>Home Services (Cleaning, Repair)</option>
-        <option>Legal Services</option><option>Consulting</option><option>Transportation & Logistics</option><option>Other</option>
-      </select>
+        <option value="">Select type...</option>
+
+<option>Resort</option>
+<option>Hotel</option>
+<option>Houseboat</option>
+<option>Guest House</option>
+<option>Camping</option>
+<option>Homestay</option>
+<option>Lodge</option>
+
+<option>Travel Agency</option>
+<option>Tour Operator</option>
+<option>Car Rental</option>
+<option>Taxi Service</option>
+
+<option>Adventure</option>
+<option>Trekking</option>
+<option>Skiing</option>
+<option>Shikara</option>
+<option>River Rafting</option>
+<option>Paragliding</option>
+<option>Photography Tour</option>
+
+<option>Restaurant</option>
+<option>Handicrafts</option>
+<option>Other</option>
+</select>
     </div>
     <div class="form-group"><label class="form-label">Description *</label><textarea id="edit-biz-desc" class="form-textarea"></textarea></div>
     <div class="form-group"><label class="form-label">Address *</label><input type="text" id="edit-biz-addr" class="form-input"/></div>
@@ -1630,12 +1665,46 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:0}
     <div class="form-group"><label class="form-label">Website URL</label><input type="url" id="edit-biz-website" class="form-input" placeholder="https://yourbusiness.com"/></div>
     <div class="form-group"><label class="form-label">Services</label>
       <div class="chip-group" id="edit-services-chips">
-        <div class="chip" onclick="this.classList.toggle('active')">Delivery</div><div class="chip" onclick="this.classList.toggle('active')">Pickup</div>
-        <div class="chip" onclick="this.classList.toggle('active')">Takeaway</div><div class="chip" onclick="this.classList.toggle('active')">Home Service</div>
-        <div class="chip" onclick="this.classList.toggle('active')">Online Booking</div><div class="chip" onclick="this.classList.toggle('active')">Consultation</div>
-        <div class="chip" onclick="this.classList.toggle('active')">Custom Orders</div><div class="chip" onclick="this.classList.toggle('active')">Installation</div>
-        <div class="chip" onclick="this.classList.toggle('active')">Repair</div><div class="chip" onclick="this.classList.toggle('active')">24/7 Service</div>
-      </div>
+
+  <div class="chip" onclick="this.classList.toggle('active')">Room Booking</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Luxury Stay</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Family Rooms</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Mountain View</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Lake View</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Houseboat Stay</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Bonfire</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Camping</div>
+
+  <div class="chip" onclick="this.classList.toggle('active')">Tour Packages</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Custom Tours</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Honeymoon Packages</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Group Tours</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Airport Pickup</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Taxi Service</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Car Rental</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Driver Service</div>
+
+  <div class="chip" onclick="this.classList.toggle('active')">Adventure Tours</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Trekking</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Skiing</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Shikara Ride</div>
+  <div class="chip" onclick="this.classList.toggle('active')">River Rafting</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Paragliding</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Photography Tour</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Guided Tours</div>
+
+  <div class="chip" onclick="this.classList.toggle('active')">Restaurant</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Local Food</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Kashmiri Cuisine</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Handicrafts</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Souvenir Shopping</div>
+
+  <div class="chip" onclick="this.classList.toggle('active')">Online Booking</div>
+  <div class="chip" onclick="this.classList.toggle('active')">24/7 Support</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Customer Support</div>
+  <div class="chip" onclick="this.classList.toggle('active')">Travel Consultation</div>
+
+</div>
     </div>
     <button class="btn btn-primary" id="edit-save-btn" onclick="saveEditBusiness()">Save Changes</button>
     <button class="btn btn-red" style="margin-top:8px" onclick="deleteMyBusiness()">🗑 Delete This Business</button>
