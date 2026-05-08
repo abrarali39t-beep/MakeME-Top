@@ -149,6 +149,13 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--primary);min-
 .payment-status-verified{background:#D1FAE5;color:#065F46;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:700;display:inline-block}
 .payment-status-rejected{background:#FEE2E2;color:#991B1B;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:700;display:inline-block}
 
+/* ─── PLAN CARDS (Razorpay) ─── */
+.plan-card{border:2px solid var(--gray200);border-radius:var(--radius-sm);padding:14px;background:var(--bg);transition:var(--transition);cursor:pointer}
+.plan-card.active{border-color:var(--primary);background:var(--gray50);box-shadow:0 0 0 3px rgba(31,31,31,.06)}
+.plan-radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--gray400);flex-shrink:0;transition:var(--transition);display:flex;align-items:center;justify-content:center}
+.plan-radio.active{border-color:var(--primary);background:var(--primary)}
+.plan-radio.active::after{content:'';width:7px;height:7px;border-radius:50%;background:#fff}
+
 /* ─── TOAST ─── */
 #toast{position:fixed;bottom:calc(var(--nav-h)+16px+env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(20px);background:var(--primary);color:#fff;padding:10px 20px;border-radius:24px;font-size:.85rem;font-weight:500;z-index:9999;opacity:0;transition:all .3s ease;white-space:nowrap;max-width:90vw;text-align:center;pointer-events:none}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}

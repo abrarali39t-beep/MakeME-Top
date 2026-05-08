@@ -185,15 +185,13 @@
   ]
 }
 </script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3499114279910810"
-     crossorigin="anonymous"></script>
+
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
-
-<link rel="stylesheet" href="shared.css" />
+<!-- Razorpay SDK loaded on demand by ensureRazorpaySdk() -->
 
 </head>
 <body>
@@ -483,46 +481,30 @@
         </div>
         <div class="form-group"><label class="form-label">Services Offered</label>
           <div class="chip-group" id="services-chips">
-
-  <div class="chip" onclick="toggleService(this,'Room Booking')">Room Booking</div>
-  <div class="chip" onclick="toggleService(this,'Luxury Stay')">Luxury Stay</div>
-  <div class="chip" onclick="toggleService(this,'Family Rooms')">Family Rooms</div>
-  <div class="chip" onclick="toggleService(this,'Mountain View')">Mountain View</div>
-  <div class="chip" onclick="toggleService(this,'Lake View')">Lake View</div>
-  <div class="chip" onclick="toggleService(this,'Houseboat Stay')">Houseboat Stay</div>
-  <div class="chip" onclick="toggleService(this,'Bonfire')">Bonfire</div>
-  <div class="chip" onclick="toggleService(this,'Camping')">Camping</div>
-
-  <div class="chip" onclick="toggleService(this,'Tour Packages')">Tour Packages</div>
-  <div class="chip" onclick="toggleService(this,'Custom Tours')">Custom Tours</div>
-  <div class="chip" onclick="toggleService(this,'Honeymoon Packages')">Honeymoon Packages</div>
-  <div class="chip" onclick="toggleService(this,'Group Tours')">Group Tours</div>
-  <div class="chip" onclick="toggleService(this,'Airport Pickup')">Airport Pickup</div>
-  <div class="chip" onclick="toggleService(this,'Taxi Service')">Taxi Service</div>
-  <div class="chip" onclick="toggleService(this,'Car Rental')">Car Rental</div>
-  <div class="chip" onclick="toggleService(this,'Driver Service')">Driver Service</div>
-
-  <div class="chip" onclick="toggleService(this,'Adventure Tours')">Adventure Tours</div>
-  <div class="chip" onclick="toggleService(this,'Trekking')">Trekking</div>
-  <div class="chip" onclick="toggleService(this,'Skiing')">Skiing</div>
-  <div class="chip" onclick="toggleService(this,'Shikara Ride')">Shikara Ride</div>
-  <div class="chip" onclick="toggleService(this,'River Rafting')">River Rafting</div>
-  <div class="chip" onclick="toggleService(this,'Paragliding')">Paragliding</div>
-  <div class="chip" onclick="toggleService(this,'Photography Tour')">Photography Tour</div>
-  <div class="chip" onclick="toggleService(this,'Guided Tours')">Guided Tours</div>
-
-  <div class="chip" onclick="toggleService(this,'Restaurant')">Restaurant</div>
-  <div class="chip" onclick="toggleService(this,'Local Food')">Local Food</div>
-  <div class="chip" onclick="toggleService(this,'Kashmiri Cuisine')">Kashmiri Cuisine</div>
-  <div class="chip" onclick="toggleService(this,'Handicrafts')">Handicrafts</div>
-  <div class="chip" onclick="toggleService(this,'Souvenir Shopping')">Souvenir Shopping</div>
-
-  <div class="chip" onclick="toggleService(this,'Online Booking')">Online Booking</div>
-  <div class="chip" onclick="toggleService(this,'24/7 Support')">24/7 Support</div>
-  <div class="chip" onclick="toggleService(this,'Customer Support')">Customer Support</div>
-  <div class="chip" onclick="toggleService(this,'Travel Consultation')">Travel Consultation</div>
-
-</div>
+            <div class="chip" onclick="toggleService(this,'Airport Pickup')">Airport Pickup</div>
+            <div class="chip" onclick="toggleService(this,'Hotel Transfers')">Hotel Transfers</div>
+            <div class="chip" onclick="toggleService(this,'Online Booking')">Online Booking</div>
+            <div class="chip" onclick="toggleService(this,'Customised Packages')">Custom Packages</div>
+            <div class="chip" onclick="toggleService(this,'Group Tours')">Group Tours</div>
+            <div class="chip" onclick="toggleService(this,'Honeymoon Packages')">Honeymoon</div>
+            <div class="chip" onclick="toggleService(this,'Family Packages')">Family Packages</div>
+            <div class="chip" onclick="toggleService(this,'Adventure Tours')">Adventure Tours</div>
+            <div class="chip" onclick="toggleService(this,'Snow Tours')">Snow Tours</div>
+            <div class="chip" onclick="toggleService(this,'Houseboat Stay')">Houseboat Stay</div>
+            <div class="chip" onclick="toggleService(this,'Dal Lake Tour')">Dal Lake Tour</div>
+            <div class="chip" onclick="toggleService(this,'Gulmarg Tour')">Gulmarg Tour</div>
+            <div class="chip" onclick="toggleService(this,'Pahalgam Tour')">Pahalgam Tour</div>
+            <div class="chip" onclick="toggleService(this,'Sonamarg Tour')">Sonamarg Tour</div>
+            <div class="chip" onclick="toggleService(this,'Shikara Ride')">Shikara Ride</div>
+            <div class="chip" onclick="toggleService(this,'Trekking')">Trekking</div>
+            <div class="chip" onclick="toggleService(this,'Skiing')">Skiing</div>
+            <div class="chip" onclick="toggleService(this,'Camping')">Camping</div>
+            <div class="chip" onclick="toggleService(this,'Meals Included')">Meals Included</div>
+            <div class="chip" onclick="toggleService(this,'Photography')">Photography</div>
+            <div class="chip" onclick="toggleService(this,'24/7 Support')">24/7 Support</div>
+            <div class="chip" onclick="toggleService(this,'Visa Assistance')">Visa Assistance</div>
+            <div class="chip" onclick="toggleService(this,'UPI Payment')">UPI Payment</div>
+          </div>
         </div>
         <div class="form-group"><label class="form-label">Description *</label><textarea id="biz-desc" class="form-textarea" placeholder="Describe your agency/resort, specialties, and why tourists should choose you..." oninput="autosaveDraft()"></textarea></div>
         <div class="form-group"><label class="form-label">Address *</label><input type="text" id="biz-addr" class="form-input" placeholder="e.g. Dal Lake Road, Srinagar" oninput="autosaveDraft()"/></div>
@@ -549,66 +531,111 @@
       </div>
     </div>
 
-    <!-- ══ STEP 2: UPI Payment ══ -->
+    <!-- ══ STEP 2: Razorpay Payment ══ -->
     <div class="form-step" id="step-2">
       <div class="section" style="padding-top:8px">
+
+        <!-- Countdown timer -->
         <div class="discount-timer">
           <div class="timer-icon">⏰</div>
-          <div class="timer-text"><strong>50% Launch Offer!</strong><br/>Expires in</div>
+          <div class="timer-text"><strong>Limited Time Offer!</strong><br/>Real price ₹1,499 · Offer expires in</div>
           <div class="timer-val" id="discount-countdown">Loading...</div>
         </div>
-        <!-- Pricing breakdown -->
-        <div style="background:var(--gray50);border-radius:var(--radius-sm);border:1px solid var(--gray100);padding:14px 16px;margin-bottom:16px">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-            <span style="font-size:.85rem;color:var(--gray500)">Verified Listing (1 Year)</span>
-            <span style="font-size:.85rem;text-decoration:line-through;color:var(--gray400)">₹1,999</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-            <span style="font-size:.85rem;color:var(--green);font-weight:600">Launch Discount (50%)</span>
-            <span style="font-size:.85rem;color:var(--green);font-weight:600">−₹1,000</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--gray200);padding-top:8px">
-            <span style="font-size:1rem;font-weight:800;font-family:var(--font-display)">Total</span>
-            <span style="font-size:1.3rem;font-weight:800;font-family:var(--font-display);color:var(--primary)">₹999</span>
+
+        <!-- Plan selector -->
+        <div style="margin-bottom:16px">
+          <p style="font-size:.8rem;font-weight:700;color:var(--gray700);margin-bottom:10px">Choose Your Plan:</p>
+          <div style="display:flex;flex-direction:column;gap:10px">
+
+            <!-- Monthly plan -->
+            <label style="cursor:pointer">
+              <input type="radio" name="mbp-plan" id="plan-monthly" value="monthly_799" checked style="display:none"/>
+              <div class="plan-card active" id="plan-card-monthly" onclick="selectPlan('monthly_799')">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <div class="plan-radio active" id="plan-radio-monthly"></div>
+                  <div style="flex:1">
+                    <div style="font-weight:700;font-size:.9rem">1 Month</div>
+                    <div style="font-size:.75rem;color:var(--gray500);margin-top:1px">
+                      <span style="text-decoration:line-through;color:var(--gray400)">₹1,499</span>
+                      <span style="color:var(--red);font-weight:700;margin-left:5px">47% OFF</span>
+                    </div>
+                  </div>
+                  <div style="text-align:right">
+                    <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:800;color:var(--primary)">₹799</div>
+                    <div style="font-size:.68rem;color:var(--gray400)">/month</div>
+                  </div>
+                </div>
+              </div>
+            </label>
+
+            <!-- Annual plan -->
+            <label style="cursor:pointer;position:relative">
+              <input type="radio" name="mbp-plan" id="plan-annual" value="annual_1499" style="display:none"/>
+              <div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-size:.65rem;font-weight:800;padding:2px 10px;border-radius:10px;white-space:nowrap;z-index:1">🔥 SAVE ₹1,589 — Best Value</div>
+              <div class="plan-card" id="plan-card-annual" onclick="selectPlan('annual_1499')" style="border:1.5px solid var(--green)">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <div class="plan-radio" id="plan-radio-annual"></div>
+                  <div style="flex:1">
+                    <div style="font-weight:700;font-size:.9rem">1 Year <span style="font-size:.72rem;background:#D1FAE5;color:var(--green);padding:2px 7px;border-radius:8px;margin-left:4px;font-weight:700">17% OFF</span></div>
+                    <div style="font-size:.75rem;color:var(--gray500);margin-top:1px">
+                      <span style="text-decoration:line-through;color:var(--gray400)">₹9,588</span>
+                      <span style="color:var(--green);font-weight:700;margin-left:5px">You save ₹1,589!</span>
+                    </div>
+                  </div>
+                  <div style="text-align:right">
+                    <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:800;color:var(--green)">₹7,999</div>
+                    <div style="font-size:.68rem;color:var(--gray400)">/year</div>
+                  </div>
+                </div>
+              </div>
+            </label>
           </div>
         </div>
-        <!-- UPI payment box -->
-        <div class="upi-box">
-          <div class="upi-box-header">
-            <div class="mbp-logo-pay">MakeMe Top · MBP</div>
-            <div class="pay-amount">₹999</div>
-            <div class="pay-label">Scan QR or use UPI ID below</div>
-          </div>
-          <div class="upi-qr-section">
-            <div class="qr-wrap" id="payment-qr-wrap"></div>
-            <div class="scan-label">📱 Scan with any UPI app</div>
-          </div>
-          <div class="upi-divider"><span>or pay directly</span></div>
-          <div class="upi-id-row">
-            <div class="upi-id-copy">
-              <div class="upi-id-val">willianxpeed@pingpay</div>
-              <button onclick="copyUpiId()">Copy ID</button>
-            </div>
-            <div style="font-size:.75rem;color:var(--gray500);text-align:center;line-height:1.5">Pay <strong>₹999</strong> to <strong>willianxpeed@pingpay</strong><br/>Use remark: <strong id="payment-remark" style="color:var(--primary)">MBP-XXXXXX</strong></div>
-          </div>
-          <div class="upi-apps">
-            <a class="upi-app-btn" onclick="openUpiApp('gpay');return false" href="#"><span class="app-icon">💳</span><span class="app-name">GPay</span></a>
-            <a class="upi-app-btn" onclick="openUpiApp('phonepe');return false" href="#"><span class="app-icon">💜</span><span class="app-name">PhonePe</span></a>
-            <a class="upi-app-btn" onclick="openUpiApp('paytm');return false" href="#"><span class="app-icon">🔵</span><span class="app-name">Paytm</span></a>
-            <a class="upi-app-btn" onclick="openUpiApp('bhim');return false" href="#"><span class="app-icon">🇮🇳</span><span class="app-name">BHIM</span></a>
+
+        <!-- What's included -->
+        <div style="background:var(--gray50);border-radius:var(--radius-sm);border:1px solid var(--gray100);padding:12px 14px;margin-bottom:14px">
+          <p style="font-size:.78rem;font-weight:700;margin-bottom:8px">✅ All plans include:</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+            <div style="font-size:.72rem;color:var(--gray700)">✓ Verified badge</div>
+            <div style="font-size:.72rem;color:var(--gray700)">✓ Google indexed</div>
+            <div style="font-size:.72rem;color:var(--gray700)">✓ Photo gallery</div>
+            <div style="font-size:.72rem;color:var(--gray700)">✓ Call & WhatsApp</div>
+            <div style="font-size:.72rem;color:var(--gray700)">✓ 5-star reviews</div>
+            <div style="font-size:.72rem;color:var(--gray700)">✓ Live in 48 hours</div>
           </div>
         </div>
-        <div style="background:#EFF6FF;border:1.5px solid #BFDBFE;border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:.78rem;color:#1E40AF;line-height:1.5">
-          ℹ️ <strong>After paying:</strong> Take a screenshot of your payment confirmation and upload it on the next step. Your listing will be approved within <strong>48 hours</strong>.
+
+        <!-- Razorpay Pay button -->
+        <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:14px;text-align:center">
+          <div style="font-size:.72rem;color:rgba(255,255,255,.55);margin-bottom:6px">Secure payment via</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#528FF0"/><path d="M6 8l4 8 4-8" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 8h2a2 2 0 0 1 0 4h-2V8z" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span style="color:#fff;font-weight:800;font-size:.95rem;letter-spacing:.5px">Razorpay</span>
+          </div>
+          <div style="display:flex;gap:6px;justify-content:center;margin-bottom:10px;flex-wrap:wrap">
+            <span style="background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);font-size:.65rem;padding:2px 8px;border-radius:10px">💳 Cards</span>
+            <span style="background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);font-size:.65rem;padding:2px 8px;border-radius:10px">📱 UPI</span>
+            <span style="background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);font-size:.65rem;padding:2px 8px;border-radius:10px">🏦 Net Banking</span>
+            <span style="background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);font-size:.65rem;padding:2px 8px;border-radius:10px">💰 Wallets</span>
+          </div>
+          <button class="btn" id="razorpay-pay-btn" onclick="initRazorpayPayment()" style="background:linear-gradient(135deg,#528FF0,#3B82F6);color:#fff;font-size:.95rem;font-weight:800;padding:13px 20px;border-radius:10px;width:100%;box-shadow:0 4px 14px rgba(82,143,240,.4)">
+            🔒 Pay Securely Now
+          </button>
         </div>
+
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:14px;justify-content:center">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span style="font-size:.72rem;color:var(--gray500)">256-bit SSL encryption · PCI DSS compliant · Instant activation</span>
+        </div>
+
         <div style="display:flex;gap:8px">
           <button class="btn btn-ghost" onclick="goToStep(1)" style="flex:0 0 auto;width:auto;padding:12px 18px">← Back</button>
-          <button class="btn btn-primary" onclick="goToStep(3)" style="flex:1">I've Paid — Upload Proof →</button>
+          <button class="btn btn-ghost" style="flex:1;font-size:.78rem;color:var(--gray500)" onclick="goToStep(3)">Pay manually (UPI screenshot)</button>
         </div>
       </div>
     </div>
 
-    <!-- ══ STEP 3: Upload Payment Proof ══ -->
+    <!-- ══ STEP 3: Manual Payment Fallback (UPI screenshot) ══ -->
     <div class="form-step" id="step-3">
       <div class="section" style="padding-top:8px">
         <div style="text-align:center;margin-bottom:20px">
@@ -643,7 +670,7 @@
           <button class="btn btn-ghost" onclick="goToStep(2)" style="flex:0 0 auto;width:auto;padding:12px 18px">← Back</button>
           <button class="btn btn-primary" id="final-submit-btn" onclick="submitBusinessWithPayment()" style="flex:1">🔥 Submit for Review</button>
         </div>
-        <p style="font-size:.72rem;color:var(--gray400);text-align:center;margin-top:10px;line-height:1.5">By submitting you confirm payment of ₹999 to willianxpeed@pingpay and agree to our Terms.</p>
+        <p style="font-size:.72rem;color:var(--gray400);text-align:center;margin-top:10px;line-height:1.5">By submitting you confirm manual UPI payment and and agree to our Terms.</p>
       </div>
     </div>
 
@@ -773,70 +800,77 @@
 <div id="page-premium" class="page">
   <header class="top-header"><button class="back-btn" onclick="navBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button><div class="title">Get Listed</div><div class="spacer"></div></header>
   <div class="scroll-body"><div class="section">
-    <div style="text-align:center;padding:8px 0 20px">
+    <div style="text-align:center;padding:8px 0 16px">
       <div style="font-size:2.5rem;margin-bottom:8px">🏔️</div>
-      <h1 style="font-family:var(--font-display);font-size:1.4rem;font-weight:800;margin-bottom:6px">List Your Agency / Resort</h1>
-      <p class="text-muted text-sm">Get verified &amp; visible to thousands of tourists planning Kashmir trips</p>
+      <h1 style="font-family:var(--font-display);font-size:1.35rem;font-weight:800;margin-bottom:6px">List Your Agency / Resort</h1>
+      <p class="text-muted text-sm">Reach thousands of tourists planning Kashmir trips</p>
     </div>
-    <div class="discount-timer" style="margin-bottom:20px">
+
+    <!-- 10-day offer countdown -->
+    <div class="discount-timer" style="margin-bottom:16px">
       <div class="timer-icon">⏰</div>
-     <div class="timer-text"><strong>Live Launch Offer!</strong><br/>Expires in</div>
+      <div class="timer-text"><strong>Limited Offer!</strong> Real price ₹1,499/mo<br/>Offer expires in</div>
       <div class="timer-val" id="premium-countdown">Loading...</div>
     </div>
-   <div class="price-card featured" style="margin-bottom:20px">
-  <div class="popular-tag">🔥 Best Value</div>
-  <h3>Verified Agency / Resort</h3>
 
-  <div style="margin-bottom:8px">
-    <span style="font-size:1rem;color:rgba(255,255,255,.5);text-decoration:line-through">₹1,599</span>
-    <span style="font-size:.75rem;font-weight:700;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:20px;margin-left:6px">50% OFF</span>
-  </div>
+    <!-- Plan Cards -->
+    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px">
 
-  <div class="price">₹799 <span>1 month</span></div>
+      <!-- Monthly -->
+      <div class="price-card" style="border:2px solid var(--gray200);padding:18px 16px;border-radius:var(--radius);position:relative">
+        <h3 style="font-family:var(--font-display);font-weight:800;font-size:1rem;margin-bottom:4px">1 Month</h3>
+        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px">
+          <span style="font-size:.85rem;text-decoration:line-through;color:var(--gray400)">₹1,499</span>
+          <span style="font-size:.72rem;background:#FEE2E2;color:var(--red);padding:2px 7px;border-radius:8px;font-weight:700">47% OFF</span>
+        </div>
+        <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;margin-bottom:10px">₹799 <span style="font-size:.9rem;font-weight:400;color:var(--gray500)">/month</span></div>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:14px">
+          <li style="font-size:.8rem;display:flex;gap:6px">✓ Verified badge · Google indexed</li>
+          <li style="font-size:.8rem;display:flex;gap:6px">✓ Call, WhatsApp, Gallery, Reviews</li>
+          <li style="font-size:.8rem;display:flex;gap:6px">✓ Live within 48 hours</li>
+          <li style="font-size:.8rem;display:flex;gap:6px">✓ Cancel anytime</li>
+        </ul>
+        <button class="btn btn-primary" onclick="tryAddBusiness('monthly_799')">Get Started – ₹799/month →</button>
+      </div>
 
-  <ul>
-    <li>Verified badge on your profile</li>
-    <li>Featured on MakeMe Top homepage</li>
-    <li>Google-indexed with full Schema markup</li>
-    <li>Unlimited photo gallery</li>
-    <li>Call, WhatsApp &amp; booking buttons</li>
-    <li>5-star customer reviews</li>
-    <li>QR code for easy sharing</li>
-    <li>Priority placement in search</li>
-    <li>Live within 48 hours of payment</li>
-  </ul>
+      <!-- Annual — Best Value -->
+      <div class="price-card featured" style="padding:18px 16px;position:relative">
+        <div class="popular-tag">🔥 Best Value — Save ₹1,589</div>
+        <h3 style="font-family:var(--font-display);font-weight:800;font-size:1rem;margin-bottom:4px;color:#fff">1 Year</h3>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+          <span style="font-size:.85rem;text-decoration:line-through;color:rgba(255,255,255,.4)">₹9,588</span>
+          <span style="font-size:.72rem;background:rgba(255,255,255,.2);color:#fff;padding:2px 7px;border-radius:8px;font-weight:700">17% OFF</span>
+        </div>
+        <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;margin-bottom:2px;color:#fff">₹7,999 <span style="font-size:.9rem;font-weight:400;opacity:.7">/year</span></div>
+        <div style="font-size:.75rem;color:rgba(255,255,255,.65);margin-bottom:10px">= ₹667/month · Save ₹1,589!</div>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:14px">
+          <li style="font-size:.8rem;display:flex;gap:6px;color:#fff">✓ Everything in Monthly</li>
+          <li style="font-size:.8rem;display:flex;gap:6px;color:#fff">✓ Priority placement in search</li>
+          <li style="font-size:.8rem;display:flex;gap:6px;color:#fff">✓ Auto-renews after 1 year</li>
+          <li style="font-size:.8rem;display:flex;gap:6px;color:#fff">✓ Best ROI for your business</li>
+        </ul>
+        <button class="btn" style="background:#fff;color:var(--primary);font-weight:800" onclick="tryAddBusiness('annual_1499')">Get Listed – ₹7,999/year →</button>
+      </div>
+    </div>
 
-  <button class="btn" style="background:#fff;color:var(--primary);font-weight:800" onclick="tryAddBusiness()">Get Listed – ₹799 →</button>
-</div>
+    <!-- Payment methods badge -->
+    <div style="background:var(--gray50);border-radius:var(--radius-sm);border:1px solid var(--gray100);padding:10px 14px;text-align:center;margin-bottom:14px">
+      <div style="font-size:.72rem;color:var(--gray500);margin-bottom:5px;font-weight:600">Secure payment via Razorpay</div>
+      <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap">
+        <span style="font-size:.7rem;background:#fff;border:1px solid var(--gray200);padding:2px 8px;border-radius:6px">💳 Cards</span>
+        <span style="font-size:.7rem;background:#fff;border:1px solid var(--gray200);padding:2px 8px;border-radius:6px">📱 UPI</span>
+        <span style="font-size:.7rem;background:#fff;border:1px solid var(--gray200);padding:2px 8px;border-radius:6px">🏦 Net Banking</span>
+        <span style="font-size:.7rem;background:#fff;border:1px solid var(--gray200);padding:2px 8px;border-radius:6px">💰 Wallets</span>
+      </div>
+    </div>
 
-<div class="price-card" style="margin-bottom:20px">
-  <div class="popular-tag" style="background:var(--green)">💎 1 Year Plan</div>
-  <h3>Verified Agency / Resort — Yearly</h3>
-
-  <div style="margin-bottom:8px">
-    <span style="font-size:1rem;color:rgba(255,255,255,.5);text-decoration:line-through">₹9,588</span>
-    <span style="font-size:.75rem;font-weight:700;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:20px;margin-left:6px">20% OFF</span>
-  </div>
-
-  <div class="price">₹7,670 <span>1 year</span></div>
-
-  <ul>
-    <li>12 months verified listing</li>
-    <li>Save ₹1,918 instantly</li>
-    <li>Homepage featured placement</li>
-    <li>Google-indexed SEO profile</li>
-    <li>Priority approval &amp; updates</li>
-  </ul>
-
-  <button class="btn" style="background:var(--primary);color:#fff;font-weight:800" onclick="tryAddBusiness()">Get Yearly Plan – ₹7,670 →</button>
-</div>
+    <!-- How it works -->
     <div style="background:var(--gray50);border-radius:var(--radius);padding:16px;border:1px solid var(--gray100)">
       <h3 style="font-family:var(--font-display);font-size:.95rem;font-weight:700;margin-bottom:12px">How It Works</h3>
-      <div style="display:flex;flex-direction:column;gap:12px">
-        <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;flex-shrink:0">1</div><div style="font-size:.82rem"><strong>Fill Your Details</strong><br/><span style="color:var(--gray500)">Add your agency/resort info, photos &amp; services</span></div></div>
-        <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;flex-shrink:0">2</div><div style="font-size:.82rem"><strong>Pay ₹999 via UPI</strong><br/><span style="color:var(--gray500)">Scan QR or pay to willianxpeed@pingpay</span></div></div>
-        <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;flex-shrink:0">3</div><div style="font-size:.82rem"><strong>Upload Screenshot</strong><br/><span style="color:var(--gray500)">Submit payment proof with your transaction ID</span></div></div>
-        <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;flex-shrink:0">✓</div><div style="font-size:.82rem"><strong>Go Live in 48 Hours</strong><br/><span style="color:var(--gray500)">We verify &amp; manually approve your listing</span></div></div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:26px;height:26px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;flex-shrink:0">1</div><div style="font-size:.82rem"><strong>Fill Your Details</strong><br/><span style="color:var(--gray500)">Add your agency/resort info, photos &amp; services</span></div></div>
+        <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:26px;height:26px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;flex-shrink:0">2</div><div style="font-size:.82rem"><strong>Pay via Razorpay</strong><br/><span style="color:var(--gray500)">Cards, UPI, Net Banking — instant &amp; secure</span></div></div>
+        <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:26px;height:26px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;flex-shrink:0">✓</div><div style="font-size:.82rem"><strong>Auto-approved in 48 Hours</strong><br/><span style="color:var(--gray500)">Payment verified automatically · listing goes live</span></div></div>
       </div>
     </div>
   </div></div>
@@ -948,6 +982,152 @@
     <textarea id="chat-text" placeholder="Type your message..." rows="1" aria-label="Chat message" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChatMsg()}"></textarea>
     <button onclick="sendChatMsg()" aria-label="Send message"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
   </div>
+</div>
+
+<!-- ══ PAGE: ABOUT ══ -->
+<div id="page-about" class="page">
+  <header class="top-header"><button class="back-btn" onclick="navBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button><div class="title">About MBP</div><div class="spacer"></div></header>
+  <div class="scroll-body">
+    <!-- Hero -->
+    <div style="background:var(--primary);padding:32px 20px;text-align:center;color:#fff">
+      <div style="font-family:var(--font-display);font-size:2.2rem;font-weight:800;letter-spacing:-1px">Make<span style="color:var(--accent)">Me</span>Top</div>
+      <div style="font-size:.8rem;opacity:.6;margin-top:4px;letter-spacing:.5px">MBP – MAKEMETOP BUSINESS PROFILE</div>
+      <p style="font-size:.9rem;opacity:.8;margin-top:12px;line-height:1.6">Srinagar's #1 local business directory<br/>for Jammu &amp; Kashmir</p>
+    </div>
+    <!-- Stats row -->
+    <div style="display:flex;border-bottom:1px solid var(--gray100)">
+      <div style="flex:1;padding:18px 12px;text-align:center;border-right:1px solid var(--gray100)">
+        <div style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:var(--primary)">Free</div>
+        <div style="font-size:.72rem;color:var(--gray500);margin-top:2px">Always free to list</div>
+      </div>
+      <div style="flex:1;padding:18px 12px;text-align:center;border-right:1px solid var(--gray100)">
+        <div style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:var(--primary)">J&amp;K</div>
+        <div style="font-size:.72rem;color:var(--gray500);margin-top:2px">Jammu &amp; Kashmir</div>
+      </div>
+      <div style="flex:1;padding:18px 12px;text-align:center">
+        <div style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:var(--primary)">24h</div>
+        <div style="font-size:.72rem;color:var(--gray500);margin-top:2px">Approval time</div>
+      </div>
+    </div>
+    <div class="section" style="line-height:1.75;font-size:.88rem;color:var(--gray700)">
+      <h2 style="font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:10px;color:var(--primary)">Who We Are</h2>
+      <p><strong>MBP – MakeMeTop Business Profile</strong> is Srinagar's #1 local business directory for Jammu &amp; Kashmir. We help every business — from Lal Chowk shops to Gulmarg hotels — get discovered online and connect with real customers every day.</p>
+      <br/>
+      <h2 style="font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:10px;color:var(--primary)">What We Offer</h2>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;gap:12px;align-items:flex-start"><span style="font-size:1.2rem;flex-shrink:0">📋</span><div><strong>Free MBP Listing</strong><br/><span style="color:var(--gray500)">Create your MakeMeTop Business Profile completely free. No credit card needed.</span></div></div>
+        <div style="display:flex;gap:12px;align-items:flex-start"><span style="font-size:1.2rem;flex-shrink:0">🔍</span><div><strong>Google-Indexed Profiles</strong><br/><span style="color:var(--gray500)">Every MBP is indexed on Google Search with Schema markup — your business appears in search results.</span></div></div>
+        <div style="display:flex;gap:12px;align-items:flex-start"><span style="font-size:1.2rem;flex-shrink:0">⭐</span><div><strong>Verified Customer Reviews</strong><br/><span style="color:var(--gray500)">Real 5-star reviews from real customers. Build trust and attract more visitors.</span></div></div>
+        <div style="display:flex;gap:12px;align-items:flex-start"><span style="font-size:1.2rem;flex-shrink:0">📞</span><div><strong>Direct Contact Buttons</strong><br/><span style="color:var(--gray500)">Call, WhatsApp, and Website buttons on every MBP profile for instant customer contact.</span></div></div>
+        <div style="display:flex;gap:12px;align-items:flex-start"><span style="font-size:1.2rem;flex-shrink:0">🏢</span><div><strong>Ownership Transfer</strong><br/><span style="color:var(--gray500)">Business owners can claim and manage their MBP listing through our secure ownership system.</span></div></div>
+        <div style="display:flex;gap:12px;align-items:flex-start"><span style="font-size:1.2rem;flex-shrink:0">📲</span><div><strong>PWA Mobile App</strong><br/><span style="color:var(--gray500)">Install the MBP app from Settings — works offline, loads fast, feels native.</span></div></div>
+      </div>
+      <br/>
+      <h2 style="font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:10px;color:var(--primary)">Our Mission</h2>
+      <p>Bridge the gap between local businesses and customers across all of Jammu &amp; Kashmir. From Srinagar to Jammu, from Anantnag to Baramulla — we put every J&amp;K business on the digital map.</p>
+      <br/>
+      <div style="background:var(--gray50);border-radius:var(--radius);padding:16px;text-align:center;border:1px solid var(--gray100)">
+        <div style="font-size:.75rem;color:var(--gray500)">MBP – MakeMeTop Business Profile</div>
+        <a href="https://makemetop.in" style="color:var(--accent2);font-weight:600;font-size:.9rem">makemetop.in</a>
+        <div style="font-size:.72rem;color:var(--gray400);margin-top:4px">Srinagar, Jammu &amp; Kashmir, India · v4.0.0</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE: PRIVACY ══ -->
+<div id="page-privacy" class="page">
+  <header class="top-header"><button class="back-btn" onclick="navBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button><div class="title">Privacy Policy</div><div class="spacer"></div></header>
+  <div class="scroll-body"><div class="section" style="line-height:1.75;font-size:.85rem;color:var(--gray700)">
+    <div style="background:var(--gray50);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:20px;border-left:3px solid var(--accent2);font-size:.8rem;color:var(--gray500)">Last updated: April 2025 · MBP – MakeMeTop Business Profile · makemetop.in</div>
+
+    <h2 style="font-family:var(--font-display);font-size:.95rem;font-weight:700;margin-bottom:8px;color:var(--primary)">1. Information We Collect</h2>
+    <p>When you use MBP, we may collect: your name, email address, and profile photo when you sign up; business information you submit (name, address, phone, photos); reviews and ratings you post; and general usage data via Firebase Analytics.</p>
+    <br/>
+    <h2 style="font-family:var(--font-display);font-size:.95rem;font-weight:700;margin-bottom:8px;color:var(--primary)">2. How We Use It</h2>
+    <p>Your data is used to create and display your MBP listing on Google Search, enable customer reviews, send you email notifications about your listing, and provide live chat support. We do not sell your data to third parties.</p>
+    <br/>
+    <h2 style="font-family:var(--font-display);font-size:.95rem;font-weight:700;margin-bottom:8px;color:var(--primary)">3. Data Storage &amp; Security</h2>
+    <p>All data is stored securely on Google Firebase (Firestore) with strict security rules. Business images are stored on Google Drive. Only you can access and edit your own listings. We use industry-standard encryption for all data in transit.</p>
+    <br/>
+    <h2 style="font-family:var(--font-display);font-size:.95rem;font-weight:700;margin-bottom:8px;color:var(--primary)">4. Your Rights</h2>
+    <p>You can edit or delete your reviews at any time from the app. You can delete your business listing from your Dashboard. To permanently delete your account and all associated data, contact us via live chat in the app.</p>
+    <br/>
+    <h2 style="font-family:var(--font-display);font-size:.95rem;font-weight:700;margin-bottom:8px;color:var(--primary)">5. Cookies &amp; Local Storage</h2>
+    <p>We use browser local storage to save draft listings and install preferences. Firebase uses session cookies to keep you signed in. We do not use advertising cookies or sell your browsing data.</p>
+    <br/>
+    <h2 style="font-family:var(--font-display);font-size:.95rem;font-weight:700;margin-bottom:8px;color:var(--primary)">6. Contact</h2>
+    <p>For any privacy concerns or data deletion requests, contact us via live chat in the MBP app or email us at <strong>support@makemetop.in</strong>.</p>
+  </div></div>
+</div>
+
+<!-- ══ PAGE: TERMS ══ -->
+<div id="page-terms" class="page">
+  <header class="top-header"><button class="back-btn" onclick="navBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button><div class="title">Terms &amp; Conditions</div><div class="spacer"></div></header>
+  <div class="scroll-body"><div class="section" style="line-height:1.75;font-size:.85rem;color:var(--gray700)">
+    <div style="background:var(--gray50);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:20px;border-left:3px solid var(--accent);font-size:.8rem;color:var(--gray500)">Last updated: April 2025 · By using MBP you agree to these terms.</div>
+
+    <h2 style="font-family:var(--font-display);font-size:.95rem;font-weight:700;margin-bottom:8px;color:var(--primary)">1. Use of Service</h2>
+    <p>MBP – MakeMeTop Business Profile (makemetop.in) is a local business directory for Jammu &amp; Kashmir. By using our platform, you agree to provide accurate business information and to use the platform lawfully and respectfully.</p>
+    <br/>
+    <h2 style="font-family:var(--font-display);font-size:.95rem;font-weight:700;margin-bottom:8px;color:var(--primary)">2. Business Listings</h2>
+    <p>Business owners are responsible for the accuracy of their listings. Listings are reviewed within 24 hours. We reserve the right to reject or remove any listing that violates our guidelines, contains false information, or is inappropriate.</p>
+    <br/>
+    <h2 style="font-family:var(--font-display);font-size:.95rem;font-weight:700;margin-bottom:8px;color:var(--primary)">3. Reviews</h2>
+    <p>Reviews must be genuine and based on real personal experience. Each user may submit only one review per business. Fake, abusive, or spam reviews will result in account suspension. We reserve the right to remove any review that violates these terms.</p>
+    <br/>
+    <h2 style="font-family:var(--font-display);font-size:.95rem;font-weight:700;margin-bottom:8px;color:var(--primary)">4. Ownership Transfers</h2>
+    <p>The "Own This Business" feature allows users to request ownership of a listing. Current owners may accept or reject requests. MBP is not responsible for disputes arising from ownership transfers. Admin may intervene in cases of verified fraud.</p>
+    <br/>
+    <h2 style="font-family:var(--font-display);font-size:.95rem;font-weight:700;margin-bottom:8px;color:var(--primary)">5. Intellectual Property</h2>
+    <p>Business photos and descriptions you upload remain your property. By uploading them, you grant MBP a non-exclusive licence to display them on our platform and in Google Search results for the purpose of promoting your business.</p>
+    <br/>
+    <h2 style="font-family:var(--font-display);font-size:.95rem;font-weight:700;margin-bottom:8px;color:var(--primary)">6. Limitation of Liability</h2>
+    <p>MBP is provided "as is". We are not responsible for the accuracy of user-submitted content or for transactions between users and businesses. Our liability is limited to the maximum extent permitted by applicable Indian law.</p>
+    <br/>
+    <h2 style="font-family:var(--font-display);font-size:.95rem;font-weight:700;margin-bottom:8px;color:var(--primary)">7. Governing Law</h2>
+    <p>These terms are governed by the laws of India. Disputes shall be subject to the jurisdiction of courts in Srinagar, Jammu &amp; Kashmir.</p>
+  </div></div>
+</div>
+
+<!-- ══ PAGE: REFUND ══ -->
+<div id="page-refund" class="page">
+  <header class="top-header"><button class="back-btn" onclick="navBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button><div class="title">Refund Policy</div><div class="spacer"></div></header>
+  <div class="scroll-body"><div class="section" style="line-height:1.75;font-size:.85rem;color:var(--gray700)">
+    <div style="background:var(--gray50);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:20px;border-left:3px solid var(--green);font-size:.8rem;color:var(--gray500)">Last updated: April 2025 · MBP – MakeMeTop Business Profile</div>
+
+    <!-- Free listing callout -->
+    <div style="background:#D1FAE5;border:1.5px solid #6EE7B7;border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:20px;text-align:center">
+      <div style="font-size:1.5rem;margin-bottom:4px">🎉</div>
+      <strong style="color:#065F46;font-size:.9rem">Basic MBP listing is always free!</strong>
+      <p style="color:#065F46;font-size:.78rem;margin-top:4px">No payment required — nothing to refund for free listings.</p>
+    </div>
+
+    <h2 style="font-family:var(--font-display);font-size:.95rem;font-weight:700;margin-bottom:8px;color:var(--primary)">Premium Plans (Coming Soon)</h2>
+    <p>MBP Premium payment gateway is currently under development and will launch soon. Once live, the following refund policy will apply:</p>
+    <br/>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:var(--gray50);border-radius:var(--radius-xs);border:1px solid var(--gray100)">
+        <span style="font-size:.82rem">Cancelled within 24h (not yet activated)</span>
+        <span style="font-size:.78rem;font-weight:700;color:var(--green)">Full Refund ✅</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:var(--gray50);border-radius:var(--radius-xs);border:1px solid var(--gray100)">
+        <span style="font-size:.82rem">Cancelled within 7 days (partially used)</span>
+        <span style="font-size:.78rem;font-weight:700;color:var(--accent)">Prorated ⚡</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:var(--gray50);border-radius:var(--radius-xs);border:1px solid var(--gray100)">
+        <span style="font-size:.82rem">Cancelled after 7 days</span>
+        <span style="font-size:.78rem;font-weight:700;color:var(--red)">No Refund ❌</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:var(--gray50);border-radius:var(--radius-xs);border:1px solid var(--gray100)">
+        <span style="font-size:.82rem">Technical failure on our end</span>
+        <span style="font-size:.78rem;font-weight:700;color:var(--green)">Full Refund ✅</span>
+      </div>
+    </div>
+
+    <h2 style="font-family:var(--font-display);font-size:.95rem;font-weight:700;margin-bottom:8px;color:var(--primary)">How to Request a Refund</h2>
+    <p>Contact us via live chat in the MBP app or email <strong>support@makemetop.in</strong>. Include your registered email and payment ID. Refunds are processed within 5–7 business days to your original payment method.</p>
+  </div></div>
 </div>
 
 <!-- ══ PAGE: ADMIN ══ -->
@@ -1099,33 +1279,14 @@
     <div class="form-group"><label class="form-label">Business Name *</label><input type="text" id="edit-biz-name" class="form-input"/></div>
     <div class="form-group"><label class="form-label">Business Type *</label>
       <select id="edit-biz-type" class="form-select">
-        <option value="">Select type...</option>
-
-<option>Resort</option>
-<option>Hotel</option>
-<option>Houseboat</option>
-<option>Guest House</option>
-<option>Camping</option>
-<option>Homestay</option>
-<option>Lodge</option>
-
-<option>Travel Agency</option>
-<option>Tour Operator</option>
-<option>Car Rental</option>
-<option>Taxi Service</option>
-
-<option>Adventure</option>
-<option>Trekking</option>
-<option>Skiing</option>
-<option>Shikara</option>
-<option>River Rafting</option>
-<option>Paragliding</option>
-<option>Photography Tour</option>
-
-<option>Restaurant</option>
-<option>Handicrafts</option>
-<option>Other</option>
-</select>
+        <option value="">Select type</option>
+        <option>Restaurant & Food Services</option><option>Retail & E-commerce</option><option>Healthcare & Medical</option>
+        <option>Education & Training</option><option>Technology & IT Services</option><option>Web Development</option>
+        <option>Mobile App Development</option><option>Digital Marketing</option><option>Beauty & Salon</option>
+        <option>Finance & Banking</option><option>Hospitality & Tourism</option><option>Real Estate & Property</option>
+        <option>Event Planning</option><option>Wedding Services</option><option>Home Services (Cleaning, Repair)</option>
+        <option>Legal Services</option><option>Consulting</option><option>Transportation & Logistics</option><option>Other</option>
+      </select>
     </div>
     <div class="form-group"><label class="form-label">Description *</label><textarea id="edit-biz-desc" class="form-textarea"></textarea></div>
     <div class="form-group"><label class="form-label">Address *</label><input type="text" id="edit-biz-addr" class="form-input"/></div>
@@ -1134,46 +1295,12 @@
     <div class="form-group"><label class="form-label">Website URL</label><input type="url" id="edit-biz-website" class="form-input" placeholder="https://yourbusiness.com"/></div>
     <div class="form-group"><label class="form-label">Services</label>
       <div class="chip-group" id="edit-services-chips">
-
-  <div class="chip" onclick="this.classList.toggle('active')">Room Booking</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Luxury Stay</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Family Rooms</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Mountain View</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Lake View</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Houseboat Stay</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Bonfire</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Camping</div>
-
-  <div class="chip" onclick="this.classList.toggle('active')">Tour Packages</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Custom Tours</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Honeymoon Packages</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Group Tours</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Airport Pickup</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Taxi Service</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Car Rental</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Driver Service</div>
-
-  <div class="chip" onclick="this.classList.toggle('active')">Adventure Tours</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Trekking</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Skiing</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Shikara Ride</div>
-  <div class="chip" onclick="this.classList.toggle('active')">River Rafting</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Paragliding</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Photography Tour</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Guided Tours</div>
-
-  <div class="chip" onclick="this.classList.toggle('active')">Restaurant</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Local Food</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Kashmiri Cuisine</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Handicrafts</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Souvenir Shopping</div>
-
-  <div class="chip" onclick="this.classList.toggle('active')">Online Booking</div>
-  <div class="chip" onclick="this.classList.toggle('active')">24/7 Support</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Customer Support</div>
-  <div class="chip" onclick="this.classList.toggle('active')">Travel Consultation</div>
-
-</div>
+        <div class="chip" onclick="this.classList.toggle('active')">Delivery</div><div class="chip" onclick="this.classList.toggle('active')">Pickup</div>
+        <div class="chip" onclick="this.classList.toggle('active')">Takeaway</div><div class="chip" onclick="this.classList.toggle('active')">Home Service</div>
+        <div class="chip" onclick="this.classList.toggle('active')">Online Booking</div><div class="chip" onclick="this.classList.toggle('active')">Consultation</div>
+        <div class="chip" onclick="this.classList.toggle('active')">Custom Orders</div><div class="chip" onclick="this.classList.toggle('active')">Installation</div>
+        <div class="chip" onclick="this.classList.toggle('active')">Repair</div><div class="chip" onclick="this.classList.toggle('active')">24/7 Service</div>
+      </div>
     </div>
     <button class="btn btn-primary" id="edit-save-btn" onclick="saveEditBusiness()">Save Changes</button>
     <button class="btn btn-red" style="margin-top:8px" onclick="deleteMyBusiness()">🗑 Delete This Business</button>
@@ -1204,22 +1331,28 @@ import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, q
 
 // ── FIREBASE CONFIG — get from console.firebase.google.com ──
 const firebaseConfig = {
-apiKey: "AIzaSyDwx-GoLV3-T5_zEURlqUb1LXa48gbqhM8",
-  authDomain: "live-voting-b236f.firebaseapp.com",
-  projectId: "live-voting-b236f",
-  storageBucket: "live-voting-b236f.firebasestorage.app",
+  apiKey:            "AIzaSyDwx-GoLV3-T5_zEURlqUb1LXa48gbqhM8",
+  authDomain:        "live-voting-b236f.firebaseapp.com",
+  projectId:         "live-voting-b236f",
+  storageBucket:     "live-voting-b236f.firebasestorage.app",
   messagingSenderId: "591198383755",
-  appId: "1:591198383755:web:6dc9fefcc6dd495048ae8e"
+  appId:             "1:591198383755:web:6dc9fefcc6dd495048ae8e"
 };
 
-const DRIVE_UPLOAD_URL = "https://script.google.com/macros/s/AKfycbycICnJVrzE-0Sj2_FajqWU9qy7ggm_UTNLxxHfvvApnePatDFTjdrthrz66vs3Eqp7/exec";
-// ⬇ Deploy Code.gs → paste your Apps Script URL:
-const EMAIL_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbycICnJVrzE-0Sj2_FajqWU9qy7ggm_UTNLxxHfvvApnePatDFTjdrthrz66vs3Eqp7/exec";
+const APPS_SCRIPT_URL  = "https://script.google.com/macros/s/AKfycbycICnJVrzE-0Sj2_FajqWU9qy7ggm_UTNLxxHfvvApnePatDFTjdrthrz66vs3Eqp7/exec";
+// ⬇ Both DRIVE uploads and EMAIL sending use the same Apps Script URL:
+const DRIVE_UPLOAD_URL = APPS_SCRIPT_URL;
+// ⬇ Deploy Code.gs → Web App → Execute as Me → Anyone → copy URL here:
+const EMAIL_SCRIPT_URL = APPS_SCRIPT_URL;
 // ⬇ Your admin email(s) — who can access the admin panel:
 const ADMIN_EMAILS = ["abrarrtallks@gmail.com"];
 // ⬇ Payment constants:
-const UPI_ID = "willianxpeed@pingpay";
-const LISTING_PRICE = "999";
+// ── RAZORPAY PLANS CONFIG (display only — keys are in Apps Script) ──
+const RAZORPAY_PLANS = {
+  monthly_799: { name:'MBP Premium – 1 Month', display:'₹799',  amount:79900,  real:'₹1,499', period:'month' },
+  annual_1499: { name:'MBP Premium – 1 Year',  display:'₹7,999', amount:799900, real:'₹9,588', period:'year', savePct:17 }
+};
+window.RAZORPAY_PLANS = RAZORPAY_PLANS;
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -1235,8 +1368,8 @@ window._authFns = { createUserWithEmailAndPassword, signInWithEmailAndPassword, 
 window.ADMIN_EMAILS = ADMIN_EMAILS;
 window.DRIVE_UPLOAD_URL = DRIVE_UPLOAD_URL;
 window.EMAIL_SCRIPT_URL = EMAIL_SCRIPT_URL;
-window.UPI_ID = UPI_ID;
-window.LISTING_PRICE = LISTING_PRICE;
+window.RAZORPAY_PLANS = RAZORPAY_PLANS;
+window.APPS_SCRIPT_URL = APPS_SCRIPT_URL;
 
 onAuthStateChanged(auth, async user => {
   window._currentUser = user;
@@ -1283,22 +1416,49 @@ async function handleFirstLogin(user) {
 }
 
 // ── UNIFIED APPS SCRIPT CALLER ──
-// All Apps Script calls go through this function for consistent error handling
-async function callAppsScript(payload) {
-  const url = window.EMAIL_SCRIPT_URL || window.APPS_SCRIPT_URL;
-  if (!url || url.includes('PASTE')) { console.warn('Apps Script URL not configured'); return null; }
-  try {
-    const resp = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify(payload)
-    });
-    const text = await resp.text();
-    try { return JSON.parse(text); } catch(e) { return { status: 'sent' }; }
-  } catch(e) {
-    console.warn('Apps Script call failed:', payload.action, e.message);
+// All Apps Script calls (email, AI, Razorpay order creation) go through here.
+// Uses text/plain to avoid CORS preflight — required for Apps Script.
+// Handles redirects, JSON parse errors, and network failures gracefully.
+async function callAppsScript(payload, retries = 1) {
+  const url = window.APPS_SCRIPT_URL || window.EMAIL_SCRIPT_URL;
+  if (!url || url.includes('PASTE')) {
+    console.warn('Apps Script URL not configured');
     return null;
   }
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const resp = await fetch(url, {
+        method:   'POST',
+        // text/plain avoids preflight CORS — required for Apps Script web apps
+        headers:  { 'Content-Type': 'text/plain;charset=UTF-8' },
+        body:     JSON.stringify(payload),
+        // follow redirects (Apps Script often does 302 → exec URL)
+        redirect: 'follow',
+        cache:    'no-store'
+      });
+      const rawText = await resp.text();
+      if (!rawText || rawText.trim() === '') {
+        console.warn('Apps Script empty response for action:', payload.action);
+        return null;
+      }
+      try {
+        const parsed = JSON.parse(rawText);
+        return parsed;
+      } catch(parseErr) {
+        // Apps Script sometimes returns HTML on errors — log it
+        console.warn('Apps Script non-JSON response:', rawText.slice(0, 200));
+        return { status: 'error', raw: rawText.slice(0, 200) };
+      }
+    } catch(networkErr) {
+      if (attempt < retries) {
+        await new Promise(r => setTimeout(r, 1000)); // wait 1s before retry
+        continue;
+      }
+      console.warn('Apps Script network error:', payload.action, networkErr.message);
+      return null;
+    }
+  }
+  return null;
 }
 
 // ── SEND WELCOME EMAIL via Google Apps Script ──
@@ -1526,25 +1686,33 @@ function compressImage(file, maxWidth, quality) {
 }
 
 // ══════════════════════════════════════
-//  PAYMENT FLOW — MULTI-STEP
+//  PAYMENT FLOW — Razorpay
 // ══════════════════════════════════════
-let currentFormStep = 1, paymentSSFile = null, paymentRemark = '';
+let currentFormStep = 1, paymentSSFile = null, selectedPlanId = 'monthly_799';
 
-function tryAddBusiness() {
+function selectPlan(planId) {
+  selectedPlanId = planId;
+  ['monthly_799','annual_1499'].forEach(id => {
+    const c = document.getElementById('plan-card-' + id);
+    const r = document.getElementById('plan-radio-' + id);
+    if (c) c.classList.toggle('active', id === planId);
+    if (r) r.classList.toggle('active', id === planId);
+  });
+  const plan = window.RAZORPAY_PLANS && window.RAZORPAY_PLANS[planId];
+  if (plan) { const btn = document.getElementById('razorpay-pay-btn'); if (btn) btn.textContent = '🔒 Pay ' + plan.display + ' Securely'; }
+}
+
+function tryAddBusiness(planId) {
   if (!window._currentUser) { showAuth('login'); return; }
+  if (planId) selectedPlanId = planId;
   loadDraftToForm();
   currentFormStep = 1;
-  paymentRemark = 'MBP-' + (window._currentUser.uid||'USER').slice(-6).toUpperCase();
-  const remarkEl = document.getElementById('payment-remark');
-  if (remarkEl) remarkEl.textContent = paymentRemark;
   goToStep(1);
   navTo('add');
   startDiscountCountdown();
-  setTimeout(generatePaymentQR, 600);
 }
 
 function goToStep(n) {
-  // Validate before advancing past step 1
   if (n === 2) {
     const name  = document.getElementById('biz-name')?.value.trim();
     const type  = document.getElementById('biz-type')?.value;
@@ -1563,93 +1731,323 @@ function goToStep(n) {
   }
   currentFormStep = n;
   for (let i = 1; i <= 4; i++) {
-    const s = document.getElementById('step-' + i);
-    if (s) s.classList.toggle('active', i === n);
-    const dot   = document.getElementById('sdot-'   + i);
-    const label = document.getElementById('slabel-' + i);
-    if (dot) {
-      dot.classList.remove('active', 'done');
-      if (i < n)      { dot.classList.add('done');   dot.textContent = '✓'; }
-      else if (i === n){ dot.classList.add('active'); dot.textContent = i;   }
-      else             { dot.textContent = i; }
-    }
-    if (label) {
-      label.classList.remove('active', 'done');
-      if (i < n) label.classList.add('done');
-      else if (i === n) label.classList.add('active');
-    }
-    if (i < 4) {
-      const line = document.getElementById('sline-' + i);
-      if (line) line.classList.toggle('done', i < n);
-    }
+    const s = document.getElementById('step-' + i); if (s) s.classList.toggle('active', i === n);
+    const dot = document.getElementById('sdot-' + i), label = document.getElementById('slabel-' + i);
+    if (dot) { dot.classList.remove('active','done'); if(i<n){dot.classList.add('done');dot.textContent='✓';}else if(i===n){dot.classList.add('active');dot.textContent=i;}else dot.textContent=i; }
+    if (label) { label.classList.remove('active','done'); if(i<n)label.classList.add('done'); else if(i===n)label.classList.add('active'); }
+    if (i<4) { const line=document.getElementById('sline-'+i); if(line)line.classList.toggle('done',i<n); }
   }
-  const titles = ['', 'Business Details', 'Payment', 'Upload Proof', 'Submitted!'];
-  const hdr = document.getElementById('add-page-title');
-  if (hdr) hdr.textContent = titles[n] || 'List Your Business';
-  const sb = document.querySelector('#page-add .scroll-body');
-  if (sb) sb.scrollTo(0, 0);
+  const titles = ['','Business Details','Payment','Manual Proof','Submitted!'];
+  const hdr = document.getElementById('add-page-title'); if(hdr) hdr.textContent = titles[n]||'List Your Business';
+  const sb = document.querySelector('#page-add .scroll-body'); if(sb) sb.scrollTo(0,0);
+  if (n === 2) { selectPlan(selectedPlanId||'monthly_799'); startDiscountCountdown(); }
 }
 
-// ── QR Code generator ──
-function generatePaymentQR() {
-  const upiUrl = `upi://pay?pa=${window.UPI_ID||'willianxpeed@pingpay'}&pn=${encodeURIComponent('MakeMe Top MBP')}&am=${window.LISTING_PRICE||'999'}&cu=INR&tn=${encodeURIComponent(paymentRemark||'MBP')}`;
-  const wrap = document.getElementById('payment-qr-wrap');
-  if (!wrap) return;
-  wrap.innerHTML = '';
-  try {
-    if (typeof QRCode !== 'undefined') {
-      new QRCode(wrap, { text: upiUrl, width: 144, height: 144, colorDark: '#1F1F1F', colorLight: '#FFFFFF', correctLevel: QRCode.CorrectLevel.M });
-    } else {
-      wrap.innerHTML = `<div style="font-size:.7rem;color:var(--gray500);text-align:center;padding:8px;word-break:break-all">UPI: ${window.UPI_ID||'willianxpeed@pingpay'}<br/><a href="${upiUrl}" style="color:var(--accent2)">Tap to Pay</a></div>`;
-    }
-  } catch(e) { wrap.innerHTML = `<div style="font-size:.7rem;color:var(--gray500);text-align:center;padding:8px">UPI: willianxpeed@pingpay</div>`; }
-}
-
-// ── Open UPI app deep links ──
-function openUpiApp(app) {
-  const id  = window.UPI_ID || 'willianxpeed@pingpay';
-  const amt = window.LISTING_PRICE || '999';
-  const tn  = encodeURIComponent(paymentRemark || 'MBP');
-  const nm  = encodeURIComponent('MakeMe Top MBP');
-  const links = {
-    gpay:    `tez://upi/pay?pa=${id}&pn=${nm}&am=${amt}&cu=INR&tn=${tn}`,
-    phonepe: `phonepe://pay?pa=${id}&pn=${nm}&am=${amt}&cu=INR&tn=${tn}`,
-    paytm:   `paytmmp://pay?pa=${id}&pn=${nm}&am=${amt}&cu=INR&tn=${tn}`,
-    bhim:    `bhim://pay?pa=${id}&pn=${nm}&am=${amt}&cu=INR&tn=${tn}`
-  };
-  const a = document.createElement('a');
-  a.href = links[app] || `upi://pay?pa=${id}&pn=${nm}&am=${amt}&cu=INR&tn=${tn}`;
-  a.click();
-  setTimeout(() => showToast(`📱 Open your UPI app and pay ₹${amt} to ${id}`), 2000);
-}
-
-// ── Copy UPI ID ──
-function copyUpiId() {
-  const id = window.UPI_ID || 'willianxpeed@pingpay';
-  navigator.clipboard.writeText(id).then(() => showToast('✅ UPI ID copied: ' + id)).catch(() => {
-    const ta = document.createElement('textarea'); ta.value = id;
-    document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
-    showToast('✅ UPI ID copied!');
-  });
-}
-
-// ── 10-day discount countdown ──
 function startDiscountCountdown() {
-  const key = 'ks_offer_expiry';
+  const key = 'mbp_offer_expiry';
   let expiry = localStorage.getItem(key);
-  if (!expiry) { expiry = Date.now() + (10 * 24 * 60 * 60 * 1000); localStorage.setItem(key, expiry); }
+  if (!expiry) { expiry = Date.now() + (10*24*60*60*1000); localStorage.setItem(key, expiry); }
   expiry = parseInt(expiry);
   function update() {
     const diff = Math.max(0, expiry - Date.now());
-    const d = Math.floor(diff / 86400000), h = Math.floor((diff % 86400000) / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000), s = Math.floor((diff % 60000) / 1000);
-    const str = diff === 0 ? 'Offer Expired' : d > 0 ? `${d}d ${h}h ${m}m` : `${h}h ${m}m ${s}s`;
-    ['discount-countdown', 'premium-countdown'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = str; });
+    const d = Math.floor(diff/86400000), h = Math.floor((diff%86400000)/3600000);
+    const m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
+    const str = diff===0?'Offer Expired':d>0?`${d}d ${h}h ${m}m`:`${h}h ${m}m ${s}s`;
+    ['discount-countdown','premium-countdown'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=str;});
   }
   update();
   if (window._cdTimer) clearInterval(window._cdTimer);
   window._cdTimer = setInterval(update, 1000);
 }
+
+// ═══════════════════════════════════════════════════════════
+//  RAZORPAY CHECKOUT FLOW — v2 (Fixed)
+//
+//  Security model:
+//    - key_secret & webhook_secret ONLY in Code.gs (Apps Script)
+//    - Frontend gets only key_id (public) + order_id from server
+//    - Payment auto-activates user via webhook in Firestore
+//    - Frontend also saves listing + payment record as backup
+//    - Auto-expiry handled by daily Apps Script trigger
+// ═══════════════════════════════════════════════════════════
+
+// ── Razorpay SDK loader (loads on demand so it doesn't block page) ──
+function ensureRazorpaySdk() {
+  return new Promise((resolve, reject) => {
+    if (typeof Razorpay !== 'undefined') { resolve(); return; }
+    const s = document.createElement('script');
+    s.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    s.onload  = () => resolve();
+    s.onerror = () => reject(new Error('Razorpay SDK failed to load. Check your internet connection.'));
+    document.head.appendChild(s);
+  });
+}
+
+async function initRazorpayPayment() {
+  const planId = selectedPlanId || 'monthly_799';
+  const plan   = window.RAZORPAY_PLANS && window.RAZORPAY_PLANS[planId];
+  const user   = window._currentUser;
+
+  // ── Guards ──
+  if (!user)  { showAuth('login'); return; }
+  if (!plan)  { showToast('⚠️ Please select a plan first'); return; }
+
+  const appsUrl = window.APPS_SCRIPT_URL;
+  if (!appsUrl || appsUrl.includes('PASTE')) {
+    showToast('⚠️ Payment backend not configured. Contact support.');
+    return;
+  }
+
+  const btn = document.getElementById('razorpay-pay-btn');
+  const setBtnState = (loading, text) => {
+    if (!btn) return;
+    btn.disabled = loading;
+    btn.innerHTML = loading
+      ? '<span style="display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>' + text + '</span>'
+      : text;
+  };
+
+  setBtnState(true, 'Creating order…');
+
+  // Use the biz form values to generate a unique biz ID tied to this session
+  const bizId = 'biz_' + user.uid.slice(-8) + '_' + Date.now();
+
+  try {
+    // ── Step 1: Create order via Apps Script (key_secret stays server-side) ──
+    const orderResp = await callAppsScript({
+      action:     'createRazorpayOrder',
+      plan_id:    planId,
+      user_id:    user.uid,
+      user_email: user.email || '',
+      user_name:  user.displayName || user.email?.split('@')[0] || '',
+      biz_id:     bizId
+    });
+
+    if (!orderResp) {
+      setBtnState(false, '🔒 Pay Securely Now');
+      showToast('❌ Could not reach payment server. Check connection.');
+      return;
+    }
+    if (orderResp.error) {
+      setBtnState(false, '🔒 Pay Securely Now');
+      showToast('❌ ' + orderResp.error);
+      return;
+    }
+
+    const { order_id, key_id, amount, currency } = orderResp;
+
+    if (!order_id) { setBtnState(false, '🔒 Pay Securely Now'); showToast('❌ Invalid order from server. Try again.'); return; }
+    if (!key_id)   { setBtnState(false, '🔒 Pay Securely Now'); showToast('❌ Razorpay key missing. Contact support.'); return; }
+
+    // ── Step 2: Load Razorpay SDK if not already loaded ──
+    try {
+      await ensureRazorpaySdk();
+    } catch(sdkErr) {
+      setBtnState(false, '🔒 Pay Securely Now');
+      showToast('❌ ' + sdkErr.message);
+      return;
+    }
+
+    // ── Step 3: Open Razorpay checkout modal ──
+    const options = {
+      key:         key_id,
+      amount:      amount,
+      currency:    currency || 'INR',
+      name:        'MakeMe Top',
+      description: plan.name,
+      image:       'https://makemetop.in/icon-192.png',
+      order_id:    order_id,
+      prefill: {
+        name:  user.displayName || '',
+        email: user.email || '',
+        contact: ''
+      },
+      notes: {
+        user_id:    user.uid,
+        plan_id:    planId,
+        biz_id:     bizId,
+        user_email: user.email || ''
+      },
+      theme: { color: '#1F1F1F' },
+      modal: {
+        backdropclose: false,
+        escape: true,
+        ondismiss: () => {
+          setBtnState(false, '🔒 Pay Securely Now');
+          showToast('Payment cancelled. Select a plan and try again.');
+        }
+      },
+      handler: async (response) => {
+        // Called after successful payment on client side
+        // Webhook also fires server-side for auto-activation
+        await onRazorpaySuccess(response, planId, bizId, { amount, order_id });
+      }
+    };
+
+    const rzp = new Razorpay(options);
+
+    rzp.on('payment.failed', (resp) => {
+      const desc = resp.error?.description || resp.error?.reason || 'Payment failed';
+      const code = resp.error?.code || '';
+      console.error('RZP payment.failed:', resp.error);
+      showToast('❌ Payment failed: ' + desc);
+      setBtnState(false, '🔒 Pay Securely Now');
+    });
+
+    setBtnState(false, '🔒 Pay Securely Now'); // re-enable before modal opens
+    rzp.open();
+
+  } catch(err) {
+    console.error('initRazorpayPayment error:', err);
+    showToast('❌ ' + (err.message || 'Unexpected error. Please try again.'));
+    setBtnState(false, '🔒 Pay Securely Now');
+  }
+}
+
+// ── Called after successful Razorpay client-side payment ──
+// The webhook (server-side) also activates the user automatically.
+// This function saves the business listing and payment record as a
+// frontend backup, ensuring the listing is saved even if the webhook
+// fires slightly after the user sees the success screen.
+async function onRazorpaySuccess(rzpResponse, planId, bizId, orderData) {
+  const btn = document.getElementById('razorpay-pay-btn');
+  if (btn) { btn.disabled = true; btn.textContent = '✅ Activating…'; }
+  showToast('✅ Payment successful! Saving your listing…');
+
+  try {
+    const user = window._currentUser;
+    if (!user) throw new Error('Session expired. Please refresh and try again.');
+
+    // ── Collect form fields ──
+    const name      = sanitizeInput(document.getElementById('biz-name')?.value.trim()  || '', 150);
+    const type      = sanitizeInput(document.getElementById('biz-type')?.value          || '', 60);
+    const desc      = sanitizeInput(document.getElementById('biz-desc')?.value.trim()  || '', 2000);
+    const addr      = sanitizeInput(document.getElementById('biz-addr')?.value.trim()  || '', 300);
+    const phone     = sanitizeInput(document.getElementById('biz-phone')?.value.trim() || '', 20);
+    const whatsapp  = sanitizeInput(document.getElementById('biz-whatsapp')?.value.trim() || '', 20);
+    const website   = sanitizeInput(document.getElementById('biz-website')?.value.trim()  || '', 200);
+    const logoFile  = document.getElementById('logo-file')?.files[0];
+    const coverFile = document.getElementById('cover-file')?.files[0];
+
+    if (!name) throw new Error('Business name is missing. Please go back to Step 1.');
+    if (!type) throw new Error('Business type is missing. Please go back to Step 1.');
+
+    // ── Upload images ──
+    const [logoUrl, coverUrl] = await Promise.all([
+      logoFile  ? uploadImageToDrive(logoFile,  bizId) : Promise.resolve(''),
+      coverFile ? uploadImageToDrive(coverFile, bizId) : Promise.resolve('')
+    ]);
+
+    const galleryUrls = [];
+    for (let i = 0; i < 3; i++) {
+      if (typeof galleryFiles !== 'undefined' && galleryFiles[i]) {
+        const u = await uploadImageToDrive(galleryFiles[i], bizId);
+        if (u) galleryUrls.push(u);
+      }
+    }
+
+    const { addDoc, collection, serverTimestamp, doc, setDoc } = window._collections;
+    const plan = window.RAZORPAY_PLANS[planId] || {};
+
+    // Expiry: 30 days for monthly, 365 for annual
+    const durationDays = planId === 'annual_1499' ? 365 : 30;
+    const expiryMs     = Date.now() + durationDays * 24 * 60 * 60 * 1000;
+    const expiryISO    = new Date(expiryMs).toISOString();
+
+    const paymentId  = rzpResponse.razorpay_payment_id  || '';
+    const rzpOrderId = rzpResponse.razorpay_order_id    || orderData.order_id || '';
+    const amountINR  = (orderData.amount || 0) / 100;
+
+    // ── Save business listing ──
+    // status: 'pending' → webhook/admin sets to 'approved'
+    // is_premium: true (payment confirmed client-side; webhook double-confirms)
+    const bizData = {
+      name,
+      type,
+      services:       getSelectedServices ? getSelectedServices() : [],
+      description:    desc,
+      address:        addr,
+      phone,
+      whatsapp,
+      website,
+      logo_url:       logoUrl,
+      cover_url:      coverUrl,
+      gallery_urls:   galleryUrls,
+      status:         'pending',
+      is_premium:     true,
+      premium_plan:   planId,
+      premium_expiry: expiryISO,
+      payment_id:     paymentId,
+      razorpay_order_id: rzpOrderId,
+      biz_id:         bizId,
+      created_at:     serverTimestamp(),
+      user_id:        user.uid,
+      user_email:     user.email || '',
+      rating:         0,
+      review_count:   0
+    };
+
+    await addDoc(collection(window._db, 'businesses'), bizData);
+
+    // ── Save payment record ──
+    await addDoc(collection(window._db, 'payments'), {
+      payment_id:   paymentId,
+      order_id:     rzpOrderId,
+      user_id:      user.uid,
+      user_email:   user.email || '',
+      plan_id:      planId,
+      plan_name:    plan.name || '',
+      amount_inr:   amountINR,
+      biz_id:       bizId,
+      status:       'paid',
+      expires_at:   expiryISO,
+      duration_days: durationDays,
+      created_at:   serverTimestamp()
+    });
+
+    // ── Update user premium status (client-side; webhook also does this) ──
+    try {
+      const { doc: docFn, setDoc: setDocFn } = window._collections;
+      await setDocFn(docFn(window._db, 'users', user.uid), {
+        is_premium:     true,
+        premium_plan:   planId,
+        premium_expiry: expiryISO,
+        payment_id:     paymentId,
+        updated_at:     serverTimestamp()
+      }, { merge: true });
+    } catch(userUpdateErr) {
+      console.warn('User premium update failed (non-critical):', userUpdateErr);
+    }
+
+    // ── Notify Apps Script for email + server-side activation ──
+    callAppsScript({
+      action:      'sendPaymentConfirm',
+      to:          user.email,
+      name:        user.displayName || user.email?.split('@')[0] || '',
+      planName:    plan.name,
+      amount:      amountINR,
+      paymentId:   paymentId,
+      expiry:      new Date(expiryMs).toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' }),
+      planId:      planId
+    }).catch(e => console.warn('Email notify failed:', e));
+
+    // ── Done ──
+    localStorage.removeItem('mmt_draft');
+    if (typeof clearAddForm === 'function') clearAddForm();
+    goToStep(4);
+    if (typeof loadDashboard === 'function') setTimeout(loadDashboard, 800);
+    showToast('🎉 Payment confirmed! Your listing is under review.');
+
+  } catch(err) {
+    console.error('onRazorpaySuccess error:', err);
+    showToast('❌ ' + err.message);
+    // Don't reset button here — payment already succeeded, just the save failed
+    // User can refresh dashboard to see their listing
+  }
+
+  if (btn) { btn.disabled = false; btn.textContent = '🔒 Pay Securely Now'; }
+}
+
 
 // ── Payment screenshot preview ──
 function previewPaymentSS(input) {
@@ -1714,7 +2112,7 @@ async function submitBusinessWithPayment() {
       business_name:  name,
       user_id:        window._currentUser.uid,
       user_email:     window._currentUser.email,
-      upi_id:         window.UPI_ID || 'willianxpeed@pingpay',
+      upi_id:         'razorpay_' + (rzpPaymentId||'manual'),
       transaction_id: sanitizeInput(txnId, 100),
       amount_paid:    sanitizeInput(amtPaid, 20),
       payment_remark: paymentRemark,
@@ -2936,7 +3334,7 @@ if ('serviceWorker' in navigator) {
 // ══════════════════════════════════════
 //  EXPOSE GLOBALS
 // ══════════════════════════════════════
-Object.assign(window,{navTo,navBack,tryAddBusiness,loadHomeBiz,loadDashboard,filterCat,openBizDetail,callBusiness,whatsappBusiness,openWebsite,shareBusiness,openReviewModal,editReview,deleteReview,selectStar,submitReview,previewImg,previewGal,toggleService,saveDraft,autosaveDraft,goToStep,generatePaymentQR,openUpiApp,copyUpiId,startDiscountCountdown,previewPaymentSS,submitBusinessWithPayment,loadAdminPayments,adminVerifyPayment,viewPaymentSS,openEditBizModal,saveEditBusiness,deleteMyBusiness,openBizDetailAndEdit,toggleFaq,sendContactMsg,sendVerification,openModal,closeModal,openLightbox,logout,changePassword,sendPasswordReset,showToast,loadAdmin,loadAdminTab,adminAction,adminDelete,sendChatMsg,sendAdminReply,openAdminChatThread,showWelcomeModal,triggerInstall,updateInstallButtonVisibility,showInstallInstructions,showMainApp,showAuth,updateSettingsUI,checkAdminAccess,showVerifyBanner,loadDashboard,loadHomeBiz,openClaimModal,submitClaimRequest,handleClaimAction,adminResolveClaim,loadAdminClaims,goSlide,rateLimit,sanitizeInput});
+Object.assign(window,{navTo,navBack,tryAddBusiness,loadHomeBiz,loadDashboard,filterCat,openBizDetail,callBusiness,whatsappBusiness,openWebsite,shareBusiness,openReviewModal,editReview,deleteReview,selectStar,submitReview,previewImg,previewGal,toggleService,saveDraft,autosaveDraft,goToStep,selectPlan,initRazorpayPayment,onRazorpaySuccess,ensureRazorpaySdk,startDiscountCountdown,previewPaymentSS,submitBusinessWithPayment,loadAdminPayments,adminVerifyPayment,viewPaymentSS,openEditBizModal,saveEditBusiness,deleteMyBusiness,openBizDetailAndEdit,toggleFaq,sendContactMsg,sendVerification,openModal,closeModal,openLightbox,logout,changePassword,sendPasswordReset,showToast,loadAdmin,loadAdminTab,adminAction,adminDelete,sendChatMsg,sendAdminReply,openAdminChatThread,showWelcomeModal,triggerInstall,updateInstallButtonVisibility,showInstallInstructions,showMainApp,showAuth,updateSettingsUI,checkAdminAccess,showVerifyBanner,loadDashboard,loadHomeBiz,openClaimModal,submitClaimRequest,handleClaimAction,adminResolveClaim,loadAdminClaims,goSlide,rateLimit,sanitizeInput,callAppsScript,setLoading});
 
 // ── Safety net: if Firebase auth resolved before this script ran ──
 if (window._currentUser !== undefined) {
@@ -2947,27 +3345,6 @@ if (window._currentUser !== undefined) {
   if (u) { updateSettingsUI(u); loadDashboard(); checkAdminAccess(u); }
 }
 </script>
-  <script> const endDate = new Date("2026-05-31T23:59:59").getTime();
-
-setInterval(() => {
-  const now = new Date().getTime();
-  const diff = endDate - now;
-
-  const el = document.getElementById("premium-countdown");
-  if (!el) return;
-
-  if (diff <= 0) {
-    el.innerHTML = "Expired";
-    return;
-  }
-
-  const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const m = Math.floor((diff / (1000 * 60)) % 60);
-  const s = Math.floor((diff / 1000) % 60);
-
-  el.innerHTML = `${d}d ${h}h ${m}m ${s}s`;
-}, 1000); </script>
 <!-- ══ FLOATING AI ASSISTANT BUTTON ══ -->
 <style>
 #ai-fab{position:fixed;bottom:calc(var(--nav-h) + 14px + env(safe-area-inset-bottom));right:16px;z-index:400;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#6366F1,#8B5CF6);box-shadow:0 4px 18px rgba(99,102,241,.45);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s}
