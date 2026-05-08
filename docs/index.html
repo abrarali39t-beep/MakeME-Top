@@ -1433,56 +1433,10 @@ async function handleFirstLogin(user) {
   } catch(e) { console.warn('First-login check failed:', e); }
 }
 
-// ── UNIFIED APPS SCRIPT CALLER ──
-// All Apps Script calls (email, AI, Razorpay order creation) go through here.
-// Uses text/plain to avoid CORS preflight — required for Apps Script.
-// Handles redirects, JSON parse errors, and network failures gracefully.
-async function callAppsScript(payload, retries = 1) {
-  const url = window.APPS_SCRIPT_URL || window.EMAIL_SCRIPT_URL;
-  if (!url || url.includes('PASTE')) {
-    console.warn('Apps Script URL not configured');
-    return null;
-  }
-  for (let attempt = 0; attempt <= retries; attempt++) {
-    try {
-      const resp = await fetch(url, {
-        method:   'POST',
-        // text/plain avoids preflight CORS — required for Apps Script web apps
-        headers:  { 'Content-Type': 'text/plain;charset=UTF-8' },
-        body:     JSON.stringify(payload),
-        // follow redirects (Apps Script often does 302 → exec URL)
-        redirect: 'follow',
-        cache:    'no-store'
-      });
-      const rawText = await resp.text();
-      if (!rawText || rawText.trim() === '') {
-        console.warn('Apps Script empty response for action:', payload.action);
-        return null;
-      }
-      try {
-        const parsed = JSON.parse(rawText);
-        return parsed;
-      } catch(parseErr) {
-        // Apps Script sometimes returns HTML on errors — log it
-        console.warn('Apps Script non-JSON response:', rawText.slice(0, 200));
-        return { status: 'error', raw: rawText.slice(0, 200) };
-      }
-    } catch(networkErr) {
-      if (attempt < retries) {
-        await new Promise(r => setTimeout(r, 1000)); // wait 1s before retry
-        continue;
-      }
-      console.warn('Apps Script network error:', payload.action, networkErr.message);
-      return null;
-    }
-  }
-  return null;
-}
-
-// ── SEND WELCOME EMAIL via Google Apps Script ──
+// ── SEND WELCOME EMAIL — delegates to global callAppsScript ──
 async function sendWelcomeEmail(email, name) {
   if (!email) return;
-  await callAppsScript({ action: 'sendWelcomeEmail', to: email, name });
+  if (window.callAppsScript) await window.callAppsScript({ action: 'sendWelcomeEmail', to: email, name });
 }
 
 function hidePageLoader() {
@@ -1502,6 +1456,49 @@ setTimeout(() => {
 </script>
 
 <script>
+// ══════════════════════════════════════════════════════════════
+//  callAppsScript — defined here in regular (non-module) scope
+//  so ALL functions in this script block can access it directly.
+//  The module block above only sets window.APPS_SCRIPT_URL.
+// ══════════════════════════════════════════════════════════════
+async function callAppsScript(payload, retries = 1) {
+  const url = window.APPS_SCRIPT_URL || window.EMAIL_SCRIPT_URL;
+  if (!url || url.includes('PASTE')) {
+    console.warn('[MBP] Apps Script URL not configured for action:', payload.action);
+    return null;
+  }
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const resp = await fetch(url, {
+        method:   'POST',
+        headers:  { 'Content-Type': 'text/plain;charset=UTF-8' },
+        body:     JSON.stringify(payload),
+        redirect: 'follow',
+        cache:    'no-store'
+      });
+      const rawText = await resp.text();
+      if (!rawText || rawText.trim() === '') {
+        console.warn('[MBP] Empty Apps Script response for:', payload.action);
+        return null;
+      }
+      try {
+        return JSON.parse(rawText);
+      } catch(parseErr) {
+        console.warn('[MBP] Non-JSON Apps Script response:', rawText.slice(0, 200));
+        return { status: 'error', raw: rawText.slice(0, 200) };
+      }
+    } catch(networkErr) {
+      if (attempt < retries) {
+        await new Promise(r => setTimeout(r, 1200));
+        continue;
+      }
+      console.warn('[MBP] Apps Script network error:', payload.action, networkErr.message);
+      return null;
+    }
+  }
+  return null;
+}
+
 // ══════════════════════════════════════
 //  GLOBAL STATE
 // ══════════════════════════════════════
