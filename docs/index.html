@@ -1673,8 +1673,7 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:0}
     <div class="form-group"><label class="form-label">Business Name *</label><input type="text" id="edit-biz-name" class="form-input"/></div>
     <div class="form-group"><label class="form-label">Business Type *</label>
       <select id="edit-biz-type" class="form-select">
-       <option value="">Select type...</option>
-            <optgroup label="Accommodation">
+        <optgroup label="Accommodation">
               <option>Resort</option><option>Hotel</option><option>Houseboat</option>
               <option>Guest House</option><option>Camping</option><option>Homestay</option><option>Lodge</option>
               <option>Travel Agency</option><option>Tour Operator</option><option>Car Rental</option><option>Taxi Service</option>
@@ -1690,7 +1689,7 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:0}
     <div class="form-group"><label class="form-label">Website URL</label><input type="url" id="edit-biz-website" class="form-input" placeholder="https://yourbusiness.com"/></div>
     <div class="form-group"><label class="form-label">Services</label>
       <div class="chip-group" id="edit-services-chips">
-            <div class="chip" onclick="toggleService(this,'Airport Pickup')">Airport Pickup</div>
+        <div class="chip" onclick="toggleService(this,'Airport Pickup')">Airport Pickup</div>
             <div class="chip" onclick="toggleService(this,'Hotel Transfers')">Hotel Transfers</div>
             <div class="chip" onclick="toggleService(this,'Online Booking')">Online Booking</div>
             <div class="chip" onclick="toggleService(this,'Customised Packages')">Custom Packages</div>
@@ -1712,8 +1711,7 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:0}
             <div class="chip" onclick="toggleService(this,'Photography')">Photography</div>
             <div class="chip" onclick="toggleService(this,'24/7 Support')">24/7 Support</div>
             <div class="chip" onclick="toggleService(this,'Visa Assistance')">Visa Assistance</div>
-            <div class="chip" onclick="toggleService(this,'UPI Payment')">UPI Payment</div>
-      </div>
+            <div class="chip" onclick="toggleService(this,'UPI Payment')">UPI Payment</div>      </div>
     </div>
     <button class="btn btn-primary" id="edit-save-btn" onclick="saveEditBusiness()">Save Changes</button>
     <button class="btn btn-red" style="margin-top:8px" onclick="deleteMyBusiness()">🗑 Delete This Business</button>
@@ -2664,20 +2662,38 @@ function openEditBizModal() {
 }
 async function saveEditBusiness() {
   if (!currentBizData || currentBizData.user_id !== window._currentUser?.uid) { showToast('❌ Unauthorized'); return; }
-  const name = document.getElementById('edit-biz-name').value.trim();
-  const type = document.getElementById('edit-biz-type').value;
-  const desc = document.getElementById('edit-biz-desc').value.trim();
-  const addr = document.getElementById('edit-biz-addr').value.trim();
-  const phone = document.getElementById('edit-biz-phone').value.trim();
+  const name     = document.getElementById('edit-biz-name').value.trim();
+  const type     = document.getElementById('edit-biz-type').value;
+  const desc     = document.getElementById('edit-biz-desc').value.trim();
+  const addr     = document.getElementById('edit-biz-addr').value.trim();
+  const phone    = document.getElementById('edit-biz-phone').value.trim();
+  const whatsapp = document.getElementById('edit-biz-whatsapp').value.trim();
+  const website  = document.getElementById('edit-biz-website').value.trim();
   if (!name||!type||!desc||!addr||!phone) { showToast('⚠️ Fill required fields'); return; }
   const services = [...document.querySelectorAll('#edit-services-chips .chip.active')].map(c => c.textContent.trim());
   setLoading('edit-save-btn', true, 'Saving...');
   try {
-    const { doc, updateDoc } = window._collections;
-    await updateDoc(doc(window._db,'businesses',currentBizData.id), { name, type, description:desc, address:addr, phone, whatsapp:document.getElementById('edit-biz-whatsapp').value.trim(), website:document.getElementById('edit-biz-website').value.trim(), services, status:'pending' });
-    closeModal('edit-biz-modal'); showToast('✅ Updated! Pending re-review.');
-    await openBizDetail(currentBizData.id); loadDashboard();
-  } catch(e) { showToast('❌ Failed: '+e.message); }
+    const { doc, updateDoc, serverTimestamp } = window._collections;
+    await updateDoc(doc(window._db, 'businesses', currentBizData.id), {
+      name,
+      type,
+      description: desc,
+      address:     addr,
+      phone,
+      whatsapp,
+      website,
+      services,
+      status:      'pending',
+      updated_at:  serverTimestamp()
+    });
+    closeModal('edit-biz-modal');
+    showToast('✅ Updated! Pending re-review.');
+    await openBizDetail(currentBizData.id);
+    loadDashboard();
+  } catch(e) {
+    showToast('❌ Failed: ' + e.message);
+    console.error('saveEditBusiness error:', e);
+  }
   setLoading('edit-save-btn', false, 'Save Changes');
 }
 async function deleteMyBusiness() {
