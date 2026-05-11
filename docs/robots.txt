@@ -1,26 +1,97 @@
-# MakeMeTop – robots.txt
-# https://makemetop.in
+# ══════════════════════════════════════════════════════════════
+#  robots.txt — makemetop.in
+#  MBP – MakeMe Top Business Profile
+#  Kashmir's #1 Verified Travel Directory
+#  Last updated: 2025
+# ══════════════════════════════════════════════════════════════
 
-User-agent: *
-Allow: /
-Allow: /?biz=
-Allow: /?category=
-Allow: /?action=search
-
-# Disallow admin and auth paths
-Disallow: /?action=admin
-Disallow: /admin
-Disallow: /__/auth/
-
-# Sitemap location
-Sitemap: https://makemetop.in/sitemap.xml
-
-# Crawl-delay for well-behaved bots
+# ── Allow all major search engines ──
 User-agent: Googlebot
-Crawl-delay: 0
+Allow: /
+Crawl-delay: 2
+
+User-agent: Googlebot-Image
+Allow: /
+Crawl-delay: 2
 
 User-agent: Bingbot
-Crawl-delay: 1
+Allow: /
+Crawl-delay: 3
 
+User-agent: Slurp
+Allow: /
+Crawl-delay: 5
+
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 3
+
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 5
+
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 5
+
+User-agent: facebot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Pinterest
+Allow: /
+
+# ── Global rules for all other crawlers ──
 User-agent: *
-Crawl-delay: 2
+Allow: /
+
+# ── Block sensitive files — never index these ──
+Disallow: /code.js
+Disallow: /Code.gs
+Disallow: /*.gs$
+Disallow: /firebase.json
+Disallow: /firestore.rules
+Disallow: /.env
+Disallow: /.env*
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /node_modules/
+Disallow: /functions/
+
+# ── Block admin panel from indexing ──
+# (admin.html is still accessible via direct URL for admins
+#  but Google should not index it or follow its links)
+Disallow: /admin.html
+
+# ── Block internal app parameters that create duplicate content ──
+# These are JS SPA nav states — not real pages
+Disallow: /*?nav=
+Disallow: /*?modal=
+Disallow: /*?tab=
+Disallow: /*?step=
+
+# ── Allow important crawlable pages ──
+Allow: /index.html
+Allow: /biz.html
+Allow: /help-ai.html
+Allow: /about.html
+Allow: /privacy.html
+Allow: /terms.html
+Allow: /refund.html
+Allow: /sitemap.xml
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.webp$
+Allow: /*.svg$
+Allow: /*.ico$
+
+# ── Crawl delay for generic bots ──
+Crawl-delay: 5
+
+# ── Sitemap locations ──
+Sitemap: https://makemetop.in/sitemap.xml

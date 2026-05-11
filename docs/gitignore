@@ -1,0 +1,90 @@
+# ═══════════════════════════════════════════════════
+#  .gitignore — MakeMe Top / KashmirStay
+#  Files that should NEVER go into GitHub repo
+#  (and therefore never be publicly accessible)
+# ═══════════════════════════════════════════════════
+
+# ── Google Apps Script files (belong in script.google.com only) ──
+*.gs
+Code.gs
+code.js
+sitemap-generator.js
+
+# ── Firebase config files ──
+firebase.json
+.firebaserc
+firestore.rules
+firestore.indexes.json
+storage.rules
+database.rules.json
+remoteconfig.template.json
+
+# ── Secrets and environment files ──
+.env
+.env.*
+*.env
+*.secret
+*secret*
+*private*
+*credentials*
+*credential*
+*.key
+*.pem
+*.p12
+*.pfx
+
+# ── Config files with potential secrets ──
+*config*.js
+*config*.json
+*.config.js
+*.config.ts
+
+# ── Setup and documentation (internal) ──
+SETUP_GUIDE*
+setup*.md
+README_INTERNAL*
+*.internal.md
+TODO.md
+NOTES.md
+
+# ── Build and dependency files ──
+node_modules/
+package-lock.json
+yarn.lock
+.yarn/
+dist/
+build/
+.cache/
+
+# ── Log files ──
+*.log
+*.log.*
+logs/
+firebase-debug.log
+firebase-debug.*.log
+ui-debug.log
+
+# ── Backup and temp files ──
+*.bak
+*.backup
+*.tmp
+*.temp
+*.old
+*.orig
+~*
+
+# ── OS files ──
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+Desktop.ini
+
+# ── IDE files ──
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ── Functions (server-side — not for GitHub Pages) ──
+functions/
