@@ -1,6 +1,7 @@
 /* ===== GOOGLE FONTS ===== */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
 
+
 /* ─── RESET & VARIABLES ─── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
@@ -123,6 +124,56 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--primary);min-
 .upi-app-btn:hover{border-color:var(--primary);background:var(--gray50)}
 .upi-app-btn .app-icon{font-size:1.5rem}
 .upi-app-btn .app-name{font-size:.65rem;font-weight:600;color:var(--gray700)}
+/* ── OFFER BANNER (live from admin) ── */
+.offer-banner{
+  background:linear-gradient(135deg,#7C3AED,#5B21B6);
+  color:#fff;padding:10px 16px;margin-bottom:14px;
+  border-radius:var(--radius-sm);position:relative;overflow:hidden;
+  display:none;
+}
+.offer-banner::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(255,255,255,.03) 10px,rgba(255,255,255,.03) 20px);
+}
+.offer-banner-inner{position:relative;z-index:1}
+.offer-banner-tag{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+  border-radius:20px;padding:2px 10px;font-size:.65rem;font-weight:800;
+  text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;
+}
+.offer-banner-name{font-family:var(--font-display);font-size:1rem;font-weight:800;margin-bottom:2px}
+.offer-banner-sub{font-size:.75rem;opacity:.8;line-height:1.4}
+.offer-countdown-row{
+  display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap;
+}
+.offer-countdown-unit{
+  background:rgba(0,0,0,.25);border-radius:6px;padding:4px 8px;text-align:center;min-width:44px;
+}
+.offer-countdown-num{font-family:var(--font-display);font-size:1.1rem;font-weight:800;line-height:1;display:block}
+.offer-countdown-lbl{font-size:.58rem;opacity:.7;text-transform:uppercase;letter-spacing:.05em}
+.offer-countdown-sep{font-size:1.1rem;font-weight:800;opacity:.5;align-self:flex-start;margin-top:4px}
+/* offer badge on plan card */
+.offer-active-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  background:linear-gradient(135deg,#7C3AED,#5B21B6);
+  color:#fff;font-size:.62rem;font-weight:800;
+  padding:2px 8px;border-radius:10px;margin-left:6px;
+  vertical-align:middle;animation:pulse-offer 2s ease-in-out infinite;
+}
+@keyframes pulse-offer{0%,100%{opacity:1}50%{opacity:.7}}
+/* crossed-out original price */
+.price-was{text-decoration:line-through;color:var(--gray400);font-size:.85rem;margin-right:4px}
+.price-now{color:var(--green);font-weight:800}
+/* Step-2 offer strip */
+.step2-offer-strip{
+  background:linear-gradient(135deg,rgba(124,58,237,.1),rgba(91,33,182,.05));
+  border:1.5px solid rgba(124,58,237,.3);
+  border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px;
+  display:none;
+}
+.step2-offer-name{font-size:.82rem;font-weight:800;color:#5B21B6;margin-bottom:2px}
+.step2-offer-sub{font-size:.73rem;color:var(--gray600)}
 .discount-timer{background:linear-gradient(135deg,#DC2626,#B91C1C);color:#fff;border-radius:var(--radius-sm);padding:10px 14px;display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .discount-timer .timer-icon{font-size:1.2rem;flex-shrink:0}
 .discount-timer .timer-text{flex:1;font-size:.78rem;line-height:1.4}
@@ -193,6 +244,26 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--primary);min-
 .section-title{font-family:var(--font-display);font-weight:700;font-size:1rem;color:var(--primary)}
 
 /* ─── BIZ CARD ─── */
+/* ── SPOTLIGHT / PIN TOP ── */
+.spotlight-section{margin:0 16px 4px;position:relative}
+.spotlight-label{font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--gray400);padding:0 4px 6px;display:flex;align-items:center;gap:6px}
+.spotlight-label::after{content:'';flex:1;height:1px;background:var(--gray100)}
+.card.spotlight-card{border:2px solid #F5A623;position:relative;overflow:hidden;margin-bottom:10px}
+.card.spotlight-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(245,166,35,.04),transparent);pointer-events:none}
+.spotlight-badge{position:absolute;top:10px;right:10px;background:linear-gradient(135deg,#F5A623,#E09410);color:#fff;font-size:.62rem;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:.04em;display:flex;align-items:center;gap:3px;box-shadow:0 2px 8px rgba(245,166,35,.35);z-index:2}
+.spotlight-timer{font-size:.62rem;color:#E09410;font-weight:700;margin-top:2px}
+/* ── AI DESCRIPTION BUTTON ── */
+.ai-desc-btn{display:flex;align-items:center;gap:6px;padding:7px 12px;background:linear-gradient(135deg,#6366F1,#8B5CF6);color:#fff;border:none;border-radius:var(--radius-xs);font-family:var(--font-body);font-size:.75rem;font-weight:600;cursor:pointer;transition:.15s;margin-bottom:6px;width:100%}
+.ai-desc-btn:hover{opacity:.9}
+.ai-desc-btn:disabled{opacity:.5;cursor:not-allowed}
+.ai-desc-btn svg{stroke:#fff;flex-shrink:0}
+/* ── VERIFIED+ BADGE ── */
+.verified-plus-badge{display:inline-flex;align-items:center;gap:3px;background:linear-gradient(135deg,#2563EB,#1d4ed8);color:#fff;font-size:.63rem;font-weight:800;padding:3px 8px;border-radius:20px;margin-left:4px;vertical-align:middle}
+/* ── GOVT REG ── */
+.govt-reg-box{background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:var(--radius-xs);padding:10px 12px;margin-top:8px}
+.govt-reg-box .label{font-size:.7rem;font-weight:700;color:#16A34A;margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.skel{background:linear-gradient(90deg,var(--gray100) 25%,var(--gray200) 50%,var(--gray100) 75%);background-size:400% 100%;animation:skel 1.4s ease infinite;border-radius:6px}
+@keyframes skel{0%{background-position:100% 0}100%{background-position:-100% 0}}
 .biz-card{display:flex;gap:14px;padding:16px;cursor:pointer}
 .biz-card .biz-logo{width:72px;height:72px;border-radius:var(--radius-sm);object-fit:cover;background:var(--gray200);flex-shrink:0;border:1px solid var(--gray100)}
 .biz-card .biz-info{flex:1;min-width:0}
