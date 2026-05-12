@@ -444,7 +444,14 @@ onAuthStateChanged(auth, user => {
     signOut(auth); // onAuthStateChanged will show login screen again automatically
   };
 
-  initAdmin();
+  // initAdmin is defined in the regular script below
+  // Poll until it is defined (module loads before regular script)
+  const _waitAdmin = setInterval(() => {
+    if (typeof initAdmin === "function") {
+      clearInterval(_waitAdmin);
+      initAdmin();
+    }
+  }, 50);
 });
 
 // ── Google sign-in ──
@@ -995,7 +1002,7 @@ async function deleteContact(id) {
 // ══════════════════════════════════════════════
 async function loadOffers() {
   const { doc, getDoc, setDoc, serverTimestamp } = window._col;
-  const c = document.getElementById('admin-content');
+  const c = document.getElementById('content');
   c.innerHTML = '<p style="padding:20px;color:var(--gray500)">Loading offers…</p>';
 
   // Load current offer config
@@ -1212,7 +1219,7 @@ async function deactivateOffer() {
 // ══ SPOTLIGHT MANAGER ══
 async function loadSpotlights() {
   const { getDocs, collection, query, where, orderBy } = window._col;
-  const c = document.getElementById('admin-content');
+  const c = document.getElementById('content');
   c.innerHTML = '<p style="padding:20px;color:var(--gray500)">Loading spotlights…</p>';
   try {
     const snap  = await getDocs(query(collection(window._db,'businesses'), where('status','==','approved')));
@@ -1251,7 +1258,7 @@ async function loadSpotlights() {
         </div>`).join('')}
       </div>
     </div>`;
-  } catch(e) { document.getElementById('admin-content').innerHTML = '<p style="padding:20px;color:var(--red)">Error: '+e.message+'</p>'; }
+  } catch(e) { document.getElementById('content').innerHTML = '<p style="padding:20px;color:var(--red)">Error: '+e.message+'</p>'; }
 }
 async function removeSpotlight(bizId) {
   if (!confirm('Remove spotlight?')) return;
@@ -1274,7 +1281,7 @@ async function adminAddSpotlight(bizId, days) {
 // ══ ANALYTICS OVERVIEW ══
 async function loadAnalyticsOverview() {
   const { getDocs, collection, query, orderBy, limit, where } = window._col;
-  const c = document.getElementById('admin-content');
+  const c = document.getElementById('content');
   c.innerHTML = '<p style="padding:20px;color:var(--gray500)">Loading analytics…</p>';
   try {
     const snap = await getDocs(query(collection(window._db,'analytics_events'), orderBy('created_at','desc'), limit(200)));
@@ -1309,7 +1316,7 @@ async function loadAnalyticsOverview() {
         ${topBizIds.map(([id,e])=>`<tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray100);font-family:monospace;font-size:.7rem;color:var(--gray500)">${id.slice(-10)}</td><td style="text-align:center;padding:7px 8px;border-bottom:1px solid var(--gray100)">${e.views||0}</td><td style="text-align:center;padding:7px 8px;border-bottom:1px solid var(--gray100)">${e.calls||0}</td><td style="text-align:center;padding:7px 8px;border-bottom:1px solid var(--gray100)">${e.whatsapp||0}</td></tr>`).join('')}
       </table>
     </div>`;
-  } catch(e) { document.getElementById('admin-content').innerHTML = '<p style="padding:20px;color:var(--red)">Error: '+e.message+'</p>'; }
+  } catch(e) { document.getElementById('content').innerHTML = '<p style="padding:20px;color:var(--red)">Error: '+e.message+'</p>'; }
 }
 
 async function loadUpdates() {
@@ -1426,7 +1433,7 @@ document.querySelectorAll('.modal-bg').forEach(bg => {
 // ══════════════════════════════════════════════════════════
 async function loadSitemap() {
   const { getDocs, collection, query, where, orderBy } = window._col;
-  const c = document.getElementById('admin-content');
+  const c = document.getElementById('content');
   c.innerHTML = '<p style="padding:20px;color:var(--gray500)">Loading SEO data…</p>';
   try {
     const snap = await getDocs(query(
