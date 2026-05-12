@@ -245,7 +245,10 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--primary);min-
 
 /* ─── BIZ CARD ─── */
 /* ── SPOTLIGHT / PIN TOP ── */
-.spotlight-section{margin:0 16px 4px;position:relative}
+.spotlight-section{margin:0 0 4px;position:relative}
+.spotlight-card{border:2px solid #F5A623 !important;position:relative;background:linear-gradient(135deg,rgba(245,166,35,.04),rgba(255,255,255,1)) !important}
+.spotlight-badge{position:absolute;top:8px;right:8px;background:linear-gradient(135deg,#F5A623,#D4891A);color:#fff;font-size:.65rem;font-weight:800;padding:3px 9px;border-radius:10px;letter-spacing:.04em;z-index:1}
+.spotlight-timer{font-size:.7rem;color:var(--saffron,#F5A623);font-weight:700;margin-top:4px}
 .spotlight-label{font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--gray400);padding:0 4px 6px;display:flex;align-items:center;gap:6px}
 .spotlight-label::after{content:'';flex:1;height:1px;background:var(--gray100)}
 .card.spotlight-card{border:2px solid #F5A623;position:relative;overflow:hidden;margin-bottom:10px}
