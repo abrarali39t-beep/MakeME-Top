@@ -197,6 +197,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
 <!-- Razorpay SDK loaded on demand by ensureRazorpaySdk() -->
+
 <link rel="stylesheet" href="shared.css"/>
 </head>
 <body>
@@ -2097,6 +2098,7 @@ async function onRazorpaySuccess(rzpResponse, planId, bizId, orderData) {
         spotlight_plan:    planId,
         spotlight_active:  true,
         spotlight_started: activatedAt
+        // Note: payment_id/order_id saved in /payments collection, not here
       });
 
       // ── Step 2: Save payment record ──
@@ -3211,14 +3213,27 @@ async function handleClaimAction(token, action) {
     const claim    = { id: claimDoc.id, ...claimDoc.data() };
 
     if (action === 'accept') {
-      // Transfer ownership of the business
-      await updateDoc(doc(window._db, 'businesses', claim.business_id), {
-        user_id:    claim.requester_uid,
-        user_email: claim.requester_email
-      });
+      // Transfer ownership via Apps Script (server-side) — Firestore rules
+      // don't allow client to change user_id/user_email on a business
+      try {
+        await callAppsScript({
+          action:         'transferBusinessOwnership',
+          biz_id:         claim.business_id,
+          new_owner_uid:  claim.requester_uid,
+          new_owner_email:claim.requester_email,
+          claim_id:       claim.id
+        });
+      } catch(e) {
+        console.warn('Transfer via Apps Script failed, trying direct:', e.message);
+        // Fallback: direct write (works if user is current owner + admin)
+        await updateDoc(doc(window._db, 'businesses', claim.business_id), {
+          user_id:    claim.requester_uid,
+          user_email: claim.requester_email
+        });
+      }
       // Mark claim as accepted
       await updateDoc(doc(window._db, 'ownership_claims', claim.id), {
-        status: 'accepted',
+        status:      'accepted',
         resolved_at: new Date().toISOString()
       });
       // Send confirmation email to requester
@@ -3235,7 +3250,7 @@ async function handleClaimAction(token, action) {
       }
     } else if (action === 'reject') {
       await updateDoc(doc(window._db, 'ownership_claims', claim.id), {
-        status: 'rejected',
+        status:      'rejected',
         resolved_at: new Date().toISOString()
       });
       showToast('❌ Ownership request rejected.');
