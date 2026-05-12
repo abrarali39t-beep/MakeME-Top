@@ -253,10 +253,45 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--primary);min-
 .spotlight-badge{position:absolute;top:10px;right:10px;background:linear-gradient(135deg,#F5A623,#E09410);color:#fff;font-size:.62rem;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:.04em;display:flex;align-items:center;gap:3px;box-shadow:0 2px 8px rgba(245,166,35,.35);z-index:2}
 .spotlight-timer{font-size:.62rem;color:#E09410;font-weight:700;margin-top:2px}
 /* ── AI DESCRIPTION BUTTON ── */
-.ai-desc-btn{display:flex;align-items:center;gap:6px;padding:7px 12px;background:linear-gradient(135deg,#6366F1,#8B5CF6);color:#fff;border:none;border-radius:var(--radius-xs);font-family:var(--font-body);font-size:.75rem;font-weight:600;cursor:pointer;transition:.15s;margin-bottom:6px;width:100%}
-.ai-desc-btn:hover{opacity:.9}
-.ai-desc-btn:disabled{opacity:.5;cursor:not-allowed}
-.ai-desc-btn svg{stroke:#fff;flex-shrink:0}
+/* ── AI DESCRIPTION BUTTON — Premium ── */
+.ai-desc-wrap{
+  position:relative;margin-bottom:10px;
+  background:linear-gradient(135deg,#0F0C29,#302B63,#24243e);
+  border-radius:var(--radius);padding:1px;
+  box-shadow:0 4px 20px rgba(99,102,241,.25);
+}
+.ai-desc-btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:12px 16px;
+  background:linear-gradient(135deg,#1a1040,#2d1b69,#1e1245);
+  color:#fff;border:none;border-radius:calc(var(--radius) - 1px);
+  font-family:var(--font-body);font-size:.82rem;font-weight:700;
+  cursor:pointer;transition:all .2s ease;
+  position:relative;overflow:hidden;letter-spacing:.02em;
+}
+.ai-desc-btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(139,92,246,.3),rgba(99,102,241,.2),rgba(167,139,250,.3));
+  opacity:0;transition:opacity .2s;
+}
+.ai-desc-btn:hover::before{opacity:1}
+.ai-desc-btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(99,102,241,.4)}
+.ai-desc-btn:active{transform:translateY(0)}
+.ai-desc-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.ai-desc-btn .ai-stars{
+  display:flex;gap:1px;font-size:.65rem;opacity:.8;
+}
+.ai-desc-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  background:rgba(139,92,246,.2);border:1px solid rgba(139,92,246,.4);
+  border-radius:10px;padding:2px 7px;font-size:.62rem;font-weight:700;
+  color:#C4B5FD;text-transform:uppercase;letter-spacing:.05em;
+  margin-right:2px;flex-shrink:0;
+}
+.ai-desc-powered{
+  font-size:.68rem;color:rgba(255,255,255,.45);
+  text-align:center;margin-top:5px;margin-bottom:8px;
+}
 /* ── VERIFIED+ BADGE ── */
 .verified-plus-badge{display:inline-flex;align-items:center;gap:3px;background:linear-gradient(135deg,#2563EB,#1d4ed8);color:#fff;font-size:.63rem;font-weight:800;padding:3px 8px;border-radius:20px;margin-left:4px;vertical-align:middle}
 /* ── GOVT REG ── */
