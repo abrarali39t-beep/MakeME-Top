@@ -2,9 +2,14 @@
 <html lang="en-IN">
 <head>
 <meta charset="UTF-8"/>
+<!-- ── SECURITY META TAGS ── -->
+<meta http-equiv="X-Content-Type-Options" content="nosniff"/>
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN"/>
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin"/>
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <meta name="theme-color" content="#1F1F1F"/>
-<meta name="google-site-verification" content="3IoarlqK0kUmBXrrSouXy7vNE_KBiZ1IwMwyR86_ThY" />
+
 <!-- ═══ PRIMARY SEO ═══ -->
 <title>KashmirStay – Verified Travel Agencies & Resorts in Kashmir | Book Kashmir Tours</title>
 <meta name="description" content="KashmirStay – Discover and book verified travel agencies, resorts, and tour operators in Kashmir. Trusted MBP listings for Srinagar, Gulmarg, Pahalgam, Sonamarg, Dal Lake & all of J&K."/>
@@ -193,6 +198,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
 <!-- Razorpay SDK loaded on demand by ensureRazorpaySdk() -->
 <link rel="stylesheet" href="shared.css"/>
+
 </head>
 <body>
 <!-- ═══ NOSCRIPT FALLBACK — shown to Google crawler / no-JS users ═══ -->
@@ -380,7 +386,7 @@
       <div class="featured-banner" role="banner">
         <h2>🏔️ Go Premium</h2>
         <p>Get your travel agency or resort verified and listed on MakeMe Top — visible to thousands of tourists</p>
-        <button class="btn" onclick="navTo('premium')">Get Listed – ₹999 →</button>
+        <button class="btn" onclick="navTo('premium')">Get Listed – ₹799 →</button>
       </div>
     </div>
 
@@ -506,7 +512,31 @@
             <div class="chip" onclick="toggleService(this,'UPI Payment')">UPI Payment</div>
           </div>
         </div>
-        <div class="form-group"><label class="form-label">Description *</label><textarea id="biz-desc" class="form-textarea" placeholder="Describe your agency/resort, specialties, and why tourists should choose you..." oninput="autosaveDraft()"></textarea></div>
+        <!-- GOVT REGISTRATION -->
+        <div class="form-group">
+          <label class="form-label">📋 Government Registration <span style="color:var(--gray400);font-weight:400">(recommended)</span></label>
+          <div class="govt-reg-box">
+            <div class="label">✅ Verified businesses get more trust from tourists</div>
+            <input type="text" id="biz-govt-reg-num" class="form-input" placeholder="Enter GST / Trade Licence / J&K Tourism Reg. No." oninput="autosaveDraft()" style="margin-bottom:8px"/>
+            <p style="font-size:.7rem;color:var(--gray500);margin-bottom:8px">— OR upload a copy of your registration —</p>
+            <div class="img-upload-box" id="govt-reg-box" style="padding:12px">
+              <input type="file" accept="image/*,application/pdf" onchange="previewGovtReg(this)" id="govt-reg-file" aria-label="Upload govt registration document"/>
+              <span class="upload-icon">📄</span>
+              <span class="upload-label" style="font-size:.75rem">Tap to upload reg. document (image or PDF)</span>
+              <img id="govt-reg-preview" class="preview hidden" alt="Registration preview" style="max-height:80px;object-fit:contain"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI DESCRIPTION -->
+        <div class="form-group">
+          <label class="form-label">Description * <span style="color:var(--gray400);font-weight:400;font-size:.72rem">— AI can write this for you</span></label>
+          <button class="ai-desc-btn" id="ai-desc-btn" onclick="generateAIDescription()" type="button">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2a8 8 0 0 1 8 8c0 5-8 12-8 12S4 15 4 10a8 8 0 0 1 8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+            ✨ Auto-Write Description with AI
+          </button>
+          <textarea id="biz-desc" class="form-textarea" placeholder="Describe your agency/resort, specialties, and why tourists should choose you... (or tap Auto-Write above)" oninput="autosaveDraft()"></textarea>
+        </div>
         <div class="form-group"><label class="form-label">Address *</label><input type="text" id="biz-addr" class="form-input" placeholder="e.g. Dal Lake Road, Srinagar" oninput="autosaveDraft()"/></div>
         <div class="form-group"><label class="form-label">Phone Number *</label><input type="tel" id="biz-phone" class="form-input" placeholder="+91 94000 00000" oninput="autosaveDraft()" autocomplete="tel"/></div>
         <div class="form-group"><label class="form-label">WhatsApp Number</label><input type="tel" id="biz-whatsapp" class="form-input" placeholder="+91 94000 00000 (optional)" oninput="autosaveDraft()"/></div>
@@ -535,6 +565,16 @@
     <div class="form-step" id="step-2">
       <div class="section" style="padding-top:8px">
 
+        <!-- Live Offer Banner (populated from Firestore) -->
+        <div class="offer-banner" id="step2-offer-banner">
+          <div class="offer-banner-inner">
+            <div class="offer-banner-tag">🎉 Limited Offer</div>
+            <div class="offer-banner-name" id="s2-offer-name">Special Offer</div>
+            <div class="offer-banner-sub" id="s2-offer-sub">Discount applied to your plan</div>
+            <div class="offer-countdown-row" id="s2-offer-countdown"></div>
+          </div>
+        </div>
+
         <!-- Countdown timer -->
         <div class="discount-timer">
           <div class="timer-icon">⏰</div>
@@ -561,7 +601,7 @@
                     </div>
                   </div>
                   <div style="text-align:right">
-                    <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:800;color:var(--primary)">₹799</div>
+                    <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:800;color:var(--primary)" id="s2-monthly-price">₹799</div>
                     <div style="font-size:.68rem;color:var(--gray400)">/month</div>
                   </div>
                 </div>
@@ -583,7 +623,7 @@
                     </div>
                   </div>
                   <div style="text-align:right">
-                    <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:800;color:var(--green)">₹7,999</div>
+                    <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:800;color:var(--green)" id="s2-annual-price">₹7,999</div>
                     <div style="font-size:.68rem;color:var(--gray400)">/year</div>
                   </div>
                 </div>
@@ -706,6 +746,7 @@
     <button class="icon-btn" id="detail-edit-btn" onclick="openEditBizModal()" style="display:none" aria-label="Edit business">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
     </button>
+    <button id="detail-spotlight-btn" onclick="openSpotlightModal(currentBizData?.id)" style="display:none;align-items:center;gap:4px;padding:7px 12px;background:linear-gradient(135deg,#F5A623,#E09410);color:#fff;border:none;border-radius:var(--radius-xs);font-size:.73rem;font-weight:700;cursor:pointer" aria-label="Spotlight listing">⭐ Spotlight</button>
     <button class="icon-btn" onclick="shareBusiness()" aria-label="Share business">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
     </button>
@@ -806,6 +847,16 @@
       <p class="text-muted text-sm">Reach thousands of tourists planning Kashmir trips</p>
     </div>
 
+    <!-- Live Offer Banner (from admin) -->
+    <div class="offer-banner" id="prem-offer-banner" style="margin-bottom:12px">
+      <div class="offer-banner-inner">
+        <div class="offer-banner-tag">🎉 Limited Offer</div>
+        <div class="offer-banner-name" id="p-offer-name">Special Offer</div>
+        <div class="offer-banner-sub" id="p-offer-sub">Special discounted pricing active now</div>
+        <div class="offer-countdown-row" id="p-offer-countdown"></div>
+      </div>
+    </div>
+
     <!-- 10-day offer countdown -->
     <div class="discount-timer" style="margin-bottom:16px">
       <div class="timer-icon">⏰</div>
@@ -823,14 +874,14 @@
           <span style="font-size:.85rem;text-decoration:line-through;color:var(--gray400)">₹1,499</span>
           <span style="font-size:.72rem;background:#FEE2E2;color:var(--red);padding:2px 7px;border-radius:8px;font-weight:700">47% OFF</span>
         </div>
-        <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;margin-bottom:10px">₹799 <span style="font-size:.9rem;font-weight:400;color:var(--gray500)">/month</span></div>
+        <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;margin-bottom:10px" id="prem-monthly-price">₹799 <span style="font-size:.9rem;font-weight:400;color:var(--gray500)">/month</span></div>
         <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:14px">
           <li style="font-size:.8rem;display:flex;gap:6px">✓ Verified badge · Google indexed</li>
           <li style="font-size:.8rem;display:flex;gap:6px">✓ Call, WhatsApp, Gallery, Reviews</li>
           <li style="font-size:.8rem;display:flex;gap:6px">✓ Live within 48 hours</li>
           <li style="font-size:.8rem;display:flex;gap:6px">✓ Cancel anytime</li>
         </ul>
-        <button class="btn btn-primary" onclick="tryAddBusiness('monthly_799')">Get Started – ₹799/month →</button>
+        <button class="btn btn-primary" onclick="tryAddBusiness('monthly_799')" id="prem-monthly-btn">Get Started – <span id="prem-monthly-btn-price">₹799</span>/month →</button>
       </div>
 
       <!-- Annual — Best Value -->
@@ -841,7 +892,7 @@
           <span style="font-size:.85rem;text-decoration:line-through;color:rgba(255,255,255,.4)">₹9,588</span>
           <span style="font-size:.72rem;background:rgba(255,255,255,.2);color:#fff;padding:2px 7px;border-radius:8px;font-weight:700">17% OFF</span>
         </div>
-        <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;margin-bottom:2px;color:#fff">₹7,999 <span style="font-size:.9rem;font-weight:400;opacity:.7">/year</span></div>
+        <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;margin-bottom:2px;color:#fff" id="prem-annual-price">₹7,999 <span style="font-size:.9rem;font-weight:400;opacity:.7">/year</span></div>
         <div style="font-size:.75rem;color:rgba(255,255,255,.65);margin-bottom:10px">= ₹667/month · Save ₹1,589!</div>
         <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:14px">
           <li style="font-size:.8rem;display:flex;gap:6px;color:#fff">✓ Everything in Monthly</li>
@@ -849,7 +900,7 @@
           <li style="font-size:.8rem;display:flex;gap:6px;color:#fff">✓ Auto-renews after 1 year</li>
           <li style="font-size:.8rem;display:flex;gap:6px;color:#fff">✓ Best ROI for your business</li>
         </ul>
-        <button class="btn" style="background:#fff;color:var(--primary);font-weight:800" onclick="tryAddBusiness('annual_1499')">Get Listed – ₹7,999/year →</button>
+        <button class="btn" style="background:#fff;color:var(--primary);font-weight:800" onclick="tryAddBusiness('annual_1499')" id="prem-annual-btn">Get Listed – <span id="prem-annual-btn-price">₹7,999</span>/year →</button>
       </div>
     </div>
 
@@ -1279,14 +1330,14 @@
     <div class="form-group"><label class="form-label">Business Name *</label><input type="text" id="edit-biz-name" class="form-input"/></div>
     <div class="form-group"><label class="form-label">Business Type *</label>
       <select id="edit-biz-type" class="form-select">
-        <optgroup label="Accommodation">
-              <option>Resort</option><option>Hotel</option><option>Houseboat</option>
-              <option>Guest House</option><option>Camping</option><option>Homestay</option><option>Lodge</option>
-              <option>Travel Agency</option><option>Tour Operator</option><option>Car Rental</option><option>Taxi Service</option>
-              <option>Adventure</option><option>Trekking</option><option>Skiing</option><option>Shikara</option>
-              <option>River Rafting</option><option>Paragliding</option><option>Photography Tour</option>
-              <option>Restaurant</option><option>Handicrafts</option><option>Other</option>
-          </select>
+        <option value="">Select type</option>
+        <option>Restaurant & Food Services</option><option>Retail & E-commerce</option><option>Healthcare & Medical</option>
+        <option>Education & Training</option><option>Technology & IT Services</option><option>Web Development</option>
+        <option>Mobile App Development</option><option>Digital Marketing</option><option>Beauty & Salon</option>
+        <option>Finance & Banking</option><option>Hospitality & Tourism</option><option>Real Estate & Property</option>
+        <option>Event Planning</option><option>Wedding Services</option><option>Home Services (Cleaning, Repair)</option>
+        <option>Legal Services</option><option>Consulting</option><option>Transportation & Logistics</option><option>Other</option>
+      </select>
     </div>
     <div class="form-group"><label class="form-label">Description *</label><textarea id="edit-biz-desc" class="form-textarea"></textarea></div>
     <div class="form-group"><label class="form-label">Address *</label><input type="text" id="edit-biz-addr" class="form-input"/></div>
@@ -1295,29 +1346,12 @@
     <div class="form-group"><label class="form-label">Website URL</label><input type="url" id="edit-biz-website" class="form-input" placeholder="https://yourbusiness.com"/></div>
     <div class="form-group"><label class="form-label">Services</label>
       <div class="chip-group" id="edit-services-chips">
-        <div class="chip" onclick="toggleService(this,'Airport Pickup')">Airport Pickup</div>
-            <div class="chip" onclick="toggleService(this,'Hotel Transfers')">Hotel Transfers</div>
-            <div class="chip" onclick="toggleService(this,'Online Booking')">Online Booking</div>
-            <div class="chip" onclick="toggleService(this,'Customised Packages')">Custom Packages</div>
-            <div class="chip" onclick="toggleService(this,'Group Tours')">Group Tours</div>
-            <div class="chip" onclick="toggleService(this,'Honeymoon Packages')">Honeymoon</div>
-            <div class="chip" onclick="toggleService(this,'Family Packages')">Family Packages</div>
-            <div class="chip" onclick="toggleService(this,'Adventure Tours')">Adventure Tours</div>
-            <div class="chip" onclick="toggleService(this,'Snow Tours')">Snow Tours</div>
-            <div class="chip" onclick="toggleService(this,'Houseboat Stay')">Houseboat Stay</div>
-            <div class="chip" onclick="toggleService(this,'Dal Lake Tour')">Dal Lake Tour</div>
-            <div class="chip" onclick="toggleService(this,'Gulmarg Tour')">Gulmarg Tour</div>
-            <div class="chip" onclick="toggleService(this,'Pahalgam Tour')">Pahalgam Tour</div>
-            <div class="chip" onclick="toggleService(this,'Sonamarg Tour')">Sonamarg Tour</div>
-            <div class="chip" onclick="toggleService(this,'Shikara Ride')">Shikara Ride</div>
-            <div class="chip" onclick="toggleService(this,'Trekking')">Trekking</div>
-            <div class="chip" onclick="toggleService(this,'Skiing')">Skiing</div>
-            <div class="chip" onclick="toggleService(this,'Camping')">Camping</div>
-            <div class="chip" onclick="toggleService(this,'Meals Included')">Meals Included</div>
-            <div class="chip" onclick="toggleService(this,'Photography')">Photography</div>
-            <div class="chip" onclick="toggleService(this,'24/7 Support')">24/7 Support</div>
-            <div class="chip" onclick="toggleService(this,'Visa Assistance')">Visa Assistance</div>
-            <div class="chip" onclick="toggleService(this,'UPI Payment')">UPI Payment</div>      </div>
+        <div class="chip" onclick="this.classList.toggle('active')">Delivery</div><div class="chip" onclick="this.classList.toggle('active')">Pickup</div>
+        <div class="chip" onclick="this.classList.toggle('active')">Takeaway</div><div class="chip" onclick="this.classList.toggle('active')">Home Service</div>
+        <div class="chip" onclick="this.classList.toggle('active')">Online Booking</div><div class="chip" onclick="this.classList.toggle('active')">Consultation</div>
+        <div class="chip" onclick="this.classList.toggle('active')">Custom Orders</div><div class="chip" onclick="this.classList.toggle('active')">Installation</div>
+        <div class="chip" onclick="this.classList.toggle('active')">Repair</div><div class="chip" onclick="this.classList.toggle('active')">24/7 Service</div>
+      </div>
     </div>
     <button class="btn btn-primary" id="edit-save-btn" onclick="saveEditBusiness()">Save Changes</button>
     <button class="btn btn-red" style="margin-top:8px" onclick="deleteMyBusiness()">🗑 Delete This Business</button>
@@ -1366,9 +1400,17 @@ const ADMIN_EMAILS = ["abrarrtallks@gmail.com"];
 // ⬇ Payment constants:
 // ── RAZORPAY PLANS CONFIG (display only — keys are in Apps Script) ──
 const RAZORPAY_PLANS = {
-  monthly_799: { name:'MBP Premium – 1 Month', display:'₹799',  amount:79900,  real:'₹1,499', period:'month' },
-  annual_1499: { name:'MBP Premium – 1 Year',  display:'₹7,999', amount:799900, real:'₹9,588', period:'year', savePct:17 }
+  monthly_799:        { name:'MBP Premium – 1 Month',         display:'₹799',   amount:79900,   real:'₹1,499',  period:'month' },
+  annual_1499:        { name:'MBP Premium – 1 Year',          display:'₹7,999', amount:799900,  real:'₹9,588',  period:'year', savePct:17 },
+  spotlight_1day:     { name:'Spotlight – Show on Top 1 Day', display:'₹49',    amount:4900,    real:'',        period:'1 day',   spotlight:true, days:1 },
+  spotlight_3day:     { name:'Spotlight – Show on Top 3 Days',display:'₹99',    amount:9900,    real:'',        period:'3 days',  spotlight:true, days:3 },
+  spotlight_7day:     { name:'Spotlight – Show on Top 7 Days',display:'₹199',   amount:19900,   real:'',        period:'7 days',  spotlight:true, days:7 },
+  analytics_monthly:  { name:'Analytics Dashboard – 1 Month', display:'₹99',    amount:9900,    real:'₹199',    period:'month',   addon:true },
+  category_sponsor:   { name:'Category Sponsorship – 1 Month',display:'₹499',   amount:49900,   real:'₹999',    period:'month',   addon:true },
+  verified_plus:      { name:'Verified+ Badge – 1 Month',     display:'₹149',   amount:14900,   real:'₹299',    period:'month',   addon:true },
 };
+const SPOTLIGHT_MAX_SLOTS = 3;
+ window.SPOTLIGHT_MAX_SLOTS = SPOTLIGHT_MAX_SLOTS; // Only 3 businesses can be on spotlight at once
 window.RAZORPAY_PLANS = RAZORPAY_PLANS;
 
 const app = initializeApp(firebaseConfig);
@@ -1797,7 +1839,7 @@ function ensureRazorpaySdk() {
   });
 }
 
-async function initRazorpayPayment() {
+async function initRazorpayPayment(overrideBizId, isSpotlight) {
   const planId = selectedPlanId || 'monthly_799';
   const plan   = window.RAZORPAY_PLANS && window.RAZORPAY_PLANS[planId];
   const user   = window._currentUser;
@@ -1824,7 +1866,7 @@ async function initRazorpayPayment() {
   setBtnState(true, 'Creating order…');
 
   // Use the biz form values to generate a unique biz ID tied to this session
-  const bizId = 'biz_' + user.uid.slice(-8) + '_' + Date.now();
+  const bizId = overrideBizId || ('biz_' + user.uid.slice(-8) + '_' + Date.now());
 
   try {
     // ── Step 1: Create order via Apps Script (key_secret stays server-side) ──
@@ -1926,6 +1968,27 @@ async function initRazorpayPayment() {
 async function onRazorpaySuccess(rzpResponse, planId, bizId, orderData) {
   const btn = document.getElementById('razorpay-pay-btn');
   if (btn) { btn.disabled = true; btn.textContent = '✅ Activating…'; }
+
+  // ── Handle spotlight purchases (no new listing, just update existing biz) ──
+  const plan = window.RAZORPAY_PLANS[planId] || {};
+  if (plan.spotlight && bizId) {
+    const daysMs = (plan.days || 3) * 24 * 60 * 60 * 1000;
+    const until  = new Date(Date.now() + daysMs).toISOString();
+    try {
+      const { doc, updateDoc, addDoc, collection, serverTimestamp } = window._collections;
+      await updateDoc(doc(window._db,'businesses',bizId), { spotlight_until: until, spotlight_plan: planId });
+      await addDoc(collection(window._db,'payments'), {
+        payment_id: rzpResponse.razorpay_payment_id||'', order_id: rzpResponse.razorpay_order_id||'',
+        user_id: window._currentUser.uid, user_email: window._currentUser.email||'',
+        plan_id: planId, plan_name: plan.name, amount_inr: (orderData.amount||0)/100,
+        biz_id: bizId, type: 'spotlight', status: 'paid', expires_at: until, created_at: serverTimestamp()
+      });
+      showToast('⭐ Spotlight activated! Your listing is now on top for ' + plan.days + ' days.');
+      loadHomeBiz();
+      return; // done
+    } catch(err) { showToast('❌ Spotlight error: ' + err.message); return; }
+  }
+
   showToast('✅ Payment successful! Saving your listing…');
 
   try {
@@ -1975,6 +2038,14 @@ async function onRazorpaySuccess(rzpResponse, planId, bizId, orderData) {
     // ── Save business listing ──
     // status: 'pending' → webhook/admin sets to 'approved'
     // is_premium: true (payment confirmed client-side; webhook double-confirms)
+    // Upload govt registration doc if provided
+    const govtRegFile   = document.getElementById('govt-reg-file')?.files[0];
+    const govtRegNum    = document.getElementById('biz-govt-reg-num')?.value.trim() || '';
+    let   govtRegDocUrl = '';
+    if (govtRegFile) {
+      try { govtRegDocUrl = await uploadImageToDrive(govtRegFile, bizId + '_reg') || ''; } catch(e) {}
+    }
+
     const bizData = {
       name,
       type,
@@ -1987,6 +2058,9 @@ async function onRazorpaySuccess(rzpResponse, planId, bizId, orderData) {
       logo_url:       logoUrl,
       cover_url:      coverUrl,
       gallery_urls:   galleryUrls,
+      govt_reg_num:   govtRegNum,
+      govt_reg_doc:   govtRegDocUrl,
+      is_govt_verified: !!(govtRegNum || govtRegDocUrl),
       status:         'pending',
       is_premium:     true,
       premium_plan:   planId,
@@ -2215,6 +2289,7 @@ async function adminVerifyPayment(paymentId, bizId, action) {
     loadAdmin(); loadHomeBiz();
   } catch(e) { showToast('❌ Error: ' + e.message); }
 }
+const MAX_IMG_MB = 5;
 function previewImg(input, boxId, previewId) {
   const file = input.files[0]; if (!file) return;
   const prev = document.getElementById(previewId);
@@ -2318,11 +2393,29 @@ async function deleteMyBusiness() {
 let allBizData = [], currentCatFilter = 'all';
 async function loadHomeBiz() {
   loadUpdatesSlider();
-  const { getDocs, collection, query, where } = window._collections;
+  const { getDocs, collection, query, where, orderBy } = window._collections;
   try {
     const snap = await getDocs(query(collection(window._db,'businesses'), where('status','==','approved')));
     allBizData = snap.docs.map(d => ({id:d.id,...d.data()}));
-    renderBizList('home-biz-list', filterBiz(allBizData, currentCatFilter));
+
+    // ── Render spotlight section ──
+    const now = new Date().toISOString();
+    const spotlights = allBizData
+      .filter(b => b.spotlight_until && b.spotlight_until > now)
+      .sort((a,b) => (b.spotlight_until||'') > (a.spotlight_until||'') ? 1 : -1)
+      .slice(0, SPOTLIGHT_MAX_SLOTS);
+    const spotSection = document.getElementById('spotlight-section');
+    if (spotlights.length > 0) {
+      spotSection.style.display = 'block';
+      renderSpotlightList(spotlights);
+    } else {
+      spotSection.style.display = 'none';
+    }
+
+    // ── Render normal list (exclude spotlights to avoid duplication) ──
+    const spotIds = new Set(spotlights.map(b => b.id));
+    const normalList = filterBiz(allBizData.filter(b => !spotIds.has(b.id)), currentCatFilter);
+    renderBizList('home-biz-list', normalList);
   } catch(e) { console.error(e); }
 }
 function filterBiz(list, cat) { return cat==='all' ? list : list.filter(b => b.type===cat); }
@@ -2339,13 +2432,15 @@ function renderBizList(containerId, bizList) {
     const ratingHtml = b.review_count > 0
       ? renderStars(b.rating||0) + `<span class="biz-review-count">${(b.rating||0).toFixed(1)} (${b.review_count})</span>`
       : '<span class="biz-review-count" style="color:var(--gray300);font-size:.7rem">No reviews yet</span>';
+    const vpBadge = b.verified_plus ? '<span class="verified-plus-badge">✓ Verified+</span>' : '';
+    const sponTag = b.category_sponsor ? '<span style="font-size:.62rem;background:#DBEAFE;color:#1D4ED8;padding:2px 7px;border-radius:10px;font-weight:700;margin-left:4px">Sponsored</span>' : '';
     return `
     <div class="card" style="margin-bottom:12px" onclick="openBizDetail('${b.id}')" role="listitem" aria-label="${escapeHtml(b.name)}">
       <div class="biz-card">
         <img class="biz-logo" src="${b.logo_url||''}" alt="${escapeHtml(b.name)} logo" loading="lazy" onerror="this.style.background='var(--gray200)'"/>
         <div class="biz-info">
-          <div class="biz-name">${escapeHtml(b.name)}</div>
-          <span class="biz-type">${escapeHtml(b.type||'Business')}</span>
+          <div class="biz-name">${escapeHtml(b.name)}${vpBadge}</div>
+          <span class="biz-type">${escapeHtml(b.type||'Business')}</span>${sponTag}
           ${b.description ? `<div class="biz-desc">${escapeHtml(b.description)}</div>` : ''}
           <div class="biz-meta">${ratingHtml}</div>
           ${b.address ? `<div style="display:flex;align-items:center;gap:4px;margin-top:4px"><span style="font-size:.75rem;flex-shrink:0">📍</span><span class="biz-addr">${escapeHtml(b.address)}</span></div>` : ''}
@@ -2385,6 +2480,7 @@ async function openBizDetail(bizId) {
     const snap = await getDoc(doc(window._db,'businesses',bizId));
     if (!snap.exists()) { showToast('Business not found'); return; }
     const b = {id:snap.id,...snap.data()}; currentBizData = b;
+    trackEvent(snap.id, 'view'); // track profile view for analytics
     document.getElementById('detail-header-title').textContent = b.name;
     document.getElementById('detail-cover').src = b.cover_url||''; document.getElementById('detail-cover').alt = b.name+' cover photo';
     document.getElementById('detail-logo').src = b.logo_url||''; document.getElementById('detail-logo').alt = b.name+' logo';
@@ -2398,6 +2494,9 @@ async function openBizDetail(bizId) {
     document.getElementById('detail-addr').textContent = b.address||'';
     const isOwner = window._currentUser?.uid === b.user_id;
     document.getElementById('detail-edit-btn').style.display = isOwner ? 'flex' : 'none';
+    // Show spotlight/addons button for owner
+    const spBtn = document.getElementById('detail-spotlight-btn');
+    if (spBtn) spBtn.style.display = isOwner && b.status==='approved' ? 'flex' : 'none';
     document.getElementById('detail-status-badge').innerHTML = isOwner ? `<span class="badge badge-${b.status}">${b.status}</span>` : '';
     // Show "Own This Business" button to non-owners (even guests — they'll be asked to login)
     const ownSection = document.getElementById('own-this-biz-section');
@@ -2968,7 +3067,7 @@ async function adminResolveClaim(claimId, action, bizId, newOwnerUid, newOwnerEm
   } catch(e) { showToast('❌ Error: ' + e.message); }
 }
 function callBusiness() { if (!currentBizData?.phone) return; window.location.href='tel:'+currentBizData.phone.replace(/\s/g,''); }
-function whatsappBusiness() { const num=(currentBizData?.whatsapp||currentBizData?.phone||'').replace(/\D/g,''); if(!num){showToast('⚠️ WhatsApp not available');return;} window.open('https://wa.me/'+(num.startsWith('91')?num:'91'+num),'_blank'); }
+function whatsappBusiness() { if(currentBizData?.id) trackEvent(currentBizData.id,'whatsapp'); const num=(currentBizData?.whatsapp||currentBizData?.phone||'').replace(/\D/g,''); if(!num){showToast('⚠️ WhatsApp not available');return;} window.open('https://wa.me/'+(num.startsWith('91')?num:'91'+num),'_blank'); }
 function shareBusiness() {
   if (!currentBizData) return;
   const url = `https://makemetop.in/biz.html?id=${currentBizData.id}`;
@@ -3459,7 +3558,419 @@ if ('serviceWorker' in navigator) {
 // ══════════════════════════════════════
 //  EXPOSE GLOBALS
 // ══════════════════════════════════════
-Object.assign(window,{navTo,navBack,tryAddBusiness,loadHomeBiz,loadDashboard,filterCat,openBizDetail,callBusiness,whatsappBusiness,openWebsite,shareBusiness,openReviewModal,editReview,deleteReview,selectStar,submitReview,previewImg,previewGal,toggleService,saveDraft,autosaveDraft,goToStep,selectPlan,initRazorpayPayment,onRazorpaySuccess,ensureRazorpaySdk,startDiscountCountdown,previewPaymentSS,submitBusinessWithPayment,loadAdminPayments,adminVerifyPayment,viewPaymentSS,openEditBizModal,saveEditBusiness,deleteMyBusiness,openBizDetailAndEdit,toggleFaq,sendContactMsg,sendVerification,openModal,closeModal,openLightbox,logout,changePassword,sendPasswordReset,showToast,loadAdmin,loadAdminTab,adminAction,adminDelete,sendChatMsg,sendAdminReply,openAdminChatThread,showWelcomeModal,triggerInstall,updateInstallButtonVisibility,showInstallInstructions,showMainApp,showAuth,updateSettingsUI,checkAdminAccess,showVerifyBanner,loadDashboard,loadHomeBiz,openClaimModal,submitClaimRequest,handleClaimAction,adminResolveClaim,loadAdminClaims,goSlide,rateLimit,sanitizeInput,callAppsScript,setLoading});
+// ══════════════════════════════════════════════
+//  SPOTLIGHT RENDER
+// ══════════════════════════════════════════════
+function renderSpotlightList(spots) {
+  const c = document.getElementById('spotlight-list');
+  if (!c) return;
+  c.innerHTML = spots.map(b => {
+    const until  = new Date(b.spotlight_until);
+    const diffMs = until - Date.now();
+    const hrs    = Math.floor(diffMs / 3600000);
+    const mins   = Math.floor((diffMs % 3600000) / 60000);
+    const timeStr = hrs > 24
+      ? Math.floor(hrs/24) + 'd ' + (hrs%24) + 'h left'
+      : hrs + 'h ' + mins + 'm left';
+    const vpBadge = b.verified_plus ? '<span class="verified-plus-badge">✓ Verified+</span>' : '';
+    const topSvcs = (b.services||[]).slice(0,3);
+    const rHtml   = b.review_count > 0
+      ? renderStars(b.rating||0) + `<span class="biz-review-count">${(b.rating||0).toFixed(1)} (${b.review_count})</span>`
+      : '';
+    return `
+    <div class="card spotlight-card" onclick="openBizDetail('${b.id}')">
+      <div class="spotlight-badge">⭐ Spotlight</div>
+      <div class="biz-card" style="padding-top:22px">
+        <img class="biz-logo" src="${b.logo_url||''}" alt="${escapeHtml(b.name)}" loading="lazy" onerror="this.style.background='var(--gray200)'"/>
+        <div class="biz-info">
+          <div class="biz-name">${escapeHtml(b.name)}${vpBadge}</div>
+          <span class="biz-type">${escapeHtml(b.type||'')}</span>
+          ${b.description?`<div class="biz-desc">${escapeHtml(b.description)}</div>`:''}
+          <div class="biz-meta">${rHtml}</div>
+          ${b.address?`<div style="display:flex;align-items:center;gap:4px;margin-top:4px"><span style="font-size:.75rem">📍</span><span class="biz-addr">${escapeHtml(b.address)}</span></div>`:''}
+          <div class="spotlight-timer">⏱ ${timeStr}</div>
+        </div>
+      </div>
+      ${topSvcs.length?`<div class="biz-card-footer">${topSvcs.map(s=>`<span class="biz-tag">${escapeHtml(s)}</span>`).join('')}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════
+//  AI DESCRIPTION GENERATOR
+// ══════════════════════════════════════════════
+async function generateAIDescription() {
+  const name     = document.getElementById('biz-name')?.value.trim();
+  const type     = document.getElementById('biz-type')?.value;
+  const addr     = document.getElementById('biz-addr')?.value.trim();
+  const services = [...document.querySelectorAll('#services-chips .chip.active')].map(c => c.textContent.trim());
+
+  if (!name) { showToast('⚠️ Enter your business name first'); return; }
+
+  const btn  = document.getElementById('ai-desc-btn');
+  const area = document.getElementById('biz-desc');
+  if (btn) { btn.disabled = true; btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg> Generating…'; }
+
+  const prompt = `Write a professional, SEO-friendly business description for a Kashmir tourism business listed on MakeMe Top MBP directory.
+
+Business Name: ${name}
+Business Type: ${type || 'Travel Agency'}
+Location: ${addr || 'Srinagar, Kashmir, J&K, India'}
+Services: ${services.length ? services.join(', ') : 'General tourism services'}
+
+Requirements:
+- 3–4 sentences, 80–120 words
+- Natural, warm tone that builds tourist trust
+- Mention Kashmir destinations relevant to this business type
+- Include a subtle call to action (contact/book)
+- Do NOT use generic phrases like "world-class" or "best in class"
+- Write only the description text, no headings or labels`;
+
+  try {
+    const appsUrl = window.APPS_SCRIPT_URL;
+    if (!appsUrl || appsUrl.includes('PASTE')) throw new Error('Apps Script URL not configured');
+    const res  = await fetch(appsUrl, { method:'POST', headers:{'Content-Type':'text/plain;charset=UTF-8'}, body: JSON.stringify({ action:'askGroqAI', messages:[{role:'user',content:prompt}], systemPrompt:'You are a professional tourism copywriter for Kashmir, India. Write concise, authentic business descriptions for the MBP Kashmir travel directory. Return ONLY the description text.' }), redirect:'follow' });
+    const data = JSON.parse(await res.text());
+    if (data.error) throw new Error(data.error);
+    if (!data.reply) throw new Error('Empty response');
+    if (area) { area.value = data.reply.trim(); area.dispatchEvent(new Event('input')); }
+    showToast('✅ AI description generated!');
+  } catch(err) {
+    showToast('❌ AI error: ' + err.message);
+  }
+  if (btn) { btn.disabled = false; btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M12 2a8 8 0 0 1 8 8c0 5-8 12-8 12S4 15 4 10a8 8 0 0 1 8-8z"/><circle cx="12" cy="10" r="3"/></svg> ✨ Auto-Write Description with AI'; }
+}
+
+// ══════════════════════════════════════════════
+//  GOVT REG PREVIEW
+// ══════════════════════════════════════════════
+function previewGovtReg(input) {
+  if (!input.files?.[0]) return;
+  if (input.files[0].size > 10 * 1024 * 1024) { showToast('⚠️ Document too large. Max 10MB.'); input.value = ''; return; }
+  const file = input.files[0];
+  const prev = document.getElementById('govt-reg-preview');
+  const box  = document.getElementById('govt-reg-box');
+  if (file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = e => { prev.src = e.target.result; prev.classList.remove('hidden'); if(box) box.querySelector('.upload-icon').style.display='none'; };
+    reader.readAsDataURL(file);
+  } else {
+    // PDF — show filename
+    if (prev) { prev.classList.remove('hidden'); prev.style.display='none'; }
+    if (box) { box.querySelector('.upload-label').textContent = '📄 ' + file.name; }
+  }
+  showToast('✅ Registration document selected');
+}
+
+// ══════════════════════════════════════════════
+//  SPOTLIGHT PURCHASE (from dashboard)
+// ══════════════════════════════════════════════
+let spotlightTargetBizId = null;
+async function openSpotlightModal(bizId) {
+  spotlightTargetBizId = bizId;
+
+  // Check current live spotlight count
+  const { getDocs, collection, query, where } = window._collections;
+  let liveCount = 0;
+  try {
+    const snap = await getDocs(query(collection(window._db,'businesses'), where('status','==','approved')));
+    const now   = new Date().toISOString();
+    liveCount   = snap.docs.filter(d => { const sp = d.data().spotlight_until; return sp && sp > now; }).length;
+  } catch(e) {}
+
+  const slotsLeft = Math.max(0, SPOTLIGHT_MAX_SLOTS - liveCount);
+  const slotsHtml = slotsLeft > 0
+    ? `<div style="background:#D1FAE5;border:1px solid #6EE7B7;border-radius:8px;padding:9px 12px;margin-bottom:14px;font-size:.8rem;color:#065F46;font-weight:600">🔥 ${slotsLeft} of ${SPOTLIGHT_MAX_SLOTS} spotlight slot${slotsLeft!==1?'s':''} available right now</div>`
+    : `<div style="background:#FEE2E2;border:1px solid #FECACA;border-radius:8px;padding:9px 12px;margin-bottom:14px;font-size:.8rem;color:#991B1B;font-weight:600">⚠️ All 3 spotlight slots are full. Check back soon!</div>`;
+
+  const modalHtml = `
+    <div id="spotlight-modal" style="position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center" onclick="if(event.target===this)closeSpotlightModal()">
+      <div style="background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:540px;padding:20px 20px 32px;max-height:90vh;overflow-y:auto">
+        <div style="text-align:center;margin-bottom:4px">
+          <div style="font-size:2rem;margin-bottom:4px">⭐</div>
+          <div style="font-family:var(--font-display);font-size:1.05rem;font-weight:800">Spotlight — Show on Top</div>
+          <div style="font-size:.78rem;color:var(--gray500);margin-top:4px;line-height:1.5">Your listing appears at the very top of the homepage for all tourists. Only 3 agencies can be spotlighted at once.</div>
+        </div>
+        <div style="margin:14px 0">${slotsHtml}</div>
+        <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:18px">
+          ${slotsLeft > 0 ? `
+          <div style="border:2px solid var(--gray200);border-radius:12px;padding:14px;cursor:pointer;transition:.15s" onclick="buySpotlight('spotlight_1day',this)">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div><div style="font-weight:700;font-size:.9rem">1 Day Spotlight</div><div style="font-size:.74rem;color:var(--gray500)">24 hours at the very top</div></div>
+              <div style="font-family:var(--font-display);font-weight:800;font-size:1.2rem;color:var(--primary)">₹49</div>
+            </div>
+          </div>
+          <div style="border:2px solid #F5A623;border-radius:12px;padding:14px;cursor:pointer;position:relative;background:#FFFBEB" onclick="buySpotlight('spotlight_3day',this)">
+            <div style="position:absolute;top:-9px;left:14px;background:#F5A623;color:#fff;font-size:.62rem;font-weight:800;padding:2px 10px;border-radius:10px">MOST POPULAR</div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div><div style="font-weight:700;font-size:.9rem">3 Day Spotlight</div><div style="font-size:.74rem;color:var(--gray500)">72 hours — best for weekends</div></div>
+              <div style="font-family:var(--font-display);font-weight:800;font-size:1.2rem;color:#E09410">₹99</div>
+            </div>
+          </div>
+          <div style="border:2px solid var(--gray200);border-radius:12px;padding:14px;cursor:pointer;transition:.15s" onclick="buySpotlight('spotlight_7day',this)">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div><div style="font-weight:700;font-size:.9rem">7 Day Spotlight</div><div style="font-size:.74rem;color:var(--gray500)">Full week exposure</div></div>
+              <div style="font-family:var(--font-display);font-weight:800;font-size:1.2rem;color:var(--primary)">₹199</div>
+            </div>
+          </div>` : ''}
+        </div>
+        <button onclick="closeSpotlightModal()" style="width:100%;padding:12px;border:none;border-radius:10px;background:var(--gray100);font-family:var(--font-body);font-size:.88rem;font-weight:600;cursor:pointer;color:var(--gray700)">Cancel</button>
+      </div>
+    </div>`;
+  document.body.insertAdjacentHTML('beforeend', modalHtml);
+}
+
+function closeSpotlightModal() {
+  document.getElementById('spotlight-modal')?.remove();
+  spotlightTargetBizId = null;
+}
+
+async function buySpotlight(planId, cardEl) {
+  if (!spotlightTargetBizId) { showToast('⚠️ No listing selected'); return; }
+  const plan = window.RAZORPAY_PLANS[planId];
+  if (!plan) return;
+  closeSpotlightModal();
+  // Reuse standard Razorpay payment flow with biz_id = spotlight target
+  const prevBizId = spotlightTargetBizId;
+  const prevPlan  = selectedPlanId;
+  selectedPlanId = planId;
+  await initRazorpayPayment(prevBizId, true); // true = spotlight purchase
+  selectedPlanId = prevPlan;
+}
+
+// ══════════════════════════════════════════════
+//  ANALYTICS MINI-DASHBOARD (basic view tracking)
+// ══════════════════════════════════════════════
+async function loadAnalyticsDashboard(bizId) {
+  const { getDocs, collection, query, where, orderBy, limit } = window._collections;
+  try {
+    const snap = await getDocs(
+      query(collection(window._db,'analytics_events'),
+        where('biz_id','==',bizId),
+        orderBy('created_at','desc'),
+        limit(100))
+    );
+    const events = snap.docs.map(d => d.data());
+    const views  = events.filter(e => e.type==='view').length;
+    const calls  = events.filter(e => e.type==='call').length;
+    const whatsapps = events.filter(e => e.type==='whatsapp').length;
+    const websites  = events.filter(e => e.type==='website').length;
+    return { views, calls, whatsapps, websites, total: events.length };
+  } catch(e) {
+    return { views:0, calls:0, whatsapps:0, websites:0, total:0 };
+  }
+}
+
+// Track events (call, whatsapp, website click, profile view)
+async function trackEvent(bizId, type) {
+  if (!window._db || !window._collections) return;
+  try {
+    const { addDoc, collection, serverTimestamp } = window._collections;
+    await addDoc(collection(window._db,'analytics_events'), {
+      biz_id:     bizId,
+      type,
+      created_at: serverTimestamp(),
+      user_agent: navigator.userAgent.slice(0,100)
+    });
+  } catch(e) { /* silent — don't interrupt UX */ }
+}
+
+
+// ══════════════════════════════════════════════════════════════
+//  DYNAMIC OFFERS SYSTEM
+//  Listens to Firestore /site_config/offers in real-time.
+//  When admin activates an offer, all open browser tabs update
+//  within seconds — no page reload needed.
+//
+//  Firestore document: /site_config/offers
+//  Fields:
+//    active        : boolean
+//    name          : string  e.g. "Eid Special 2025"
+//    description   : string  e.g. "Celebrate Eid with 50% off"
+//    badge         : string  e.g. "🎉 Eid Offer"
+//    monthly_price : number  e.g. 399   (INR)
+//    annual_price  : number  e.g. 3999  (INR)
+//    monthly_paise : number  e.g. 39900 (Razorpay paise)
+//    annual_paise  : number  e.g. 399900
+//    expires_at    : string  ISO date e.g. "2025-04-05T23:59:00.000Z"
+//    created_at    : string
+// ══════════════════════════════════════════════════════════════
+
+let currentOffer = null;       // null = no active offer
+let offerTimerInterval = null; // countdown interval
+
+// ── Start listening as soon as Firestore is ready ──
+function initOfferListener() {
+  if (!window._db || !window._collections) {
+    setTimeout(initOfferListener, 500);
+    return;
+  }
+  const { doc, onSnapshot } = window._collections;
+  onSnapshot(doc(window._db, 'site_config', 'offers'), (snap) => {
+    if (!snap.exists()) { clearOffer(); return; }
+    const offer = snap.data();
+    if (!offer.active) { clearOffer(); return; }
+
+    // Check if offer has expired
+    if (offer.expires_at) {
+      const expiry = new Date(offer.expires_at);
+      if (expiry <= new Date()) { clearOffer(); return; }
+    }
+    applyOffer(offer);
+  });
+}
+
+// ── Apply offer to all UI elements ──
+function applyOffer(offer) {
+  currentOffer = offer;
+
+  const mPaise = offer.monthly_paise || Math.round((offer.monthly_price || 799) * 100);
+  const aPaise = offer.annual_paise  || Math.round((offer.annual_price  || 7999) * 100);
+  const mDisplay = '₹' + (offer.monthly_price || 799).toLocaleString('en-IN');
+  const aDisplay = '₹' + (offer.annual_price  || 7999).toLocaleString('en-IN');
+  const badge    = offer.badge || '🎉 ' + (offer.name || 'Special Offer');
+
+  // Update RAZORPAY_PLANS amounts so payment uses discounted price
+  if (window.RAZORPAY_PLANS) {
+    window.RAZORPAY_PLANS.monthly_799.amount  = mPaise;
+    window.RAZORPAY_PLANS.monthly_799.display = mDisplay;
+    window.RAZORPAY_PLANS.annual_1499.amount  = aPaise;
+    window.RAZORPAY_PLANS.annual_1499.display = aDisplay;
+  }
+
+  // ── Step 2 banner ──
+  const s2banner = document.getElementById('step2-offer-banner');
+  if (s2banner) {
+    document.getElementById('s2-offer-name').textContent = offer.name || 'Special Offer';
+    document.getElementById('s2-offer-sub').textContent  = offer.description || 'Discounted pricing active now';
+    s2banner.style.display = 'block';
+  }
+
+  // ── Premium page banner ──
+  const pBanner = document.getElementById('prem-offer-banner');
+  if (pBanner) {
+    document.getElementById('p-offer-name').textContent = offer.name || 'Special Offer';
+    document.getElementById('p-offer-sub').textContent  = offer.description || 'Discounted pricing active now';
+    pBanner.style.display = 'block';
+  }
+
+  // ── Step 2 plan card prices ──
+  const s2m = document.getElementById('s2-monthly-price');
+  if (s2m) {
+    s2m.innerHTML = mDisplay
+      + ` <span class="offer-active-badge">${badge}</span>`;
+  }
+  const s2a = document.getElementById('s2-annual-price');
+  if (s2a) {
+    s2a.innerHTML = aDisplay
+      + ` <span class="offer-active-badge">${badge}</span>`;
+  }
+
+  // ── Save text on annual (savings) ──
+  const regular_annual = 9588;
+  const savedAmt = regular_annual - (offer.annual_price || 7999);
+  if (savedAmt > 0) {
+    const saveEl = document.querySelector('[id="s2-annual-price"] ~ div .offer-save');
+    // Update save text in annual card
+    html_s2a_parent: {
+      const els = document.querySelectorAll('.plan-card');
+      els.forEach(card => {
+        if (card.id === 'plan-card-annual') {
+          const saveSpan = card.querySelector('[style*="color:var(--green)"]');
+          if (saveSpan) saveSpan.textContent = `You save ₹${savedAmt.toLocaleString('en-IN')}!`;
+        }
+      });
+    }
+  }
+
+  // ── Premium page prices ──
+  const pm = document.getElementById('prem-monthly-price');
+  if (pm) pm.innerHTML = mDisplay + ` <span style="font-size:.9rem;font-weight:400;color:var(--gray500)">/month</span> <span class="offer-active-badge">${badge}</span>`;
+
+  const pa = document.getElementById('prem-annual-price');
+  if (pa) pa.innerHTML = aDisplay + ` <span style="font-size:.9rem;font-weight:400;opacity:.7">/year</span> <span class="offer-active-badge" style="font-size:.55rem">${badge}</span>`;
+
+  // ── Premium page buttons ──
+  const pmb = document.getElementById('prem-monthly-btn-price');
+  if (pmb) pmb.textContent = mDisplay;
+  const pab = document.getElementById('prem-annual-btn-price');
+  if (pab) pab.textContent = aDisplay;
+
+  // ── Start countdown timers ──
+  if (offer.expires_at) {
+    if (offerTimerInterval) clearInterval(offerTimerInterval);
+    updateOfferCountdowns(offer.expires_at);
+    offerTimerInterval = setInterval(() => updateOfferCountdowns(offer.expires_at), 1000);
+  }
+
+  console.log('[MBP] Offer applied:', offer.name, mDisplay, '/', aDisplay);
+}
+
+// ── Countdown timer updater ──
+function updateOfferCountdowns(expiresAt) {
+  const diff = Math.max(0, new Date(expiresAt) - Date.now());
+  if (diff === 0) { clearOffer(); return; }
+
+  const d  = Math.floor(diff / 86400000);
+  const h  = Math.floor((diff % 86400000) / 3600000);
+  const m  = Math.floor((diff % 3600000) / 60000);
+  const s  = Math.floor((diff % 60000) / 1000);
+
+  const html = `
+    ${d > 0 ? `<div class="offer-countdown-unit"><span class="offer-countdown-num">${d}</span><span class="offer-countdown-lbl">Days</span></div><div class="offer-countdown-sep">:</div>` : ''}
+    <div class="offer-countdown-unit"><span class="offer-countdown-num">${String(h).padStart(2,'0')}</span><span class="offer-countdown-lbl">Hours</span></div>
+    <div class="offer-countdown-sep">:</div>
+    <div class="offer-countdown-unit"><span class="offer-countdown-num">${String(m).padStart(2,'0')}</span><span class="offer-countdown-lbl">Min</span></div>
+    <div class="offer-countdown-sep">:</div>
+    <div class="offer-countdown-unit"><span class="offer-countdown-num">${String(s).padStart(2,'0')}</span><span class="offer-countdown-lbl">Sec</span></div>
+  `;
+  const c1 = document.getElementById('s2-offer-countdown');
+  const c2 = document.getElementById('p-offer-countdown');
+  if (c1) c1.innerHTML = html;
+  if (c2) c2.innerHTML = html;
+}
+
+// ── Clear offer — restore normal prices ──
+function clearOffer() {
+  if (!currentOffer) return;
+  currentOffer = null;
+  if (offerTimerInterval) { clearInterval(offerTimerInterval); offerTimerInterval = null; }
+
+  // Restore default Razorpay amounts
+  if (window.RAZORPAY_PLANS) {
+    window.RAZORPAY_PLANS.monthly_799.amount  = 79900;
+    window.RAZORPAY_PLANS.monthly_799.display = '₹799';
+    window.RAZORPAY_PLANS.annual_1499.amount  = 799900;
+    window.RAZORPAY_PLANS.annual_1499.display = '₹7,999';
+  }
+
+  // Hide banners
+  const b1 = document.getElementById('step2-offer-banner');
+  const b2 = document.getElementById('prem-offer-banner');
+  if (b1) b1.style.display = 'none';
+  if (b2) b2.style.display = 'none';
+
+  // Restore prices
+  const s2m = document.getElementById('s2-monthly-price');
+  if (s2m) s2m.innerHTML = '₹799';
+  const s2a = document.getElementById('s2-annual-price');
+  if (s2a) s2a.innerHTML = '₹7,999';
+  const pm  = document.getElementById('prem-monthly-price');
+  if (pm) pm.innerHTML = '₹799 <span style="font-size:.9rem;font-weight:400;color:var(--gray500)">/month</span>';
+  const pa  = document.getElementById('prem-annual-price');
+  if (pa) pa.innerHTML = '₹7,999 <span style="font-size:.9rem;font-weight:400;opacity:.7">/year</span>';
+  const pmb = document.getElementById('prem-monthly-btn-price');
+  if (pmb) pmb.textContent = '₹799';
+  const pab = document.getElementById('prem-annual-btn-price');
+  if (pab) pab.textContent = '₹7,999';
+
+  console.log('[MBP] Offer cleared — normal pricing restored');
+}
+
+// Start listener when Firebase ready
+window.addEventListener('load', () => setTimeout(initOfferListener, 1500));
+
+Object.assign(window,{navTo,navBack,tryAddBusiness,loadHomeBiz,loadDashboard,renderBizList,filterBiz,filterCat,renderStars,renderSpotlightList,openBizDetail,callBusiness,whatsappBusiness,openWebsite,shareBusiness,openReviewModal,editReview,deleteReview,selectStar,submitReview,previewImg,previewGal,toggleService,saveDraft,autosaveDraft,goToStep,selectPlan,initRazorpayPayment,applyOffer,clearOffer,initOfferListener,onRazorpaySuccess,ensureRazorpaySdk,generateAIDescription,previewGovtReg,openSpotlightModal,closeSpotlightModal,buySpotlight,renderSpotlightList,trackEvent,loadAnalyticsDashboard,startDiscountCountdown,previewPaymentSS,submitBusinessWithPayment,loadAdminPayments,adminVerifyPayment,viewPaymentSS,openEditBizModal,saveEditBusiness,deleteMyBusiness,openBizDetailAndEdit,toggleFaq,sendContactMsg,sendVerification,openModal,closeModal,openLightbox,logout,changePassword,sendPasswordReset,showToast,loadAdmin,loadAdminTab,adminAction,adminDelete,sendChatMsg,sendAdminReply,openAdminChatThread,showWelcomeModal,triggerInstall,updateInstallButtonVisibility,showInstallInstructions,showMainApp,showAuth,updateSettingsUI,checkAdminAccess,showVerifyBanner,loadDashboard,loadHomeBiz,openClaimModal,submitClaimRequest,handleClaimAction,adminResolveClaim,loadAdminClaims,goSlide,rateLimit,sanitizeInput,callAppsScript,setLoading});
 
 // ── Safety net: if Firebase auth resolved before this script ran ──
 if (window._currentUser !== undefined) {

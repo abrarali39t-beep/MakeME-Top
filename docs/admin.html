@@ -347,7 +347,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getAuth, onAuthStateChanged, signOut, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc, addDoc, query, where, orderBy, serverTimestamp, onSnapshot, limit, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// ── PASTE YOUR FIREBASE CONFIG ──
 const firebaseConfig = {
   apiKey:            "AIzaSyDwx-GoLV3-T5_zEURlqUb1LXa48gbqhM8",
   authDomain:        "live-voting-b236f.firebaseapp.com",
@@ -483,11 +482,11 @@ function showSection(name, el) {
   currentSection = name;
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   if (el) el.classList.add('active');
-  const titles = { dashboard:'Dashboard', payments:'Payment Submissions', pending:'Pending Listings', approved:'Approved Listings', rejected:'Rejected Listings', users:'Registered Users', chats:'Live Chat', claims:'Ownership Claims', contacts:'Contact Messages', updates:'Home Slider' };
+  const titles = { dashboard:'Dashboard', payments:'Payment Submissions', pending:'Pending Listings', approved:'Approved Listings', rejected:'Rejected Listings', users:'Registered Users', chats:'Live Chat', claims:'Ownership Claims', contacts:'Contact Messages', updates:'Home Slider', spotlights:'Spotlight Manager', analytics:'Analytics Overview' };
   document.getElementById('topbar-title').textContent = titles[name] || name;
   const content = document.getElementById('content');
   content.innerHTML = '<div class="loading-row"><div class="spinner"></div></div>';
-  const fn = { dashboard:loadDashboard, payments:loadPayments, pending:()=>loadListings('pending'), approved:()=>loadListings('approved'), rejected:()=>loadListings('rejected'), users:loadUsers, chats:loadChats, claims:loadClaims, contacts:loadContacts, updates:loadUpdates };
+  const fn = { dashboard:loadDashboard, payments:loadPayments, pending:()=>loadListings('pending'), approved:()=>loadListings('approved'), rejected:()=>loadListings('rejected'), users:loadUsers, chats:loadChats, claims:loadClaims, contacts:loadContacts, updates:loadUpdates, spotlights:loadSpotlights, analytics:loadAnalyticsOverview };
   if (fn[name]) fn[name]();
 }
 function refreshSection() { showSection(currentSection, document.querySelector(`.nav-item[data-section="${currentSection}"]`)); }
@@ -676,7 +675,7 @@ async function loadListings(status) {
           <tbody>${businesses.map(b => `<tr>
             <td><div class="biz-name-cell">
               <img class="biz-thumb" src="${esc(b.logo_url||'')}" onerror="this.style.background='var(--gray200)'" alt=""/>
-              <div><div class="nm">${esc(b.name||'—')}</div><div class="tp" style="font-size:.68rem;color:var(--gray400)">${esc(b.id)}</div></div>
+              <div><div class="nm">${esc(b.name||'—')} ${b.is_govt_verified ? '<span style="font-size:.62rem;background:#D1FAE5;color:#065F46;padding:1px 6px;border-radius:8px;font-weight:700;vertical-align:middle">✅ Reg</span>' : ''}</div><div class="tp" style="font-size:.68rem;color:var(--gray400)">${esc(b.id)}</div></div>
             </div></td>
             <td class="text-sm">${esc(b.type||'—')}</td>
             <td class="text-sm text-muted" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(b.address||'—')}</td>
@@ -937,6 +936,104 @@ async function deleteContact(id) {
 // ══════════════════════════════════════
 //  HOME SLIDER UPDATES
 // ══════════════════════════════════════
+// ══ SPOTLIGHT MANAGER ══
+async function loadSpotlights() {
+  const { getDocs, collection, query, where, orderBy } = window._col;
+  const c = document.getElementById('admin-content');
+  c.innerHTML = '<p style="padding:20px;color:var(--gray500)">Loading spotlights…</p>';
+  try {
+    const snap  = await getDocs(query(collection(window._db,'businesses'), where('status','==','approved')));
+    const now   = new Date().toISOString();
+    const all   = snap.docs.map(d=>({id:d.id,...d.data()}));
+    const live  = all.filter(b => b.spotlight_until && b.spotlight_until > now).sort((a,b)=>a.spotlight_until>b.spotlight_until?1:-1);
+    const rest  = all.filter(b => !b.spotlight_until || b.spotlight_until <= now).slice(0,20);
+
+    c.innerHTML = `
+    <div style="padding:16px">
+      <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:.82rem;color:#92400E">
+        ⭐ <strong>Spotlight Slots: ${live.length} / 3 live</strong> — Up to 3 businesses can be spotlighted at once. Listings with <code>spotlight_until</code> in the future show on top of the home page.
+      </div>
+      <h3 style="font-size:.9rem;font-weight:700;margin-bottom:10px">🔴 Currently Live (${live.length})</h3>
+      ${live.length === 0 ? '<p style="color:var(--gray500);font-size:.82rem">No active spotlights</p>' : live.map(b=>{
+        const until = new Date(b.spotlight_until);
+        const hrs   = Math.max(0, Math.floor((until-Date.now())/3600000));
+        return `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#fff;border:1px solid #FDE68A;border-radius:8px;margin-bottom:7px">
+          <div>
+            <div style="font-weight:700;font-size:.85rem">${esc(b.name)}</div>
+            <div style="font-size:.73rem;color:var(--gray500)">${esc(b.type||'')} · Expires in ${hrs}h</div>
+          </div>
+          <button onclick="removeSpotlight('${b.id}')" style="padding:5px 12px;background:#FEE2E2;color:#991B1B;border:none;border-radius:8px;font-size:.75rem;font-weight:600;cursor:pointer">Remove</button>
+        </div>`;
+      }).join('')}
+      <h3 style="font-size:.9rem;font-weight:700;margin-bottom:10px;margin-top:16px">Add Spotlight Manually</h3>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        ${rest.slice(0,10).map(b=>`
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 13px;background:var(--gray50);border:1px solid var(--gray200);border-radius:8px">
+          <span style="font-size:.83rem;font-weight:600">${esc(b.name)}</span>
+          <div style="display:flex;gap:6px">
+            <button onclick="adminAddSpotlight('${b.id}',1)" style="padding:4px 10px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-size:.72rem;cursor:pointer">1d ₹49</button>
+            <button onclick="adminAddSpotlight('${b.id}',3)" style="padding:4px 10px;background:#F5A623;color:#fff;border:none;border-radius:6px;font-size:.72rem;cursor:pointer">3d ₹99</button>
+            <button onclick="adminAddSpotlight('${b.id}',7)" style="padding:4px 10px;background:#16A34A;color:#fff;border:none;border-radius:6px;font-size:.72rem;cursor:pointer">7d ₹199</button>
+          </div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  } catch(e) { document.getElementById('admin-content').innerHTML = '<p style="padding:20px;color:var(--red)">Error: '+e.message+'</p>'; }
+}
+async function removeSpotlight(bizId) {
+  if (!confirm('Remove spotlight?')) return;
+  const { doc, updateDoc } = window._col;
+  await updateDoc(doc(window._db,'businesses',bizId), { spotlight_until:'', spotlight_plan:'' });
+  showToast('✅ Spotlight removed'); loadSpotlights();
+}
+async function adminAddSpotlight(bizId, days) {
+  const until = new Date(Date.now() + days*24*60*60*1000).toISOString();
+  const { doc, updateDoc } = window._col;
+  await updateDoc(doc(window._db,'businesses',bizId), { spotlight_until: until, spotlight_plan: 'admin_free' });
+  showToast('⭐ Spotlight set for '+days+' days!'); loadSpotlights();
+}
+
+// ══ ANALYTICS OVERVIEW ══
+async function loadAnalyticsOverview() {
+  const { getDocs, collection, query, orderBy, limit, where } = window._col;
+  const c = document.getElementById('admin-content');
+  c.innerHTML = '<p style="padding:20px;color:var(--gray500)">Loading analytics…</p>';
+  try {
+    const snap = await getDocs(query(collection(window._db,'analytics_events'), orderBy('created_at','desc'), limit(200)));
+    const evts = snap.docs.map(d=>d.data());
+    const total   = evts.length;
+    const views   = evts.filter(e=>e.type==='view').length;
+    const calls   = evts.filter(e=>e.type==='call').length;
+    const waClicks = evts.filter(e=>e.type==='whatsapp').length;
+    const webClicks= evts.filter(e=>e.type==='website').length;
+
+    // Group by biz_id
+    const byBiz = {};
+    evts.forEach(e => {
+      if (!e.biz_id) return;
+      if (!byBiz[e.biz_id]) byBiz[e.biz_id] = {views:0,calls:0,whatsapp:0,website:0};
+      byBiz[e.biz_id][e.type] = (byBiz[e.biz_id][e.type]||0)+1;
+    });
+    const topBizIds = Object.entries(byBiz).sort((a,b)=>(b[1].views+b[1].calls)-(a[1].views+a[1].calls)).slice(0,10);
+
+    c.innerHTML = `
+    <div style="padding:16px">
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px">
+        <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:10px;padding:14px;text-align:center"><div style="font-size:1.5rem;font-weight:800;color:#1D4ED8">${views}</div><div style="font-size:.73rem;color:#1D4ED8;font-weight:600">Profile Views</div></div>
+        <div style="background:#D1FAE5;border:1px solid #6EE7B7;border-radius:10px;padding:14px;text-align:center"><div style="font-size:1.5rem;font-weight:800;color:#065F46">${calls}</div><div style="font-size:.73rem;color:#065F46;font-weight:600">Calls</div></div>
+        <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:14px;text-align:center"><div style="font-size:1.5rem;font-weight:800;color:#16A34A">${waClicks}</div><div style="font-size:.73rem;color:#16A34A;font-weight:600">WhatsApp</div></div>
+        <div style="background:#FEF3C7;border:1px solid #FDE68A;border-radius:10px;padding:14px;text-align:center"><div style="font-size:1.5rem;font-weight:800;color:#92400E">${webClicks}</div><div style="font-size:.73rem;color:#92400E;font-weight:600">Website Clicks</div></div>
+      </div>
+      <p style="font-size:.73rem;color:var(--gray500);margin-bottom:12px">Last 200 events · Real-time tracking</p>
+      <h3 style="font-size:.9rem;font-weight:700;margin-bottom:10px">Top Listings by Engagement</h3>
+      <table style="width:100%;font-size:.78rem;border-collapse:collapse">
+        <tr style="background:var(--gray50)"><th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--gray200)">Biz ID</th><th style="padding:8px;text-align:center;border-bottom:1px solid var(--gray200)">Views</th><th style="padding:8px;text-align:center;border-bottom:1px solid var(--gray200)">Calls</th><th style="padding:8px;text-align:center;border-bottom:1px solid var(--gray200)">WA</th></tr>
+        ${topBizIds.map(([id,e])=>`<tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray100);font-family:monospace;font-size:.7rem;color:var(--gray500)">${id.slice(-10)}</td><td style="text-align:center;padding:7px 8px;border-bottom:1px solid var(--gray100)">${e.views||0}</td><td style="text-align:center;padding:7px 8px;border-bottom:1px solid var(--gray100)">${e.calls||0}</td><td style="text-align:center;padding:7px 8px;border-bottom:1px solid var(--gray100)">${e.whatsapp||0}</td></tr>`).join('')}
+      </table>
+    </div>`;
+  } catch(e) { document.getElementById('admin-content').innerHTML = '<p style="padding:20px;color:var(--red)">Error: '+e.message+'</p>'; }
+}
+
 async function loadUpdates() {
   const { getDocs, collection, query, orderBy } = window._col;
   try {
