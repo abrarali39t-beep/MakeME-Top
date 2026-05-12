@@ -2,6 +2,9 @@
 <html lang="en-IN">
 <head>
 <meta charset="UTF-8"/>
+<meta http-equiv="X-Content-Type-Options" content="nosniff"/>
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN"/>
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="robots" content="noindex, nofollow"/>
 <title>MBP Admin Panel – MakeMe Top Business Profile</title>
@@ -246,6 +249,25 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:14px 0}
       Home Slider
     </button>
 
+    <div class="nav-section">Marketing &amp; SEO</div>
+    <button class="nav-item" data-section="offers" onclick="showSection('offers',this)">
+      <svg class="ni-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+      Offers &amp; Pricing
+    </button>
+    <button class="nav-item" data-section="spotlights" onclick="showSection('spotlights',this)">
+      <svg class="ni-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Spotlight Manager
+      <span class="nav-badge" id="nb-spotlights" style="display:none">0</span>
+    </button>
+    <button class="nav-item" data-section="analytics" onclick="showSection('analytics',this)">
+      <svg class="ni-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Analytics
+    </button>
+    <button class="nav-item" data-section="sitemap" onclick="showSection('sitemap',this)">
+      <svg class="ni-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      Sitemap / SEO
+    </button>
+
     <div class="sidebar-footer">
       <button class="nav-item" style="margin:0;width:100%" onclick="logout()">
         <svg class="ni-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
@@ -482,11 +504,11 @@ function showSection(name, el) {
   currentSection = name;
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   if (el) el.classList.add('active');
-  const titles = { dashboard:'Dashboard', payments:'Payment Submissions', pending:'Pending Listings', approved:'Approved Listings', rejected:'Rejected Listings', users:'Registered Users', chats:'Live Chat', claims:'Ownership Claims', contacts:'Contact Messages', updates:'Home Slider', spotlights:'Spotlight Manager', analytics:'Analytics Overview' };
+  const titles = { dashboard:'Dashboard', payments:'Payment Submissions', pending:'Pending Listings', approved:'Approved Listings', rejected:'Rejected Listings', users:'Registered Users', chats:'Live Chat', claims:'Ownership Claims', contacts:'Contact Messages', updates:'Home Slider', offers:'Offers & Pricing', spotlights:'Spotlight Manager', analytics:'Analytics Overview', sitemap:'Sitemap & SEO' };
   document.getElementById('topbar-title').textContent = titles[name] || name;
   const content = document.getElementById('content');
   content.innerHTML = '<div class="loading-row"><div class="spinner"></div></div>';
-  const fn = { dashboard:loadDashboard, payments:loadPayments, pending:()=>loadListings('pending'), approved:()=>loadListings('approved'), rejected:()=>loadListings('rejected'), users:loadUsers, chats:loadChats, claims:loadClaims, contacts:loadContacts, updates:loadUpdates, spotlights:loadSpotlights, analytics:loadAnalyticsOverview };
+  const fn = { dashboard:loadDashboard, payments:loadPayments, pending:()=>loadListings('pending'), approved:()=>loadListings('approved'), rejected:()=>loadListings('rejected'), users:loadUsers, chats:loadChats, claims:loadClaims, contacts:loadContacts, updates:loadUpdates, offers:loadOffers, spotlights:loadSpotlights, analytics:loadAnalyticsOverview, sitemap:loadSitemap };
   if (fn[name]) fn[name]();
 }
 function refreshSection() { showSection(currentSection, document.querySelector(`.nav-item[data-section="${currentSection}"]`)); }
@@ -497,15 +519,23 @@ function refreshSection() { showSection(currentSection, document.querySelector(`
 async function loadBadgeCounts() {
   const { getDocs, collection, query, where } = window._col;
   try {
-    const [pay, pend, ppay, convs] = await Promise.all([
+    const [pay, pend, ppay, convs, approved] = await Promise.all([
       getDocs(query(collection(window._db,'payment_submissions'), where('status','==','pending'))),
       getDocs(query(collection(window._db,'businesses'),         where('status','==','pending'))),
       getDocs(query(collection(window._db,'businesses'),         where('status','==','pending_payment'))),
-      getDocs(query(collection(window._db,'chat_conversations'), where('unread_admin','>',0)))
+      getDocs(query(collection(window._db,'chat_conversations'), where('unread_admin','>',0))),
+      getDocs(query(collection(window._db,'businesses'),         where('status','==','approved')))
     ]);
     setBadge('nb-payments', pay.size);
     setBadge('nb-pending',  pend.size + ppay.size);
     setBadge('nb-chats',    convs.size);
+    // Spotlight badge — count live spotlights
+    const now = new Date().toISOString();
+    const liveSpots = approved.docs.filter(d => {
+      const sp = d.data().spotlight_until;
+      return sp && sp > now;
+    }).length;
+    setBadge('nb-spotlights', liveSpots);
   } catch(e) { console.warn(e); }
 }
 function setBadge(id, n) {
@@ -530,7 +560,29 @@ async function loadDashboard() {
       getDocs(collection(window._db,'reviews'))
     ]);
     const pendingPay = Array.from(payments.docs).filter(d => d.data().status === 'pending').length;
+    // ── Quota warning based on usage estimates ──
+    const dailyReads = (approved.size * 1.5 * 50).toFixed(0); // estimate
+    const pctUsed    = Math.min(100, Math.round((dailyReads / 50000) * 100));
+    const quotaColor = pctUsed < 50 ? '#D1FAE5' : pctUsed < 80 ? '#FEF3C7' : '#FEE2E2';
+    const quotaBorder= pctUsed < 50 ? '#6EE7B7' : pctUsed < 80 ? '#FCD34D' : '#FECACA';
+    const quotaText  = pctUsed < 50 ? '#065F46'  : pctUsed < 80 ? '#92400E' : '#991B1B';
+    const quotaMsg   = pctUsed < 50
+      ? '✅ Free tier usage looks safe — well within 50k reads/day'
+      : pctUsed < 80
+      ? '⚠️ Moderate usage — monitor Firebase console daily'
+      : '🚨 HIGH USAGE — approaching free tier limit! Enable billing or caching immediately';
+
     document.getElementById('content').innerHTML = `
+      <div style="background:${quotaColor};border:1px solid ${quotaBorder};border-radius:10px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <div>
+          <div style="font-size:.82rem;font-weight:700;color:${quotaText}">${quotaMsg}</div>
+          <div style="font-size:.72rem;color:${quotaText};opacity:.8;margin-top:3px">
+            Estimated ~${dailyReads} reads/day at current traffic · Free tier: 50,000/day · 
+            <a href="https://console.firebase.google.com/project/live-voting-b236f/usage" target="_blank" style="color:${quotaText};font-weight:700">View exact usage ↗</a>
+          </div>
+        </div>
+        <div style="font-size:1.3rem;font-weight:800;color:${quotaText}">${pctUsed}%</div>
+      </div>
       <div class="stats-grid">
         <div class="stat-card"><div class="sc-label">Total Listings</div><div class="sc-val">${total.size}</div><div class="sc-sub">all statuses</div></div>
         <div class="stat-card green"><div class="sc-label">Live (Approved)</div><div class="sc-val">${approved.size}</div><div class="sc-sub">visible to tourists</div></div>
@@ -936,6 +988,227 @@ async function deleteContact(id) {
 // ══════════════════════════════════════
 //  HOME SLIDER UPDATES
 // ══════════════════════════════════════
+// ══════════════════════════════════════════════
+//  OFFERS & PRICING MANAGER
+//  Writes to /site_config/offers in Firestore.
+//  Frontend listens in real-time and updates prices instantly.
+// ══════════════════════════════════════════════
+async function loadOffers() {
+  const { doc, getDoc, setDoc, serverTimestamp } = window._col;
+  const c = document.getElementById('admin-content');
+  c.innerHTML = '<p style="padding:20px;color:var(--gray500)">Loading offers…</p>';
+
+  // Load current offer config
+  let currentOffer = null;
+  try {
+    const snap = await getDoc(doc(window._db, 'site_config', 'offers'));
+    if (snap.exists()) currentOffer = snap.data();
+  } catch(e) {}
+
+  const active     = currentOffer?.active || false;
+  const offerName  = currentOffer?.name || '';
+  const offerDesc  = currentOffer?.description || '';
+  const offerBadge = currentOffer?.badge || '';
+  const mPrice     = currentOffer?.monthly_price || 799;
+  const aPrice     = currentOffer?.annual_price  || 7999;
+  const expiresAt  = currentOffer?.expires_at || '';
+
+  // Format expiry for datetime-local input
+  let expiryLocal = '';
+  if (expiresAt) {
+    try {
+      const d = new Date(expiresAt);
+      expiryLocal = d.toISOString().slice(0,16);
+    } catch(e) {}
+  }
+
+  // Preset offer templates
+  const presets = [
+    { name:'🎉 Eid Special',      badge:'🎉 Eid',      monthly:399, annual:3999, days:5,  desc:'Celebrate Eid with exclusive MBP discounts!' },
+    { name:'🌸 Holi Offer',       badge:'🌸 Holi',     monthly:449, annual:4499, days:4,  desc:'Happy Holi! Spring special discounts on MBP.' },
+    { name:'🪔 Diwali Dhamaka',   badge:'🪔 Diwali',   monthly:399, annual:3999, days:5,  desc:'Light up your business this Diwali with MBP!' },
+    { name:'❄️ Winter Sale',      badge:'❄️ Winter',   monthly:499, annual:4999, days:7,  desc:'Winter special — get your listing live before peak ski season.' },
+    { name:'🌷 Spring Sale',      badge:'🌷 Spring',   monthly:499, annual:4999, days:5,  desc:'Spring is Kashmir's most beautiful season — get listed now!' },
+    { name:'🎊 New Year Offer',   badge:'🎊 New Year', monthly:299, annual:2999, days:3,  desc:'New Year, new beginnings. Special MBP pricing for 3 days.' },
+    { name:'🏔️ Peak Season Deal', badge:'🔥 Peak',     monthly:599, annual:5999, days:10, desc:'Tourist season is here! Get your listing live at a special rate.' },
+    { name:'🎁 Flash Sale',       badge:'⚡ Flash',    monthly:299, annual:2999, days:1,  desc:'24-hour flash sale! Book your MBP listing now.' },
+  ];
+
+  c.innerHTML = `
+  <div style="padding:16px;max-width:600px">
+
+    <!-- Current Status -->
+    <div style="background:${active ? '#D1FAE5' : '#F3F4F6'};border:2px solid ${active ? '#6EE7B7' : '#E5E7EB'};border-radius:12px;padding:14px 16px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+      <div>
+        <div style="font-weight:800;font-size:.95rem;color:${active ? '#065F46' : 'var(--gray700)'}">
+          ${active ? '🟢 Offer ACTIVE: ' + esc(offerName) : '⚪ No offer active — normal prices showing'}
+        </div>
+        ${active && expiresAt ? `<div style="font-size:.75rem;color:#065F46;margin-top:3px">Expires: ${new Date(expiresAt).toLocaleString('en-IN',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</div>` : ''}
+      </div>
+      ${active ? `<button onclick="deactivateOffer()" style="padding:7px 16px;background:#DC2626;color:#fff;border:none;border-radius:8px;font-size:.8rem;font-weight:700;cursor:pointer">🔴 Deactivate Now</button>` : ''}
+    </div>
+
+    <!-- Quick Preset Templates -->
+    <div style="margin-bottom:20px">
+      <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--gray500);margin-bottom:10px">⚡ Quick Templates</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        ${presets.map((p,i) => `
+        <div onclick="applyPreset(${i})" style="background:var(--gray50);border:1.5px solid var(--gray200);border-radius:10px;padding:10px 12px;cursor:pointer;transition:.15s" onmouseover="this.style.borderColor='#7C3AED';this.style.background='rgba(124,58,237,.05)'" onmouseout="this.style.borderColor='var(--gray200)';this.style.background='var(--gray50)'">
+          <div style="font-weight:700;font-size:.83rem;margin-bottom:2px">${esc(p.name)}</div>
+          <div style="font-size:.72rem;color:var(--gray500)">₹${p.monthly}/mo · ₹${p.annual}/yr · ${p.days}d</div>
+        </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- Custom Offer Form -->
+    <div style="background:var(--gray50);border:1px solid var(--gray200);border-radius:12px;padding:16px">
+      <div style="font-size:.8rem;font-weight:700;margin-bottom:14px;color:var(--gray700)">✏️ Custom Offer Settings</div>
+
+      <div style="margin-bottom:10px">
+        <label style="font-size:.72rem;font-weight:600;color:var(--gray500);display:block;margin-bottom:4px">Offer Name</label>
+        <input id="of-name" type="text" value="${esc(offerName)}" placeholder="e.g. Eid Special 2025" style="width:100%;padding:9px 12px;border:1px solid var(--gray200);border-radius:8px;font-family:var(--font-body);font-size:.85rem;outline:none"/>
+      </div>
+
+      <div style="margin-bottom:10px">
+        <label style="font-size:.72rem;font-weight:600;color:var(--gray500);display:block;margin-bottom:4px">Description (shown to users)</label>
+        <input id="of-desc" type="text" value="${esc(offerDesc)}" placeholder="e.g. Celebrate Eid with 50% off MBP listings!" style="width:100%;padding:9px 12px;border:1px solid var(--gray200);border-radius:8px;font-family:var(--font-body);font-size:.85rem;outline:none"/>
+      </div>
+
+      <div style="margin-bottom:10px">
+        <label style="font-size:.72rem;font-weight:600;color:var(--gray500);display:block;margin-bottom:4px">Badge Text (on plan cards)</label>
+        <input id="of-badge" type="text" value="${esc(offerBadge)}" placeholder="e.g. 🎉 Eid Offer" style="width:100%;padding:9px 12px;border:1px solid var(--gray200);border-radius:8px;font-family:var(--font-body);font-size:.85rem;outline:none"/>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+        <div>
+          <label style="font-size:.72rem;font-weight:600;color:var(--gray500);display:block;margin-bottom:4px">Monthly Price (₹)</label>
+          <input id="of-monthly" type="number" value="${mPrice}" min="99" max="799" style="width:100%;padding:9px 12px;border:1px solid var(--gray200);border-radius:8px;font-family:var(--font-body);font-size:.85rem;outline:none"/>
+          <div style="font-size:.68rem;color:var(--gray400);margin-top:3px">Normal: ₹799</div>
+        </div>
+        <div>
+          <label style="font-size:.72rem;font-weight:600;color:var(--gray500);display:block;margin-bottom:4px">Annual Price (₹)</label>
+          <input id="of-annual" type="number" value="${aPrice}" min="999" max="7999" style="width:100%;padding:9px 12px;border:1px solid var(--gray200);border-radius:8px;font-family:var(--font-body);font-size:.85rem;outline:none"/>
+          <div style="font-size:.68rem;color:var(--gray400);margin-top:3px">Normal: ₹7,999</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:14px">
+        <label style="font-size:.72rem;font-weight:600;color:var(--gray500);display:block;margin-bottom:4px">Offer Expires At</label>
+        <input id="of-expiry" type="datetime-local" value="${expiryLocal}" style="width:100%;padding:9px 12px;border:1px solid var(--gray200);border-radius:8px;font-family:var(--font-body);font-size:.85rem;outline:none"/>
+        <div style="font-size:.68rem;color:var(--gray400);margin-top:3px">Offer auto-deactivates at this time — users see normal prices again</div>
+      </div>
+
+      <!-- Preview -->
+      <div style="background:#fff;border:1px solid var(--gray200);border-radius:8px;padding:12px;margin-bottom:14px">
+        <div style="font-size:.7rem;font-weight:700;color:var(--gray400);margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em">Preview</div>
+        <div style="font-size:.82rem">
+          Monthly: <strong id="of-prev-m">₹${mPrice}/month</strong>
+          &nbsp;·&nbsp;
+          Annual: <strong id="of-prev-a">₹${aPrice}/year</strong>
+        </div>
+        <div style="font-size:.75rem;color:var(--gray500);margin-top:4px">Users save: Monthly ₹${799-mPrice} · Annual ₹${7999-aPrice}</div>
+      </div>
+
+      <button onclick="activateOffer()" style="width:100%;padding:13px;background:linear-gradient(135deg,#7C3AED,#5B21B6);color:#fff;border:none;border-radius:10px;font-family:var(--font-body);font-size:.9rem;font-weight:700;cursor:pointer;transition:.15s" onmouseover="this.style.opacity='.9'" onmouseout="this.style.opacity='1'">
+        🎉 Activate This Offer
+      </button>
+
+      <p style="font-size:.7rem;color:var(--gray400);text-align:center;margin-top:8px">
+        Activating immediately updates prices for ALL users viewing the site in real-time
+      </p>
+    </div>
+  </div>
+  `;
+
+  // Store presets in window for applyPreset()
+  window._offerPresets = presets;
+
+  // Live preview update
+  ['of-monthly','of-annual'].forEach(id => {
+    document.getElementById(id)?.addEventListener('input', () => {
+      const m = document.getElementById('of-monthly')?.value || 799;
+      const a = document.getElementById('of-annual')?.value  || 7999;
+      const pm = document.getElementById('of-prev-m');
+      const pa = document.getElementById('of-prev-a');
+      if (pm) pm.textContent = '₹' + m + '/month';
+      if (pa) pa.textContent = '₹' + a + '/year';
+    });
+  });
+}
+
+// Apply a preset template to form fields
+function applyPreset(idx) {
+  const p = window._offerPresets?.[idx];
+  if (!p) return;
+  document.getElementById('of-name').value    = p.name;
+  document.getElementById('of-desc').value    = p.desc;
+  document.getElementById('of-badge').value   = p.badge;
+  document.getElementById('of-monthly').value = p.monthly;
+  document.getElementById('of-annual').value  = p.annual;
+  // Set expiry = now + p.days
+  const exp = new Date(Date.now() + p.days * 86400000);
+  document.getElementById('of-expiry').value  = exp.toISOString().slice(0,16);
+  // Update preview
+  document.getElementById('of-prev-m').textContent = '₹' + p.monthly + '/month';
+  document.getElementById('of-prev-a').textContent = '₹' + p.annual + '/year';
+  showToast('✅ Template loaded — click Activate to go live');
+}
+
+// Activate the offer
+async function activateOffer() {
+  const name    = document.getElementById('of-name')?.value.trim();
+  const desc    = document.getElementById('of-desc')?.value.trim();
+  const badge   = document.getElementById('of-badge')?.value.trim();
+  const monthly = parseInt(document.getElementById('of-monthly')?.value) || 799;
+  const annual  = parseInt(document.getElementById('of-annual')?.value)  || 7999;
+  const expiry  = document.getElementById('of-expiry')?.value;
+
+  if (!name)   { showToast('⚠️ Enter an offer name'); return; }
+  if (!expiry) { showToast('⚠️ Set an expiry date and time'); return; }
+  if (monthly >= 799) { showToast('⚠️ Monthly offer price must be less than ₹799'); return; }
+  if (annual >= 7999) { showToast('⚠️ Annual offer price must be less than ₹7,999'); return; }
+  if (new Date(expiry) <= new Date()) { showToast('⚠️ Expiry must be in the future'); return; }
+
+  const { doc, setDoc } = window._col;
+  try {
+    await setDoc(doc(window._db, 'site_config', 'offers'), {
+      active:         true,
+      name,
+      description:    desc,
+      badge:          badge || '🎉 ' + name,
+      monthly_price:  monthly,
+      annual_price:   annual,
+      monthly_paise:  monthly * 100,
+      annual_paise:   annual  * 100,
+      expires_at:     new Date(expiry).toISOString(),
+      created_at:     new Date().toISOString(),
+      created_by:     'admin'
+    });
+    showToast('🎉 Offer is LIVE! Users see new prices now.');
+    setTimeout(loadOffers, 800);
+  } catch(e) {
+    showToast('❌ Failed: ' + e.message);
+  }
+}
+
+// Deactivate offer — restore normal prices
+async function deactivateOffer() {
+  if (!confirm('Deactivate the current offer? Normal prices will be restored immediately.')) return;
+  const { doc, setDoc } = window._col;
+  try {
+    await setDoc(doc(window._db, 'site_config', 'offers'), {
+      active:     false,
+      name:       '',
+      expires_at: '',
+      deactivated_at: new Date().toISOString()
+    });
+    showToast('✅ Offer deactivated. Normal prices restored.');
+    setTimeout(loadOffers, 800);
+  } catch(e) {
+    showToast('❌ Failed: ' + e.message);
+  }
+}
+
 // ══ SPOTLIGHT MANAGER ══
 async function loadSpotlights() {
   const { getDocs, collection, query, where, orderBy } = window._col;
@@ -983,13 +1256,18 @@ async function loadSpotlights() {
 async function removeSpotlight(bizId) {
   if (!confirm('Remove spotlight?')) return;
   const { doc, updateDoc } = window._col;
-  await updateDoc(doc(window._db,'businesses',bizId), { spotlight_until:'', spotlight_plan:'' });
+  await updateDoc(doc(window._db,'businesses',bizId), { spotlight_until:'', spotlight_plan:'', spotlight_active:false });
   showToast('✅ Spotlight removed'); loadSpotlights();
 }
 async function adminAddSpotlight(bizId, days) {
   const until = new Date(Date.now() + days*24*60*60*1000).toISOString();
   const { doc, updateDoc } = window._col;
-  await updateDoc(doc(window._db,'businesses',bizId), { spotlight_until: until, spotlight_plan: 'admin_free' });
+  await updateDoc(doc(window._db,'businesses',bizId), {
+    spotlight_until:   until,
+    spotlight_plan:    'admin_free',
+    spotlight_active:  true,
+    spotlight_started: new Date().toISOString()
+  });
   showToast('⭐ Spotlight set for '+days+' days!'); loadSpotlights();
 }
 
@@ -1141,6 +1419,134 @@ function showToast(msg) {
 document.querySelectorAll('.modal-bg').forEach(bg => {
   bg.addEventListener('click', e => { if (e.target === bg) closeModal(bg.id); });
 });
+// ══════════════════════════════════════════════════════════
+//  SITEMAP & SEO MANAGER
+//  Triggers Apps Script to regenerate sitemap.xml on GitHub
+//  Shows all approved business profiles with their URLs
+// ══════════════════════════════════════════════════════════
+async function loadSitemap() {
+  const { getDocs, collection, query, where, orderBy } = window._col;
+  const c = document.getElementById('admin-content');
+  c.innerHTML = '<p style="padding:20px;color:var(--gray500)">Loading SEO data…</p>';
+  try {
+    const snap = await getDocs(query(
+      collection(window._db,'businesses'),
+      where('status','==','approved'),
+      orderBy('created_at','desc')
+    ));
+    const bizList = snap.docs.map(d=>({id:d.id,...d.data()}));
+    const premium = bizList.filter(b=>b.is_premium).length;
+
+    c.innerHTML = `
+    <div style="padding:16px;max-width:700px">
+
+      <!-- Status bar -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px">
+        <div style="background:#D1FAE5;border:1px solid #6EE7B7;border-radius:10px;padding:14px;text-align:center">
+          <div style="font-size:1.6rem;font-weight:800;color:#065F46">${bizList.length}</div>
+          <div style="font-size:.72rem;color:#065F46;font-weight:700;text-transform:uppercase;letter-spacing:.05em">Indexed Profiles</div>
+        </div>
+        <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:10px;padding:14px;text-align:center">
+          <div style="font-size:1.6rem;font-weight:800;color:#1D4ED8">${premium}</div>
+          <div style="font-size:.72rem;color:#1D4ED8;font-weight:700;text-transform:uppercase;letter-spacing:.05em">Premium (priority 0.9)</div>
+        </div>
+        <div style="background:#FEF3C7;border:1px solid #FDE68A;border-radius:10px;padding:14px;text-align:center">
+          <div style="font-size:1.6rem;font-weight:800;color:#92400E">${bizList.length - premium}</div>
+          <div style="font-size:.72rem;color:#92400E;font-weight:700;text-transform:uppercase;letter-spacing:.05em">Regular (priority 0.8)</div>
+        </div>
+      </div>
+
+      <!-- Sitemap URLs -->
+      <div style="background:#F8FAFC;border:1px solid var(--gray200);border-radius:10px;padding:14px;margin-bottom:16px">
+        <div style="font-size:.82rem;font-weight:700;margin-bottom:6px">Live Sitemap URLs</div>
+        <a href="https://makemetop.in/sitemap.xml" target="_blank" style="font-size:.8rem;color:#2563EB;display:block;margin-bottom:4px">https://makemetop.in/sitemap.xml ↗</a>
+        <a href="https://makemetop.in/robots.txt" target="_blank" style="font-size:.8rem;color:#2563EB;display:block">https://makemetop.in/robots.txt ↗</a>
+      </div>
+
+      <!-- Trigger sitemap regeneration -->
+      <div style="background:#fff;border:1.5px solid var(--gray200);border-radius:10px;padding:16px;margin-bottom:16px">
+        <div style="font-weight:700;font-size:.88rem;margin-bottom:6px">🔄 Regenerate Sitemap</div>
+        <p style="font-size:.78rem;color:var(--gray500);line-height:1.6;margin-bottom:12px">
+          Triggers Apps Script to rebuild <code>sitemap.xml</code> with all ${bizList.length} approved business profiles and push it to GitHub. This runs automatically every Monday — use this button to force an immediate update after approving new listings.
+        </p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button onclick="triggerSitemapRegen(this)" style="padding:10px 22px;background:linear-gradient(135deg,#1D4ED8,#1E40AF);color:#fff;border:none;border-radius:8px;font-size:.83rem;font-weight:700;cursor:pointer">
+            🔄 Generate + Push Sitemap Now
+          </button>
+          <a href="https://search.google.com/search-console" target="_blank" style="display:inline-flex;align-items:center;padding:10px 18px;background:var(--gray50);border:1px solid var(--gray200);border-radius:8px;font-size:.8rem;font-weight:600;color:var(--gray700);text-decoration:none">
+            Google Search Console ↗
+          </a>
+        </div>
+        <div id="sitemap-status" style="margin-top:10px;font-size:.78rem;color:var(--gray500)"></div>
+      </div>
+
+      <!-- All business profile URLs -->
+      <div style="font-weight:700;font-size:.88rem;margin-bottom:10px">
+        All Indexed Business Profile URLs (${bizList.length})
+      </div>
+      <div style="background:#fff;border:1px solid var(--gray200);border-radius:10px;overflow:hidden">
+        <table style="width:100%;border-collapse:collapse;font-size:.76rem">
+          <thead>
+            <tr style="background:var(--gray50);border-bottom:1px solid var(--gray200)">
+              <th style="padding:9px 12px;text-align:left;font-weight:700">Business</th>
+              <th style="padding:9px 8px;text-align:left;font-weight:700">Type</th>
+              <th style="padding:9px 8px;text-align:center;font-weight:700">Priority</th>
+              <th style="padding:9px 8px;text-align:left;font-weight:700">URL</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${bizList.map((b,i) => `
+            <tr style="border-bottom:1px solid var(--gray100);${i%2===0?'background:#fff':'background:#FAFAFA'}">
+              <td style="padding:8px 12px;font-weight:600;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(b.name||'—')}</td>
+              <td style="padding:8px;color:var(--gray500);white-space:nowrap">${esc(b.type||'—')}</td>
+              <td style="padding:8px;text-align:center">
+                <span style="background:${b.is_premium?'#D1FAE5':'#F3F4F6'};color:${b.is_premium?'#065F46':'var(--gray600)'};padding:2px 7px;border-radius:6px;font-weight:700;font-size:.69rem">
+                  ${b.is_premium?'0.9':'0.8'}
+                </span>
+              </td>
+              <td style="padding:8px">
+                <a href="https://makemetop.in/biz.html?id=${b.id}" target="_blank" style="color:#2563EB;font-family:monospace;font-size:.69rem;word-break:break-all">
+                  /biz.html?id=${b.id.slice(0,16)}…
+                </a>
+              </td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+
+      <p style="font-size:.72rem;color:var(--gray400);margin-top:12px;line-height:1.6">
+        Sitemap auto-regenerates every Monday 2 AM via Apps Script trigger.<br/>
+        After each listing approval, sitemap is also auto-triggered.<br/>
+        Submit to Google: Search Console → Sitemaps → https://makemetop.in/sitemap.xml
+      </p>
+    </div>`;
+  } catch(e) {
+    c.innerHTML = '<p style="padding:20px;color:var(--red)">Error: '+e.message+'</p>';
+  }
+}
+
+async function triggerSitemapRegen(btn) {
+  const statusEl = document.getElementById('sitemap-status');
+  btn.disabled = true;
+  btn.textContent = '⏳ Generating…';
+  if (statusEl) statusEl.textContent = 'Calling Apps Script to regenerate sitemap…';
+  try {
+    const resp = await callAppsScript({ action: 'triggerSitemap' });
+    if (resp?.status === 'ok' || resp?.success) {
+      btn.textContent = '✅ Done!';
+      if (statusEl) statusEl.innerHTML = '<span style="color:#16A34A;font-weight:600">✅ Sitemap pushed to GitHub successfully! Allow 2-3 minutes for GitHub Pages to update.</span>';
+    } else {
+      btn.textContent = '⚠️ Check Apps Script';
+      if (statusEl) statusEl.innerHTML = '<span style="color:#D97706">Apps Script called — check execution logs in script.google.com. Error: '+(resp?.error||'unknown')+'</span>';
+    }
+  } catch(e) {
+    btn.textContent = '❌ Failed';
+    if (statusEl) statusEl.innerHTML = '<span style="color:var(--red)">Error: '+e.message+'. Make sure Apps Script is deployed as Web App.</span>';
+  }
+  setTimeout(() => { btn.disabled = false; btn.textContent = '🔄 Generate + Push Sitemap Now'; }, 4000);
+}
+
+
 </script>
 </body>
 </html>
