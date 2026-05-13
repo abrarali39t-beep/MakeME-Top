@@ -364,11 +364,24 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:14px 0}
 <div id="toast"></div>
 
 <!-- ══ FIREBASE ══ -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc, addDoc, query, where, orderBy, serverTimestamp, onSnapshot, limit, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    const map = { 'auth/user-not-found':'No account with this email', 'auth/wrong-password':'Wrong password', 'auth/invalid-credential':'Invalid credentials', 'auth/too-many-requests':'Too many attempts. Try later.', 'auth/network-request-failed':'Network error.' };
+    err.textContent = '❌ ' + (map[e.code] || e.message); err.classList.add('show');
+  }
+  btn.textContent = 'Sign In to Admin Panel'; btn.disabled = false;
+};
+</script>
 
+<!-- Firebase Compat SDK — works in regular scripts, no module scope -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script>
+// ══════════════════════════════════════════════════════════════════════
+//  MBP ADMIN — Firebase config + Auth + Firestore
+//  Single script block — callAppsScript, ADMIN_EMAILS, window._col
+//  all available globally to every function below
+// ══════════════════════════════════════════════════════════════════════
 const firebaseConfig = {
   apiKey:            "AIzaSyDwx-GoLV3-T5_zEURlqUb1LXa48gbqhM8",
   authDomain:        "live-voting-b236f.firebaseapp.com",
@@ -377,12 +390,66 @@ const firebaseConfig = {
   messagingSenderId: "591198383755",
   appId:             "1:591198383755:web:6dc9fefcc6dd495048ae8e"
 };
-const ADMIN_EMAILS = ["abrarrtallks@gmail.com"];
-// ── Apps Script URL for sending approval/rejection emails ──
-// Same URL as index.html — paste your deployed Web App URL here:
+
+const ADMIN_EMAILS    = ["abrarrtallks@gmail.com"];
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbycICnJVrzE-0Sj2_FajqWU9qy7ggm_UTNLxxHfvvApnePatDFTjdrthrz66vs3Eqp7/exec";
 
-// ── Unified Apps Script caller ──
+// Init Firebase compat SDK
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db   = firebase.firestore();
+
+// Offline persistence — speeds up repeat loads
+db.enablePersistence({ synchronizeTabs: true }).catch(() => {});
+
+// window._db — used by all load functions
+window._db = db;
+
+// window._col — wraps Firestore compat API to match modular API shape
+// Functions that do: const { getDocs, collection } = window._col
+// then: getDocs(query(collection(db,'businesses'), where(...)))
+// work because we wrap everything to return promises with .docs
+window._col = {
+  // Returns a CollectionReference
+  collection: (d, col) => d.collection(col),
+
+  // getDocs(ref) — ref can be CollectionRef or Query
+  getDocs: (ref) => ref.get(),
+
+  // getDoc(ref) — ref is DocumentReference
+  getDoc: (ref) => ref.get(),
+
+  // doc(db, collection, id) — returns DocumentReference
+  doc: (d, col, id) => d.collection(col).doc(id),
+
+  // Mutations
+  updateDoc:  (ref, data) => ref.update(data),
+  deleteDoc:  (ref)       => ref.delete(),
+  addDoc:     (ref, data) => ref.add(data),
+  setDoc:     (ref, data) => ref.set(data),
+
+  // query(collectionRef, ...whereClauses) — applies filters and returns Query
+  // Usage: query(collection(db,'x'), where('a','==','b'), orderBy('c'), limit(10))
+  query: (ref, ...constraints) => {
+    let q = ref;
+    for (const c of constraints) { q = c(q); }
+    return q;
+  },
+
+  // Constraint builders — each returns a function that takes a query and applies itself
+  where:   (field, op, val) => (q) => q.where(field, op, val),
+  orderBy: (field, dir)     => (q) => q.orderBy(field, dir || 'asc'),
+  limit:   (n)              => (q) => q.limit(n),
+
+  // Timestamps and listeners
+  serverTimestamp: () => firebase.firestore.FieldValue.firebase.firestore.FieldValue.serverTimestamp(),
+  onSnapshot:      (ref, cb) => ref.onSnapshot(cb),
+};
+
+window.ADMIN_EMAILS    = ADMIN_EMAILS;
+window.APPS_SCRIPT_URL = APPS_SCRIPT_URL;
+
+// ── Apps Script caller ──
 async function callAppsScript(payload) {
   if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('PASTE')) return null;
   try {
@@ -393,98 +460,78 @@ async function callAppsScript(payload) {
     });
     const text = await resp.text();
     try { return JSON.parse(text); } catch(e) { return { status: 'sent' }; }
-  } catch(e) {
-    console.warn('Apps Script:', payload.action, e.message);
-    return null;
-  }
+  } catch(e) { console.warn('AppsScript', e.message); return null; }
 }
 
-const app      = initializeApp(firebaseConfig);
-const auth     = getAuth(app);
-const db       = getFirestore(app);
-const provider = new GoogleAuthProvider();
+// ── Auth ──
+const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account' });
 
-window._db      = db;
-window._auth    = auth;
-window._col     = { collection, getDocs, doc, updateDoc, deleteDoc, addDoc, query, where, orderBy, serverTimestamp, onSnapshot, limit, getDoc };
-window.ADMIN_EMAILS = ADMIN_EMAILS;
-
-// ── Auth state handler — shows login screen or admin panel, never blindly redirects ──
-onAuthStateChanged(auth, user => {
-  const loginScreen = document.getElementById('admin-login-screen');
-  const adminApp    = document.getElementById('admin-app');
-
+auth.onAuthStateChanged(user => {
+  const loginEl = document.getElementById('admin-login-screen');
+  const appEl   = document.getElementById('admin-app');
   if (!user) {
-    // Not signed in → show the admin login screen (never redirect away)
-    loginScreen.style.display = 'flex';
-    adminApp.style.display    = 'none';
+    loginEl.style.display = 'flex';
+    appEl.style.display   = 'none';
     return;
   }
-
-  // Signed in — check if they are an admin
-  if (!ADMIN_EMAILS.includes(user.email?.toLowerCase())) {
-    // Signed in but NOT an admin — show error on login screen, sign them out silently
-    loginScreen.style.display = 'flex';
-    adminApp.style.display    = 'none';
+  if (!ADMIN_EMAILS.includes((user.email || '').toLowerCase())) {
+    loginEl.style.display = 'flex';
+    appEl.style.display   = 'none';
     const err = document.getElementById('login-err');
-    if (err) { err.textContent = '⛔ Access denied. This account is not an admin.'; err.classList.add('show'); }
-    signOut(auth);
+    if (err) { err.textContent = '⛔ Not an admin account.'; err.classList.add('show'); }
+    auth.signOut();
     return;
   }
-
-  // Valid admin — show the panel
-  loginScreen.style.display = 'none';
-  adminApp.style.display    = 'flex';
+  loginEl.style.display = 'none';
+  appEl.style.display   = 'flex';
   window._adminUser = user;
-  document.getElementById('admin-email-display').textContent = user.email;
-
-  // Bind logout
-  window.logout = () => {
-    signOut(auth); // onAuthStateChanged will show login screen again automatically
-  };
-
-  // initAdmin is defined in the regular script below
-  // Poll until it is defined (module loads before regular script)
-  const _waitAdmin = setInterval(() => {
-    if (typeof initAdmin === "function") {
-      clearInterval(_waitAdmin);
-      initAdmin();
-    }
-  }, 50);
+  const em = document.getElementById('admin-email-display');
+  if (em) em.textContent = user.email;
+  window.logout = () => auth.signOut();
+  initAdmin();
 });
 
-// ── Google sign-in ──
-document.getElementById('admin-google-btn').onclick = async () => {
-  const err = document.getElementById('login-err');
-  err.classList.remove('show');
-  try {
-    await signInWithPopup(auth, provider);
-    // onAuthStateChanged will handle the result
-  } catch(e) {
-    if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
-      err.textContent = '❌ ' + (e.message || 'Google sign-in failed'); err.classList.add('show');
+// Google sign-in button
+document.addEventListener('DOMContentLoaded', () => {
+  const gBtn = document.getElementById('admin-google-btn');
+  if (gBtn) gBtn.onclick = async () => {
+    const err = document.getElementById('login-err');
+    if (err) err.classList.remove('show');
+    try {
+      await auth.signInWithPopup(provider);
+    } catch(e) {
+      if (e.code !== 'auth/popup-closed-by-user') {
+        if (err) { err.textContent = '❌ ' + e.message; err.classList.add('show'); }
+      }
     }
-  }
-};
+  };
+});
 
-// ── Email sign-in ──
+// Email sign-in
 window.adminEmailLogin = async () => {
-  const email = document.getElementById('admin-login-email').value.trim();
-  const pass  = document.getElementById('admin-login-pass').value;
+  const email = (document.getElementById('admin-login-email')?.value || '').trim();
+  const pass  = document.getElementById('admin-login-pass')?.value || '';
   const err   = document.getElementById('login-err');
   const btn   = document.getElementById('admin-login-btn');
-  err.classList.remove('show');
-  if (!email || !pass) { err.textContent = '⚠️ Enter email and password'; err.classList.add('show'); return; }
-  btn.textContent = 'Signing in…'; btn.disabled = true;
-  try {
-    await signInWithEmailAndPassword(auth, email, pass);
-    // onAuthStateChanged handles the rest
-  } catch(e) {
-    const map = { 'auth/user-not-found':'No account with this email', 'auth/wrong-password':'Wrong password', 'auth/invalid-credential':'Invalid credentials', 'auth/too-many-requests':'Too many attempts. Try later.', 'auth/network-request-failed':'Network error.' };
-    err.textContent = '❌ ' + (map[e.code] || e.message); err.classList.add('show');
+  if (err) err.classList.remove('show');
+  if (!email || !pass) {
+    if (err) { err.textContent = '⚠️ Enter email and password'; err.classList.add('show'); }
+    return;
   }
-  btn.textContent = 'Sign In to Admin Panel'; btn.disabled = false;
+  if (btn) { btn.textContent = 'Signing in…'; btn.disabled = true; }
+  try {
+    await auth.signInWithEmailAndPassword(email, pass);
+  } catch(e) {
+    const map = {
+      'auth/user-not-found': 'No account found',
+      'auth/wrong-password': 'Wrong password',
+      'auth/invalid-credential': 'Invalid credentials',
+      'auth/too-many-requests': 'Too many attempts'
+    };
+    if (err) { err.textContent = '❌ ' + (map[e.code] || e.message); err.classList.add('show'); }
+  }
+  if (btn) { btn.textContent = 'Sign In'; btn.disabled = false; }
 };
 </script>
 
@@ -524,14 +571,13 @@ function refreshSection() { showSection(currentSection, document.querySelector(`
 //  BADGE COUNTS
 // ══════════════════════════════════════
 async function loadBadgeCounts() {
-  const { getDocs, collection, query, where } = window._col;
   try {
     const [pay, pend, ppay, convs, approved] = await Promise.all([
-      getDocs(query(collection(window._db,'payment_submissions'), where('status','==','pending'))),
-      getDocs(query(collection(window._db,'businesses'),         where('status','==','pending'))),
-      getDocs(query(collection(window._db,'businesses'),         where('status','==','pending_payment'))),
-      getDocs(query(collection(window._db,'chat_conversations'), where('unread_admin','>',0))),
-      getDocs(query(collection(window._db,'businesses'),         where('status','==','approved')))
+      window._db.collection('payment_submissions').where('status','==','pending').get(),
+      window._db.collection('businesses').where('status','==','pending').get(),
+      window._db.collection('businesses').where('status','==','pending_payment').get(),
+      window._db.collection('chat_conversations').where('unread_admin','>',0).get(),
+      window._db.collection('businesses').where('status','==','approved').get()
     ]);
     setBadge('nb-payments', pay.size);
     setBadge('nb-pending',  pend.size + ppay.size);
@@ -555,16 +601,25 @@ function setBadge(id, n) {
 //  DASHBOARD
 // ══════════════════════════════════════
 async function loadDashboard() {
-  const { getDocs, collection, query, where } = window._col;
+  const c = document.getElementById('content');
+  // Helper: safe fetch — returns empty snapshot on error
+  const safe = async (ref) => {
+    try {
+      return await ref.get();
+    } catch(e) {
+      console.warn('Dashboard query failed:', e.message);
+      return { size: 0, docs: [], empty: true };
+    }
+  };
   try {
     const [total, approved, pending, ppay, payments, users, reviews] = await Promise.all([
-      getDocs(collection(window._db,'businesses')),
-      getDocs(query(collection(window._db,'businesses'), where('status','==','approved'))),
-      getDocs(query(collection(window._db,'businesses'), where('status','==','pending'))),
-      getDocs(query(collection(window._db,'businesses'), where('status','==','pending_payment'))),
-      getDocs(collection(window._db,'payment_submissions')),
-      getDocs(collection(window._db,'users')),
-      getDocs(collection(window._db,'reviews'))
+      safe(window._db.collection('businesses')),
+      safe(window._db.collection('businesses').where('status','==','approved')),
+      safe(window._db.collection('businesses').where('status','==','pending')),
+      safe(window._db.collection('businesses').where('status','==','pending_payment')),
+      safe(window._db.collection('payment_submissions')),
+      safe(window._db.collection('users')),
+      safe(window._db.collection('reviews'))
     ]);
     const pendingPay = Array.from(payments.docs).filter(d => d.data().status === 'pending').length;
     // ── Quota warning based on usage estimates ──
@@ -615,9 +670,8 @@ async function loadDashboard() {
 //  PAYMENT SUBMISSIONS
 // ══════════════════════════════════════
 async function loadPayments() {
-  const { getDocs, collection, query, orderBy } = window._col;
   try {
-    const snap = await getDocs(query(collection(window._db,'payment_submissions'), orderBy('submitted_at','desc')));
+    const snap = await window._db.collection('payment_submissions').orderBy('submitted_at','desc')));
     const payments = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     if (!payments.length) { document.getElementById('content').innerHTML = emptyHtml('💰', 'No payment submissions yet'); return; }
     document.getElementById('content').innerHTML = `
@@ -651,24 +705,23 @@ async function loadPayments() {
 
 async function verifyPayment(paymentId, bizId, action) {
   if (!confirm(action === 'approve' ? '✅ Verify this payment and approve the listing?' : '❌ Reject this payment?')) return;
-  const { doc, updateDoc } = window._col;
   try {
-    await updateDoc(doc(window._db,'payment_submissions',paymentId), {
+    await window._db.collection('payment_submissions').doc(paymentId).update({
       status: action === 'approve' ? 'verified' : 'rejected',
       reviewed_at: new Date().toISOString(),
       reviewed_by: window._adminUser.email
     });
     if (bizId) {
-      await updateDoc(doc(window._db,'businesses',bizId), {
+      await window._db.collection('businesses').doc(bizId).update({
         status:         action === 'approve' ? 'approved' : 'rejected',
         is_premium:     action === 'approve',
-        premium_expiry: action === 'approve' ? new Date(Date.now() + 365*24*60*60*1000).toISOString() : null
+        premium_expiry: action === 'approve' ? new Date(Date.now() + 365*24*60*60*1000).toISOString() : ''
       });
     }
     showToast(action === 'approve' ? '✅ Payment verified — listing is now live!' : '❌ Payment rejected');
     // Send email
     if (action === 'approve') {
-      const snapBiz = await window._col.getDoc(window._col.doc(window._db,'businesses', bizId));
+      const snapBiz = await window._db.collection('businesses').doc(bizId).get();
       const biz = snapBiz.exists() ? snapBiz.data() : {};
       if (biz.user_email) {
         await callAppsScript({ action:'sendBusinessApproved', to:biz.user_email, name:biz.user_email.split('@')[0], businessName:biz.name||'Your Listing' });
@@ -679,8 +732,7 @@ async function verifyPayment(paymentId, bizId, action) {
 }
 
 async function viewPaymentDetail(paymentId) {
-  const { doc, getDoc } = window._col;
-  const snap = await getDoc(doc(window._db,'payment_submissions',paymentId));
+  const snap = await window._db.collection('payment_submissions').doc(paymentId).get();
   if (!snap.exists()) return;
   const p = snap.data();
   const date = p.submitted_at?.toDate ? p.submitted_at.toDate().toLocaleString('en-IN') : '—';
@@ -712,17 +764,16 @@ async function viewPaymentDetail(paymentId) {
 //  LISTINGS (pending / approved / rejected)
 // ══════════════════════════════════════
 async function loadListings(status) {
-  const { getDocs, collection, query, where } = window._col;
   try {
     let businesses = [];
     if (status === 'pending') {
       const [s1, s2] = await Promise.all([
-        getDocs(query(collection(window._db,'businesses'), where('status','==','pending'))),
-        getDocs(query(collection(window._db,'businesses'), where('status','==','pending_payment')))
+        window._db.collection('businesses').where('status','==','pending').get(),
+        window._db.collection('businesses').where('status','==','pending_payment').get()
       ]);
       businesses = [...s1.docs, ...s2.docs].map(d => ({id:d.id,...d.data()}));
     } else {
-      const snap = await getDocs(query(collection(window._db,'businesses'), where('status','==',status)));
+      const snap = await window._db.collection('businesses').where('status','==',status).get();
       businesses = snap.docs.map(d => ({id:d.id,...d.data()}));
     }
     if (!businesses.length) { document.getElementById('content').innerHTML = emptyHtml('✅', `No ${status} listings`); return; }
@@ -753,12 +804,11 @@ async function loadListings(status) {
 }
 
 async function bizAction(bizId, status) {
-  const { doc, updateDoc, getDoc } = window._col;
   try {
     // Get biz data for email
-    const snap = await getDoc(doc(window._db,'businesses',bizId));
+    const snap = await window._db.collection('businesses').doc(bizId).get();
     const biz  = snap.exists() ? snap.data() : {};
-    await updateDoc(doc(window._db,'businesses',bizId), { status, is_premium: status === 'approved' });
+    await window._db.collection('businesses').doc(bizId).update({ status, is_premium: status === 'approved', reviewed_at: new Date().toISOString() });
     // Send email notification
     if (biz.user_email) {
       if (status === 'approved') {
@@ -774,15 +824,13 @@ async function bizAction(bizId, status) {
 
 async function deleteListing(bizId, name) {
   if (!confirm(`Delete "${name}"? This cannot be undone.`)) return;
-  const { doc, deleteDoc } = window._col;
-  try { await deleteDoc(doc(window._db,'businesses',bizId)); showToast('🗑 Listing deleted'); refreshSection(); }
+  try { await window._db.collection('businesses').doc(bizId).delete(); showToast('🗑 Listing deleted'); refreshSection(); }
   catch(e) { showToast('❌ ' + e.message); }
 }
 
 async function viewBizDetail(bizId) {
-  const { doc, getDoc } = window._col;
   try {
-    const snap = await getDoc(doc(window._db,'businesses',bizId));
+    const snap = await window._db.collection('businesses').doc(bizId).get();
     if (!snap.exists()) return;
     const b = { id: snap.id, ...snap.data() };
     document.getElementById('modal-biz-title').textContent = b.name;
@@ -816,9 +864,8 @@ async function viewBizDetail(bizId) {
 //  USERS
 // ══════════════════════════════════════
 async function loadUsers() {
-  const { getDocs, collection, query, orderBy } = window._col;
   try {
-    const snap = await getDocs(query(collection(window._db,'users'), orderBy('joined_at','desc')));
+    const snap = await window._db.collection('users').orderBy('joined_at','desc').get();
     const users = snap.docs.map(d => ({id:d.id,...d.data()}));
     if (!users.length) { document.getElementById('content').innerHTML = emptyHtml('👤', 'No users yet'); return; }
     document.getElementById('content').innerHTML = `
@@ -844,9 +891,8 @@ async function loadUsers() {
 //  LIVE CHAT
 // ══════════════════════════════════════
 async function loadChats() {
-  const { getDocs, collection, query, orderBy } = window._col;
   try {
-    const snap = await getDocs(query(collection(window._db,'chat_conversations'), orderBy('last_at','desc')));
+    const snap = await window._db.collection('chat_conversations').orderBy('last_at','desc').get();
     const convs = snap.docs.map(d => ({id:d.id,...d.data()}));
     if (!convs.length) { document.getElementById('content').innerHTML = emptyHtml('💬', 'No conversations yet'); return; }
     document.getElementById('content').innerHTML = `
@@ -872,9 +918,8 @@ function openChatThread(convId, userName) {
   document.getElementById('modal-chat-msgs').innerHTML = '<div class="loading-row"><div class="spinner"></div></div>';
   document.getElementById('modal-chat-input').value = '';
   openModal('modal-chat');
-  const { collection, query, orderBy, onSnapshot, doc, updateDoc } = window._col;
   if (chatUnsub) chatUnsub();
-  updateDoc(doc(window._db,'chat_conversations',convId), { unread_admin: 0 });
+  window._db.collection('chat_conversations').doc(convId).update({ unread_admin: 0 });
   chatUnsub = onSnapshot(
     query(collection(window._db,'chat_conversations',convId,'messages'), orderBy('created_at')),
     snap => {
@@ -897,14 +942,13 @@ async function sendAdminReplyFromModal() {
   const text = document.getElementById('modal-chat-input').value.trim();
   if (!text) return;
   document.getElementById('modal-chat-input').value = '';
-  const { collection, addDoc, serverTimestamp, doc, updateDoc } = window._col;
   try {
-    await addDoc(collection(window._db,'chat_conversations',activeChatConvId,'messages'), {
+    await window._db.collection('chat_conversations').doc(activeChatConvId).collection('messages').add( {
       text, sender: 'admin', sender_id: window._adminUser.uid,
-      sender_name: 'MakeMe Top Support', created_at: serverTimestamp()
+      sender_name: 'MakeMe Top Support', created_at: firebase.firestore.FieldValue.firebase.firestore.FieldValue.serverTimestamp()
     });
-    await updateDoc(doc(window._db,'chat_conversations',activeChatConvId), {
-      last_message: text, last_at: serverTimestamp(), unread_user: 1
+    await window._db.collection('chat_conversations').doc(activeChatConvId).update( {
+      last_message: text, last_at: firebase.firestore.FieldValue.firebase.firestore.FieldValue.serverTimestamp(), unread_user: 1
     });
   } catch(e) { showToast('❌ Failed to send'); }
 }
@@ -913,9 +957,8 @@ async function sendAdminReplyFromModal() {
 //  OWNERSHIP CLAIMS
 // ══════════════════════════════════════
 async function loadClaims() {
-  const { getDocs, collection, query, orderBy } = window._col;
   try {
-    const snap = await getDocs(query(collection(window._db,'ownership_claims'), orderBy('created_at','desc')));
+    const snap = await window._db.collection('ownership_claims').orderBy('created_at','desc').get();
     const claims = snap.docs.map(d => ({id:d.id,...d.data()}));
     if (!claims.length) { document.getElementById('content').innerHTML = emptyHtml('🏢', 'No ownership claims'); return; }
     document.getElementById('content').innerHTML = `
@@ -941,12 +984,11 @@ async function loadClaims() {
 
 async function resolveClaim(claimId, action, bizId, newOwnerUid, newOwnerEmail) {
   if (!confirm(action === 'accept' ? 'Accept this ownership claim and transfer the listing?' : 'Reject this claim?')) return;
-  const { doc, updateDoc } = window._col;
   try {
     if (action === 'accept' && bizId && newOwnerUid) {
-      await updateDoc(doc(window._db,'businesses',bizId), { user_id: newOwnerUid, user_email: newOwnerEmail });
+      await window._db.collection('businesses').doc(bizId).update({ user_id: newOwnerUid, user_email: newOwnerEmail });
     }
-    await updateDoc(doc(window._db,'ownership_claims',claimId), {
+    await window._db.collection('ownership_claims').doc(claimId).update( {
       status: action === 'accept' ? 'accepted' : 'rejected',
       resolved_by: window._adminUser.email,
       resolved_at: new Date().toISOString()
@@ -960,9 +1002,8 @@ async function resolveClaim(claimId, action, bizId, newOwnerUid, newOwnerEmail) 
 //  CONTACT MESSAGES
 // ══════════════════════════════════════
 async function loadContacts() {
-  const { getDocs, collection, query, orderBy } = window._col;
   try {
-    const snap = await getDocs(query(collection(window._db,'contact_messages'), orderBy('created_at','desc')));
+    const snap = await window._db.collection('contact_messages').orderBy('created_at','desc').get();
     const msgs = snap.docs.map(d => ({id:d.id,...d.data()}));
     if (!msgs.length) { document.getElementById('content').innerHTML = emptyHtml('📩', 'No contact messages'); return; }
     document.getElementById('content').innerHTML = `
@@ -987,8 +1028,7 @@ async function loadContacts() {
 
 async function deleteContact(id) {
   if (!confirm('Delete this message?')) return;
-  const { doc, deleteDoc } = window._col;
-  try { await deleteDoc(doc(window._db,'contact_messages',id)); showToast('🗑 Deleted'); loadContacts(); }
+  try { await window._db.collection('contact_messages').doc(id).delete(); showToast('🗑 Deleted'); loadContacts(); }
   catch(e) { showToast('❌ ' + e.message); }
 }
 
@@ -1001,14 +1041,13 @@ async function deleteContact(id) {
 //  Frontend listens in real-time and updates prices instantly.
 // ══════════════════════════════════════════════
 async function loadOffers() {
-  const { doc, getDoc, setDoc, serverTimestamp } = window._col;
   const c = document.getElementById('content');
   c.innerHTML = '<p style="padding:20px;color:var(--gray500)">Loading offers…</p>';
 
   // Load current offer config
   let currentOffer = null;
   try {
-    const snap = await getDoc(doc(window._db, 'site_config', 'offers'));
+    const snap = await window._db.collection('site_config').doc('offers').get();
     if (snap.exists()) currentOffer = snap.data();
   } catch(e) {}
 
@@ -1176,9 +1215,8 @@ async function activateOffer() {
   if (annual >= 7999) { showToast('⚠️ Annual offer price must be less than ₹7,999'); return; }
   if (new Date(expiry) <= new Date()) { showToast('⚠️ Expiry must be in the future'); return; }
 
-  const { doc, setDoc } = window._col;
   try {
-    await setDoc(doc(window._db, 'site_config', 'offers'), {
+    await window._db.collection('site_config').doc('offers').set({
       active:         true,
       name,
       description:    desc,
@@ -1201,9 +1239,8 @@ async function activateOffer() {
 // Deactivate offer — restore normal prices
 async function deactivateOffer() {
   if (!confirm('Deactivate the current offer? Normal prices will be restored immediately.')) return;
-  const { doc, setDoc } = window._col;
   try {
-    await setDoc(doc(window._db, 'site_config', 'offers'), {
+    await window._db.collection('site_config').doc('offers').set({
       active:     false,
       name:       '',
       expires_at: '',
@@ -1218,11 +1255,10 @@ async function deactivateOffer() {
 
 // ══ SPOTLIGHT MANAGER ══
 async function loadSpotlights() {
-  const { getDocs, collection, query, where, orderBy } = window._col;
   const c = document.getElementById('content');
   c.innerHTML = '<p style="padding:20px;color:var(--gray500)">Loading spotlights…</p>';
   try {
-    const snap  = await getDocs(query(collection(window._db,'businesses'), where('status','==','approved')));
+    const snap  = await window._db.collection('businesses').where('status','==','approved').get();
     const now   = new Date().toISOString();
     const all   = snap.docs.map(d=>({id:d.id,...d.data()}));
     const live  = all.filter(b => b.spotlight_until && b.spotlight_until > now).sort((a,b)=>a.spotlight_until>b.spotlight_until?1:-1);
@@ -1262,14 +1298,12 @@ async function loadSpotlights() {
 }
 async function removeSpotlight(bizId) {
   if (!confirm('Remove spotlight?')) return;
-  const { doc, updateDoc } = window._col;
-  await updateDoc(doc(window._db,'businesses',bizId), { spotlight_until:'', spotlight_plan:'', spotlight_active:false });
+  await window._db.collection('businesses').doc(bizId).update({ spotlight_until:'', spotlight_plan:'', spotlight_active:false });
   showToast('✅ Spotlight removed'); loadSpotlights();
 }
 async function adminAddSpotlight(bizId, days) {
   const until = new Date(Date.now() + days*24*60*60*1000).toISOString();
-  const { doc, updateDoc } = window._col;
-  await updateDoc(doc(window._db,'businesses',bizId), {
+  await window._db.collection('businesses').doc(bizId).update({
     spotlight_until:   until,
     spotlight_plan:    'admin_free',
     spotlight_active:  true,
@@ -1280,11 +1314,10 @@ async function adminAddSpotlight(bizId, days) {
 
 // ══ ANALYTICS OVERVIEW ══
 async function loadAnalyticsOverview() {
-  const { getDocs, collection, query, orderBy, limit, where } = window._col;
   const c = document.getElementById('content');
   c.innerHTML = '<p style="padding:20px;color:var(--gray500)">Loading analytics…</p>';
   try {
-    const snap = await getDocs(query(collection(window._db,'analytics_events'), orderBy('created_at','desc'), limit(200)));
+    const snap = await window._db.collection('analytics_events').orderBy('created_at','desc').limit(200).get();
     const evts = snap.docs.map(d=>d.data());
     const total   = evts.length;
     const views   = evts.filter(e=>e.type==='view').length;
@@ -1320,9 +1353,8 @@ async function loadAnalyticsOverview() {
 }
 
 async function loadUpdates() {
-  const { getDocs, collection, query, orderBy } = window._col;
   try {
-    const snap = await getDocs(query(collection(window._db,'updates'), orderBy('created_at','desc')));
+    const snap = await window._db.collection('updates').orderBy('created_at','desc').get();
     const updates = snap.docs.map(d => ({id:d.id,...d.data()}));
     document.getElementById('content').innerHTML = `
       <div style="display:flex;justify-content:flex-end;margin-bottom:14px">
@@ -1379,12 +1411,11 @@ async function saveUpdate() {
   if (!img)   { showToast('⚠️ Enter an image URL'); return; }
   const subtitle = document.getElementById('upd-subtitle').value.trim();
   const link     = document.getElementById('upd-link').value.trim();
-  const { addDoc, collection, serverTimestamp, doc, updateDoc } = window._col;
   try {
     if (editingUpdateId) {
-      await updateDoc(doc(window._db,'updates',editingUpdateId), { title, subtitle, image_url: img, link });
+      await window._db.collection('updates').doc(editingUpdateId).update( { title, subtitle, image_url: img, link });
     } else {
-      await addDoc(collection(window._db,'updates'), { title, subtitle, image_url: img, link, created_at: serverTimestamp() });
+      await window._db.collection('updates').add( { title, subtitle, image_url: img, link, created_at: firebase.firestore.FieldValue.serverTimestamp() });
     }
     showToast(editingUpdateId ? '✅ Slide updated!' : '✅ Slide added!');
     closeModal('modal-update'); loadUpdates();
@@ -1393,8 +1424,7 @@ async function saveUpdate() {
 
 async function deleteUpdate(id) {
   if (!confirm('Delete this slide?')) return;
-  const { doc, deleteDoc } = window._col;
-  try { await deleteDoc(doc(window._db,'updates',id)); showToast('🗑 Slide deleted'); loadUpdates(); }
+  try { await window._db.collection('updates').doc(id).delete(); showToast('🗑 Slide deleted'); loadUpdates(); }
   catch(e) { showToast('❌ ' + e.message); }
 }
 
@@ -1432,15 +1462,10 @@ document.querySelectorAll('.modal-bg').forEach(bg => {
 //  Shows all approved business profiles with their URLs
 // ══════════════════════════════════════════════════════════
 async function loadSitemap() {
-  const { getDocs, collection, query, where, orderBy } = window._col;
   const c = document.getElementById('content');
   c.innerHTML = '<p style="padding:20px;color:var(--gray500)">Loading SEO data…</p>';
   try {
-    const snap = await getDocs(query(
-      collection(window._db,'businesses'),
-      where('status','==','approved'),
-      orderBy('created_at','desc')
-    ));
+    const snap = await window._db.collection('businesses').where('status','==','approved').get();
     const bizList = snap.docs.map(d=>({id:d.id,...d.data()}));
     const premium = bizList.filter(b=>b.is_premium).length;
 
