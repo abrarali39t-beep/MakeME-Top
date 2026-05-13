@@ -184,8 +184,8 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:14px 0}
       Continue with Google
     </button>
     <div class="login-divider"><span>or use email</span></div>
-    <div class="form-group"><label class="form-label">Email</label><input type="email" id="admin-login-email" class="form-input" placeholder="admin@makemetop.in" autocomplete="email"/></div>
-    <div class="form-group"><label class="form-label">Password</label><input type="password" id="admin-login-pass" class="form-input" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')adminEmailLogin()"/></div>
+    <div class="form-group"><label class="form-label" for="admin-login-email">Email</label><input type="email" id="admin-login-email" class="form-input" placeholder="admin@makemetop.in" autocomplete="email"/></div>
+    <div class="form-group"><label class="form-label" for="admin-login-pass">Password</label><input type="password" id="admin-login-pass" class="form-input" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')adminEmailLogin()"/></div>
     <button class="btn btn-primary" style="width:100%;padding:12px;font-size:.9rem" id="admin-login-btn" onclick="adminEmailLogin()">Sign In to Admin Panel</button>
     <p style="text-align:center;font-size:.72rem;color:var(--gray400);margin-top:14px">Only authorized admin accounts can access this panel.<br/>Access attempts are logged.</p>
   </div>
@@ -332,10 +332,10 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:14px 0}
       <button class="modal-close" onclick="closeModal('modal-update')">✕</button>
     </div>
     <div class="modal-body">
-      <div class="form-group"><label class="form-label">Title *</label><input type="text" id="upd-title" class="form-input" placeholder="e.g. Special Offer – Dal Lake Houseboat"/></div>
-      <div class="form-group"><label class="form-label">Subtitle</label><input type="text" id="upd-subtitle" class="form-input" placeholder="Optional tagline"/></div>
-      <div class="form-group"><label class="form-label">Image URL *</label><input type="url" id="upd-img" class="form-input" placeholder="https://…" oninput="previewUpdImg(this.value)"/><img id="upd-img-preview" class="update-form-img" src="" alt="" style="display:none;margin-top:8px"/></div>
-      <div class="form-group"><label class="form-label">Link URL (optional)</label><input type="url" id="upd-link" class="form-input" placeholder="https://…"/></div>
+      <div class="form-group"><label class="form-label" for="upd-title">Title *</label><input type="text" id="upd-title" class="form-input" placeholder="e.g. Special Offer – Dal Lake Houseboat"/></div>
+      <div class="form-group"><label class="form-label" for="upd-subtitle">Subtitle</label><input type="text" id="upd-subtitle" class="form-input" placeholder="Optional tagline"/></div>
+      <div class="form-group"><label class="form-label" for="upd-img">Image URL *</label><input type="url" id="upd-img" class="form-input" placeholder="https://…" oninput="previewUpdImg(this.value)"/><img id="upd-img-preview" class="update-form-img" src="" alt="" style="display:none;margin-top:8px"/></div>
+      <div class="form-group"><label class="form-label" for="upd-link">Link URL (optional)</label><input type="url" id="upd-link" class="form-input" placeholder="https://…"/></div>
       <div style="display:flex;gap:8px">
         <button class="btn btn-primary" style="flex:1" onclick="saveUpdate()">Save Slide</button>
         <button class="btn btn-ghost" onclick="closeModal('modal-update')">Cancel</button>
@@ -364,12 +364,6 @@ hr.sep{border:none;border-top:1px solid var(--gray100);margin:14px 0}
 <div id="toast"></div>
 
 <!-- ══ FIREBASE ══ -->
-    const map = { 'auth/user-not-found':'No account with this email', 'auth/wrong-password':'Wrong password', 'auth/invalid-credential':'Invalid credentials', 'auth/too-many-requests':'Too many attempts. Try later.', 'auth/network-request-failed':'Network error.' };
-    err.textContent = '❌ ' + (map[e.code] || e.message); err.classList.add('show');
-  }
-  btn.textContent = 'Sign In to Admin Panel'; btn.disabled = false;
-};
-</script>
 
 <!-- Firebase Compat SDK — works in regular scripts, no module scope -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -442,7 +436,7 @@ window._col = {
   limit:   (n)              => (q) => q.limit(n),
 
   // Timestamps and listeners
-  serverTimestamp: () => firebase.firestore.FieldValue.firebase.firestore.FieldValue.serverTimestamp(),
+  serverTimestamp: () => firebase.firestore.FieldValue.serverTimestamp(),
   onSnapshot:      (ref, cb) => ref.onSnapshot(cb),
 };
 
@@ -945,10 +939,10 @@ async function sendAdminReplyFromModal() {
   try {
     await window._db.collection('chat_conversations').doc(activeChatConvId).collection('messages').add( {
       text, sender: 'admin', sender_id: window._adminUser.uid,
-      sender_name: 'MakeMe Top Support', created_at: firebase.firestore.FieldValue.firebase.firestore.FieldValue.serverTimestamp()
+      sender_name: 'MakeMe Top Support', created_at: firebase.firestore.FieldValue.serverTimestamp()
     });
     await window._db.collection('chat_conversations').doc(activeChatConvId).update( {
-      last_message: text, last_at: firebase.firestore.FieldValue.firebase.firestore.FieldValue.serverTimestamp(), unread_user: 1
+      last_message: text, last_at: firebase.firestore.FieldValue.serverTimestamp(), unread_user: 1
     });
   } catch(e) { showToast('❌ Failed to send'); }
 }
@@ -1074,7 +1068,7 @@ async function loadOffers() {
     { name:'🌸 Holi Offer',       badge:'🌸 Holi',     monthly:449, annual:4499, days:4,  desc:'Happy Holi! Spring special discounts on MBP.' },
     { name:'🪔 Diwali Dhamaka',   badge:'🪔 Diwali',   monthly:399, annual:3999, days:5,  desc:'Light up your business this Diwali with MBP!' },
     { name:'❄️ Winter Sale',      badge:'❄️ Winter',   monthly:499, annual:4999, days:7,  desc:'Winter special — get your listing live before peak ski season.' },
-    { name:'🌷 Spring Sale',      badge:'🌷 Spring',   monthly:499, annual:4999, days:5,  desc:'Spring is Kashmir's most beautiful season — get listed now!' },
+    { name:'🌷 Spring Sale',      badge:'🌷 Spring',   monthly:499, annual:4999, days:5,  desc:"Spring is Kashmir's most beautiful season — get listed now!" },
     { name:'🎊 New Year Offer',   badge:'🎊 New Year', monthly:299, annual:2999, days:3,  desc:'New Year, new beginnings. Special MBP pricing for 3 days.' },
     { name:'🏔️ Peak Season Deal', badge:'🔥 Peak',     monthly:599, annual:5999, days:10, desc:'Tourist season is here! Get your listing live at a special rate.' },
     { name:'🎁 Flash Sale',       badge:'⚡ Flash',    monthly:299, annual:2999, days:1,  desc:'24-hour flash sale! Book your MBP listing now.' },
