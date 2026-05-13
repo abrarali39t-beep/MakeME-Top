@@ -716,7 +716,7 @@ async function verifyPayment(paymentId, bizId, action) {
     // Send email
     if (action === 'approve') {
       const snapBiz = await window._db.collection('businesses').doc(bizId).get();
-      const biz = snapBiz.exists() ? snapBiz.data() : {};
+      const biz = snapBiz.exists ? snapBiz.data() : {};
       if (biz.user_email) {
         await callAppsScript({ action:'sendBusinessApproved', to:biz.user_email, name:biz.user_email.split('@')[0], businessName:biz.name||'Your Listing' });
       }
@@ -727,7 +727,7 @@ async function verifyPayment(paymentId, bizId, action) {
 
 async function viewPaymentDetail(paymentId) {
   const snap = await window._db.collection('payment_submissions').doc(paymentId).get();
-  if (!snap.exists()) return;
+  if (!snap.exists) return;
   const p = snap.data();
   const date = p.submitted_at?.toDate ? p.submitted_at.toDate().toLocaleString('en-IN') : '—';
   document.getElementById('modal-payment-body').innerHTML = `
@@ -789,7 +789,7 @@ async function loadListings(status) {
               <button class="btn btn-sm btn-ghost" onclick="viewBizDetail('${b.id}')">Detail</button>
               ${b.status!=='approved'?`<button class="btn btn-sm btn-green" onclick="bizAction('${b.id}','approved')">✓ Approve</button>`:''}
               ${b.status!=='rejected'?`<button class="btn btn-sm btn-red"   onclick="bizAction('${b.id}','rejected')">✗ Reject</button>`:''}
-              <button class="btn btn-sm btn-ghost" onclick="deleteListing('${b.id}','${esc(b.name||'')}')">🗑</button>
+              <button class="btn btn-sm btn-ghost" onclick="deleteListing('${b.id}')">🗑</button>
             </div></td>
           </tr>`).join('')}</tbody>
         </table>
@@ -801,7 +801,7 @@ async function bizAction(bizId, status) {
   try {
     // Get biz data for email
     const snap = await window._db.collection('businesses').doc(bizId).get();
-    const biz  = snap.exists() ? snap.data() : {};
+    const biz  = snap.exists ? snap.data() : {};
     await window._db.collection('businesses').doc(bizId).update({ status, is_premium: status === 'approved', reviewed_at: new Date().toISOString() });
     // Send email notification
     if (biz.user_email) {
@@ -816,7 +816,8 @@ async function bizAction(bizId, status) {
   } catch(e) { showToast('❌ ' + e.message); }
 }
 
-async function deleteListing(bizId, name) {
+async function deleteListing(bizId) {
+  const name = (window._bizNames && window._bizNames[bizId]) || 'this listing';
   if (!confirm(`Delete "${name}"? This cannot be undone.`)) return;
   try { await window._db.collection('businesses').doc(bizId).delete(); showToast('🗑 Listing deleted'); refreshSection(); }
   catch(e) { showToast('❌ ' + e.message); }
@@ -825,7 +826,7 @@ async function deleteListing(bizId, name) {
 async function viewBizDetail(bizId) {
   try {
     const snap = await window._db.collection('businesses').doc(bizId).get();
-    if (!snap.exists()) return;
+    if (!snap.exists) return;
     const b = { id: snap.id, ...snap.data() };
     document.getElementById('modal-biz-title').textContent = b.name;
     document.getElementById('modal-biz-body').innerHTML = `
@@ -848,7 +849,7 @@ async function viewBizDetail(bizId) {
       <div class="action-btns">
         ${b.status!=='approved'?`<button class="btn btn-green" onclick="bizAction('${b.id}','approved');closeModal('modal-biz')">✓ Approve</button>`:''}
         ${b.status!=='rejected'?`<button class="btn btn-red"   onclick="bizAction('${b.id}','rejected');closeModal('modal-biz')">✗ Reject</button>`:''}
-        <button class="btn btn-ghost" onclick="deleteListing('${b.id}','${esc(b.name||'')}');closeModal('modal-biz')">🗑 Delete</button>
+        <button class="btn btn-ghost" onclick="deleteListing('${b.id}');closeModal('modal-biz')">🗑 Delete</button>
       </div>`;
     openModal('modal-biz');
   } catch(e) { showToast('❌ ' + e.message); }
@@ -1042,7 +1043,7 @@ async function loadOffers() {
   let currentOffer = null;
   try {
     const snap = await window._db.collection('site_config').doc('offers').get();
-    if (snap.exists()) currentOffer = snap.data();
+    if (snap.exists) currentOffer = snap.data();
   } catch(e) {}
 
   const active     = currentOffer?.active || false;
@@ -1157,6 +1158,36 @@ async function loadOffers() {
         Activating immediately updates prices for ALL users viewing the site in real-time
       </p>
     </div>
+
+    <!-- Razorpay wiring guide -->
+    <div style="background:#FFFBEB;border:1.5px solid #FDE68A;border-radius:12px;padding:16px;margin-top:16px">
+      <div style="font-size:.8rem;font-weight:700;color:#92400E;margin-bottom:8px">⚡ Razorpay Wiring — biz.html must read prices from Firestore</div>
+      <p style="font-size:.75rem;color:#92400E;line-height:1.6;margin-bottom:8px">
+        Razorpay prices will <strong>not</strong> update automatically unless your <code>biz.html</code> reads from Firestore before opening the checkout. Add this code in your payment handler:
+      </p>
+      <pre style="background:#1F1F1F;color:#F5A623;border-radius:8px;padding:12px;font-size:.72rem;overflow-x:auto;line-height:1.6">// 1. Load live offer config before checkout
+const offerSnap = await db.collection('site_config').doc('offers').get();
+const offer = offerSnap.exists ? offerSnap.data() : null;
+const isOfferActive = offer?.active && offer?.expires_at && new Date(offer.expires_at) > new Date();
+
+// 2. Pick the correct price in paise (Razorpay needs paise)
+const plan = 'monthly'; // or 'annual'
+let amountPaise;
+if (isOfferActive) {
+  amountPaise = plan === 'annual' ? offer.annual_paise : offer.monthly_paise;
+} else {
+  amountPaise = plan === 'annual' ? 799900 : 79900; // normal prices
+}
+
+// 3. Pass to Razorpay
+const options = {
+  key: 'YOUR_RZP_KEY',
+  amount: amountPaise,  // ← dynamic, reads from Firestore
+  currency: 'INR',
+  name: 'MakeMe Top',
+  // ...rest of options
+};</pre>
+    </div>
   </div>
   `;
 
@@ -1211,17 +1242,20 @@ async function activateOffer() {
 
   try {
     await window._db.collection('site_config').doc('offers').set({
-      active:         true,
+      active:            true,
       name,
-      description:    desc,
-      badge:          badge || '🎉 ' + name,
-      monthly_price:  monthly,
-      annual_price:   annual,
-      monthly_paise:  monthly * 100,
-      annual_paise:   annual  * 100,
-      expires_at:     new Date(expiry).toISOString(),
-      created_at:     new Date().toISOString(),
-      created_by:     'admin'
+      description:       desc,
+      badge:             badge || '🎉 ' + name,
+      // prices in ₹ — read as: offer.monthly_price / offer.annual_price
+      monthly_price:     monthly,
+      annual_price:      annual,
+      // prices in paise — pass directly to Razorpay as: order.amount
+      monthly_paise:     monthly * 100,
+      annual_paise:      annual  * 100,
+      expires_at:        new Date(expiry).toISOString(),
+      activated_at:      new Date().toISOString(),
+      created_at:        new Date().toISOString(),
+      created_by:        'admin'
     });
     showToast('🎉 Offer is LIVE! Users see new prices now.');
     setTimeout(loadOffers, 800);
@@ -1350,6 +1384,8 @@ async function loadUpdates() {
   try {
     const snap = await window._db.collection('updates').orderBy('created_at','desc').get();
     const updates = snap.docs.map(d => ({id:d.id,...d.data()}));
+    window._updateData = {};
+    updates.forEach(u => { window._updateData[u.id] = u; });
     document.getElementById('content').innerHTML = `
       <div style="display:flex;justify-content:flex-end;margin-bottom:14px">
         <button class="btn btn-primary" onclick="openAddUpdate()">+ Add Slide</button>
@@ -1364,7 +1400,7 @@ async function loadUpdates() {
             <td class="text-sm text-muted">${esc(u.subtitle||'—')}</td>
             <td class="text-sm text-muted">${u.link?`<a href="${esc(u.link)}" target="_blank" style="color:var(--blue)">Open ↗</a>`:'—'}</td>
             <td><div class="action-btns">
-              <button class="btn btn-sm btn-ghost" onclick="openEditUpdate('${u.id}','${esc(u.title||'')}','${esc(u.subtitle||'')}','${esc(u.image_url||'')}','${esc(u.link||'')}')">✏️ Edit</button>
+              <button class="btn btn-sm btn-ghost" onclick="openEditUpdate('${u.id}')">✏️ Edit</button>
               <button class="btn btn-sm btn-red"   onclick="deleteUpdate('${u.id}')">🗑</button>
             </div></td>
           </tr>`).join('')}</tbody>
@@ -1381,14 +1417,15 @@ function openAddUpdate() {
   openModal('modal-update');
 }
 
-function openEditUpdate(id, title, subtitle, img, link) {
+function openEditUpdate(id) {
+  const u = (window._updateData && window._updateData[id]) || {};
   editingUpdateId = id;
   document.getElementById('modal-update-title').textContent = 'Edit Slide';
-  document.getElementById('upd-title').value    = title;
-  document.getElementById('upd-subtitle').value = subtitle;
-  document.getElementById('upd-img').value      = img;
-  document.getElementById('upd-link').value     = link;
-  previewUpdImg(img);
+  document.getElementById('upd-title').value    = u.title    || '';
+  document.getElementById('upd-subtitle').value = u.subtitle || '';
+  document.getElementById('upd-img').value      = u.image_url|| '';
+  document.getElementById('upd-link').value     = u.link     || '';
+  previewUpdImg(u.image_url || '');
   openModal('modal-update');
 }
 
