@@ -671,7 +671,7 @@ async function loadDashboard() {
 // ══════════════════════════════════════
 async function loadPayments() {
   try {
-    const snap = await window._db.collection('payment_submissions').orderBy('submitted_at','desc')));
+    const snap = await window._db.collection('payment_submissions').orderBy('submitted_at','desc').get();
     const payments = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     if (!payments.length) { document.getElementById('content').innerHTML = emptyHtml('💰', 'No payment submissions yet'); return; }
     document.getElementById('content').innerHTML = `
