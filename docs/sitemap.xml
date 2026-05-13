@@ -4,18 +4,18 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
           http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-  <!-- MBP MakeMe Top · makemetop.in · Generated: 2026-05-12T15:53:36.184Z -->
-  <!-- Total: 11 business profiles + 6 static pages -->
+  <!-- MBP MakeMe Top · makemetop.in · Generated: 2026-05-13T09:54:49.164Z -->
+  <!-- Total: 12 business profiles + 6 static pages -->
 
   <!-- STATIC PAGES -->
-  <url><loc>https://makemetop.in/</loc><lastmod>2026-05-12</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
-  <url><loc>https://makemetop.in/help-ai.html</loc><lastmod>2026-05-12</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://makemetop.in/about.html</loc><lastmod>2026-05-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://makemetop.in/privacy.html</loc><lastmod>2026-05-12</lastmod><changefreq>yearly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://makemetop.in/terms.html</loc><lastmod>2026-05-12</lastmod><changefreq>yearly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://makemetop.in/refund.html</loc><lastmod>2026-05-12</lastmod><changefreq>yearly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://makemetop.in/</loc><lastmod>2026-05-13</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://makemetop.in/help-ai.html</loc><lastmod>2026-05-13</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://makemetop.in/about.html</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://makemetop.in/privacy.html</loc><lastmod>2026-05-13</lastmod><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://makemetop.in/terms.html</loc><lastmod>2026-05-13</lastmod><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://makemetop.in/refund.html</loc><lastmod>2026-05-13</lastmod><changefreq>yearly</changefreq><priority>0.4</priority></url>
 
-  <!-- BUSINESS PROFILES — 11 verified MBP listings -->
+  <!-- BUSINESS PROFILES — 12 verified MBP listings -->
   <!-- Aadi Tour & Travel | Travel Agency -->
   <url>
     <loc>https://makemetop.in/biz.html?id=41fdfe7OZyc2dCK8COnq</loc>
@@ -51,10 +51,10 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-  <!-- Kashmir Sinthantop tour and travels | Hospitality & Tourism -->
+  <!-- Kashmir Sinthantop tour and travels | Travel Agency -->
   <url>
     <loc>https://makemetop.in/biz.html?id=RnNGuTudEVJm6ANltJs1</loc>
-    <lastmod>2026-04-09</lastmod>
+    <lastmod>2026-05-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -82,7 +82,14 @@
   <!-- Lake House Palace | Resort -->
   <url>
     <loc>https://makemetop.in/biz.html?id=jzfqfr9vhQKlmOrne1We</loc>
-    <lastmod>2026-04-06</lastmod>
+    <lastmod>2026-05-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- Hotel Dal Nights | Hotel -->
+  <url>
+    <loc>https://makemetop.in/biz.html?id=sfUdvR4wVj5KReg2uJR1</loc>
+    <lastmod>2026-05-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
